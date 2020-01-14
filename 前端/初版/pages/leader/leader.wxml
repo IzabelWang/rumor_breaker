@@ -1,0 +1,12 @@
+
+
+<view class="container">
+    <view class="search-body">
+    
+        <input type="text" bindinput="changeSearchKey" placeholder="请输入需要鉴定的信息" confirm-type="search" bindconfirm="searchTap" />
+        <view class="search-body-icon">
+            <image bindtap="searchTap" src="../../assets/images/search-btn.png"></image>
+        </view>
+    </view>
+ </view>
+ 
