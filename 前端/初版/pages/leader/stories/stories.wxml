@@ -1,0 +1,67 @@
+<!--pages/stories/stories.wxml-->
+<view class="container">
+    <view wx:for="{{authorInfo}}" wx:key="{{index}}">
+        <view class="page__hd">
+            <view class="page__hd-title">
+                {{item.articTitle}}
+            </view>
+            <view class="page__hd-wrp">
+                <view class="author-info page-flex">
+                    <image src="{{item.headImg}}"></image>
+                    <view class="author-name">{{item.userName}}
+                        <view class="author-des">{{item.authorDes}}</view>
+                    </view>
+                    <view class="follow">
+                        关注
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <view wx:for="{{article}}" wx:key="{{index}}">
+        <view class="page__bd">
+            <view class="article-content">
+                <text>{{item.text1}}
+                </text>
+                <image src="{{item.image1}}"></image>
+                <text>
+                    {{item.text2}}
+                </text>
+                <image src="{{item.image2}}" />
+            </view>
+        </view>
+
+        <view class="tuijian">书籍推荐</view>
+        <view class="page-items page-flex">
+            <view class="bookImg">
+                <image src="{{item.bookCover}}" />
+            </view>
+            <view class="info">{{item.bookName}}
+                <view class="author">{{item.bookAuthor}}
+                    <view class="readers">{{item.readerNum}}人在读 ></view>
+                </view>
+            </view>
+            <view class="readbtn">开始阅读</view>
+        </view>
+        <view class="log page-flex">
+            <view class="updateTime">更新于{{item.updateTime}}</view>
+            <text>举报</text>
+        </view>
+        <view class="btnThumb">
+            <image src="../../../../assets/images/thumb.png" /> 用生命点赞
+        </view>
+    </view>
+    <!-- <view>10人点赞</view>   -->
+    <view class="page__bt page-flex">
+        <view class="bottom-items">
+            <image src="../../../../assets/images/share.png" />
+        </view>
+        <view class="bottom-items">
+            <image src="../../../../assets/images/like.png" />
+        </view>
+        <view class="bottom-items">
+            <image src="../../../../assets/images/news.png" />
+        </view>
+    </view>
+</view>
