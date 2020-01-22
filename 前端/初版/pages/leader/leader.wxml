@@ -1,5 +1,4 @@
 
-
 <view class="container">
     <view class="search-body">
     
@@ -9,4 +8,3 @@
         </view>
     </view>
  </view>
- 
