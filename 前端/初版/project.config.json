@@ -22,28 +22,9 @@
 			"current": -1,
 			"list": []
 		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"gamePlugin": {
-			"current": -1,
-			"list": []
-		},
 		"miniprogram": {
 			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "云开发模块",
-					"pathName": "pages/leader/leader",
-					"query": "",
-					"scene": null
-				}
-			]
+			"list": []
 		}
 	}
 }
