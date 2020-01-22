@@ -1,6 +1,6 @@
 # 创新杯工作记录
 
-## 1.数据处理（20200119）
+## 1.数据处理（20200119-20200122）
 
 ### 1.1微博谣言数据 
 
@@ -50,3 +50,84 @@ df =  df.sort_values(by=['label'])
 df.to_csv("/home/sherry/project/创新杯/data/rumor.csv",index=False,sep='\t')
 ```
 
+### 1.2 流言百科
+
+网址：http://liuyan.guokr.com/
+
+方法：网站有限制 只显示100页，每页有9条留言，分别爬取100页为真、假、论证中的流言
+
+对于每个流言，有以下字段：
+
+1. 流言标题（字数尽量少）
+2. 流言详细内容（看字数决定用不用）
+3. 留言类别（真、假、论证中）
+4. 解析（网页中的真相内容）
+5. 详细解析（网页中的论证内容，包括html样式）
+
+爬取工具：scrapy
+
+#### 1.2.1 建立项目
+
+```bash
+ scrapy startproject guokr
+ cd guokr
+ scrapy genspider liuyan http://liuyan.guokr.com/category/
+```
+
+#### 1.2.2 配置
+
+在`settings.py`中设置
+
+```
+ROBOTSTXT_OBEY = False
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+```
+
+#### 1.2.3 爬取主程序(`liuyan.py`)
+
+```python
+# -*- coding: utf-8 -*-
+import scrapy
+from guokr.items import LiuyanItem
+
+class LiuyanSpider(scrapy.Spider):
+    name = 'liuyan'
+    start_urls = [
+        'http://liuyan.guokr.com/category/?cond=discussing',
+        'http://liuyan.guokr.com/category/?cond=true',
+        'http://liuyan.guokr.com/category/?cond=false'
+    ]
+
+    def parse(self, response):
+        rumors = response.css('.rumor-title> a::attr(href)').extract()
+        for item in rumors:
+            url = response.urljoin(item)
+            #print(url)
+            yield scrapy.Request(url=url, callback=self.parse_detail)
+        # 爬取下一页
+        next_page = response.css('body > div.wrap.cate-page > div.main > ul.pages > ul > li:last-child > a::attr(href)').extract_first()
+        if next_page is not None: 
+            url = response.urljoin(next_page)
+            yield scrapy.Request(url=url, callback=self.parse)
+
+    def parse_detail(self,response):
+        item = LiuyanItem()
+        item['title'] = response.css('h2.rumor-title::text').extract_first()
+        item['descrip'] = response.css('div.rumor-desc::text').extract_first()
+        item['LiuyanType'] = response.css('body > div.wrap.article-page > div.main > div.rumor-sum > strong::text').extract_first()
+        item['answer'] = response.css('body > div.wrap.article-page > div.main > div.rumor-sum > p.rumor-truth::text').extract_first()
+        item['detail'] = response.css('body > div.wrap.article-page > div.main > div.rumor-content').extract_first()
+        yield item
+```
+
+#### 1.2.4 启动爬取
+
+```bash
+scrapy crawl liuyan -o liuyan.json
+```
+
+数据汇总：
+
+* 真流言（非谣言）：474条
+* 假流言（谣言）：899条
+* 论证中的流言：337条
