@@ -1,0 +1,33 @@
+<view class="order {{isIpx?'fix-iphonex':''}} {{showTipImg?'order__hastip':''}}" wx:if="orders">
+    <view class="order-none" wx:if="{{noOrders}}">当前还没有购买记录</view>
+    <scroll-view scrollY bindscrolltolower="onReachBottom" class="scroll-view_H" lowerThreshold="40">
+        <view class="order-item" wx:if="{{!noOrders}}" wx:for="{{orders}}" wx:key="key">
+            <view class="cover">
+                <view class="card_box">
+                    <image class="card" mode="widthFix" src="{{item.background_pic_url}}"></image>
+                    <view class="collect_box" wx:if="{{item.is_favorite}}">
+                        <image class="collect_icon" mode="widthFix" src="/image/like_icon.png"></image>
+                    </view>
+                </view>
+                <view class="content">
+                    <view class="name">{{item.order_name}}</view>
+                    <view class="time">购买时间: {{item.create_time}}</view>
+                    <view class="price">¥ {{item.total_price}}</view>
+                    <view class="desc" wx:if="{{item.for_self=='0'}}">{{item.status==1?'未赠送':'已领取'+item.accepter_count+'张'}}</view>
+                    <view class="desc" wx:if="{{item.for_self=='1'&&item.status=='1'}}">已付款，待存入卡包</view>
+                    <view class="desc" wx:if="{{item.for_self=='1'&&item.status=='2'}}">已存入卡包</view>
+                </view>
+                <view bindtap="{{!btnClick?'goGifting':''}}" class="gift" data-id="{{item.order_id}}" wx:if="{{item.status==1&&item.for_self=='0'}}">立即赠送</view>
+                <view bindtap="{{!btnClick?'goSelfGifting':''}}" class="gift selfGifting" data-id="{{item.order_id}}" data-index="{{index}}" wx:if="{{item.for_self=='1'&&item.status==1}}">立即存入卡包</view>
+                <view bindtap="goDetail" class="detail" data-id="{{item.order_id}}">订单详情</view>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="weui-loadmore" hidden="{{isHideLoadMore!=1}}">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+    </view>
+    <view class="order-tip" wx:if="{{showTipImg}}">
+        <image mode="widthFix" src="{{showTipImg}}"></image>
+    </view>
+</view>

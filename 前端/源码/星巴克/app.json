@@ -1,0 +1,42 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/check/check",
+        "pages/privacy/privacy",
+        "pages/cardQr/cardQr",
+        "pages/cardDetail/cardDetail",
+        "pages/order/order",
+        "pages/orderDetail/orderDetail",
+        "pages/terms/terms",
+        "pages/error/error",
+        "pages/store/store",
+        "pages/invoice/status/status",
+        "pages/invoice/apply/apply",
+        "pages/refund/errorAuthorize/errorAuthorize",
+        "pages/refund/refundApplication/refundApplication",
+        "pages/refund/refundFriend/refundFriend",
+        "pages/refund/refundResult/refundResult",
+        "pages/refund/packageDetail/packageDetail",
+        "pages/refund/refundError/refundError",
+        "pages/h5/h5",
+        "pages/diy/diy",
+        "pages/getCardPage/getCardPage",
+        "pages/promotion/promotion",
+        "pages/diy/edit/edit",
+        "pages/diy/result/result",
+        "pages/diy/rule/rule",
+        "pages/crsmx/crsmx",
+        "pages/collectList/collectList"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "WeChat",
+        "navigationBarTextStyle": "black"
+    },
+    "navigateToMiniProgramAppIdList": [
+        "wxaa11144803c4ec3f",
+        "wx8638fbedaf138a87",
+        "wx9db2c16d0633c2e7"
+    ]
+}

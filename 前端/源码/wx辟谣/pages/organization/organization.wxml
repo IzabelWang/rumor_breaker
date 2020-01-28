@@ -1,0 +1,29 @@
+<view class="rumor-organization-top-box">
+    <view class="rumor-organization-numbox">
+        <text class="rumor-organization-top-title" style="font-size:{{25.36*fontMultiple}}rpx;">已辟谣文章数</text>
+        <text class="rumor-organization-top-num">{{rumor_count}}</text>
+    </view>
+    <view class="rumor-organization-numbox">
+        <text class="rumor-organization-top-title" style="font-size:{{25.36*fontMultiple}}rpx;">昨天科普次数</text>
+        <text class="rumor-organization-top-num">{{pv}}</text>
+    </view>
+</view>
+<view class="rumor-organization-list-box">
+    <picker bindchange="categoryPickerChange" class="rumor-organization-list-h1" range="{{categoryArray}}" value="{{category}}">
+        <view class="picker" style="font-size:{{24*fontMultiple}}rpx;">
+        {{categoryArray[category]}}辟谣机构 <image class="rumor-organization-pickerdown-icon" src="/images/rumor-organization-pickerdown.png"></image>
+        </view>
+    </picker>
+    <text bindtap="howjoin" class="rumor-organization-list-h2" data-bizuin="MjM5NDAwMTA2MA==" data-idx="1" data-msgid="221870135" style="font-size:{{24*fontMultiple}}rpx;">我要加入</text>
+    <block wx:if="{{org_list.length}}">
+        <view bindtap="showpartner" class="rumor-organization-list-cld" data-uin="{{item.biz_uin}}" hoverClass="weui-cell_active" wx:for="{{org_list}}">
+            <image class="rumor-organization-list-refuterheadimg" src="{{item.head_img}}"></image>
+            <text class="rumor-organization-list-refutername" style="font-size:{{29*fontMultiple}}rpx;">{{item.nick_name}}</text>
+            <text class="rumor-organization-list-tips" style="font-size:{{24*fontMultiple}}rpx;">最近辟谣：{{item.latest_rumor.title}}</text>
+        </view>
+    </block>
+    <image class="rumor-index-loading-img icon_loading" src="/images/rumor-loading_img.png" wx:elif="{{initial}}"></image>
+    <view class="rumor-organization-list-cld rumor-organization-list-cld-nodata" style="font-size:{{24*fontMultiple}}rpx;" wx:else>
+            暂无数据
+        </view>
+</view>

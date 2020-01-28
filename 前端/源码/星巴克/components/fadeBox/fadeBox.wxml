@@ -1,0 +1,3 @@
+<view class="fadeBox {{modelType==2?'show':modelType==3?'hide':''}}" style="display:{{modelType==0?'none':'block'}};">
+    <slot></slot>
+</view>

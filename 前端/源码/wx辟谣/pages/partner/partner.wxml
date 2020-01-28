@@ -1,0 +1,21 @@
+<view class="rumor-partner-top-box" wx:if="{{!initial}}">
+    <view class="rumor-partner-top-refuter">
+        <image class="rumor-partner-top-headimg" src="{{head_img}}"></image>
+        <text class="rumor-partner-top-refutername" style="font-size:{{29*fontMultiple}}rpx;">{{nick_name}}</text>
+    </view>
+    <text class="rumor-partner-top-tips" style="font-size:{{24*fontMultiple}}rpx;">{{signature}}</text>
+    <view class="rumor-partner-top-numbox">
+        <view class="rumor-partner-top-num" style="font-size:{{24*fontMultiple}}rpx;">
+            已辟谣{{refute_count}}次
+        </view>
+    </view>
+</view>
+<view class="rumor-partner-list-box">
+    <image class="rumor-index-loading-img icon_loading" src="/images/rumor-loading_img.png" wx:if="{{initial}}"></image>
+    <view bindtap="openrumor" class="rumor-partner-list-cld" data-bizuin="{{item.biz_uin}}" data-idx="{{item.idx}}" data-msgid="{{item.msg_id}}" data-saferefuteurl="{{item.safe_refute_url}}" hoverClass="weui-cell_active" wx:for="{{rumor_list}}">
+        <text class="rumor-partner-list-h1" style="font-size:{{29*fontMultiple}}rpx;line-height:{{40*fontMultiple}}rpx;margin-right:{{!item.safe_refute_url||!!item.pic_url?'190rpx':'0'}}">{{item.title}}</text>
+        <text class="rumor-partner-list-h2" style="font-size:{{24*fontMultiple}}rpx;">{{item.refute_time}}</text>
+        <text class="rumor-partner-list-h3" style="font-size:{{24*fontMultiple}}rpx;">被辟谣</text>
+        <image class="rumor-partner-list-img" src="{{item.pic_url}}"></image>
+    </view>
+</view>

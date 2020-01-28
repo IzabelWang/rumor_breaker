@@ -1,0 +1,44 @@
+<view class="rumor-mine-top-box">
+    <view class="rumor-mine-top-user">
+        <image class="rumor-mine-top-headimg" src="{{head_img}}"></image>
+    </view>
+    <view class="rumor-mine-top-tips-box">
+        <text class="rumor-mine-top-tips" style="font-size:{{29*fontMultiple}}rpx;">共阅读过</text>
+        <text class="rumor-mine-top-tips-number" style="font-size:{{36.23*fontMultiple}}rpx;">{{my_total}}</text>
+        <text class="rumor-mine-top-tips" style="font-size:{{29*fontMultiple}}rpx;">篇谣言文章</text>
+    </view>
+    <view class="rumor-mine-top-sub-tips-box">
+        <view style="font-size:{{24*fontMultiple}}rpx;">
+            如你阅读过谣言文章，会收到辟谣提醒
+          </view>
+        <view style="font-size:{{24*fontMultiple}}rpx;" wx:if="{{my_rumor.length}}">以下是你阅读过的谣言及辟谣信息</view>
+    </view>
+</view>
+<block wx:if="{{my_rumor.length&&isGivenPerm==2}}">
+    <view bindtap="openrumor" class="rumor-mine-list-box" data-bizuin="{{item.biz_uin}}" data-idx="{{item.idx}}" data-msgid="{{item.msg_id}}" data-saferefuteurl="{{item.safe_refute_url}}" wx:for="{{my_rumor}}">
+        <view class="rumor-mine-list-cld" hoverClass="weui-cell_active">
+            <text class="rumor-mine-list-h1" style="font-size:{{29*fontMultiple}}rpx;line-height:{{40*fontMultiple}}rpx;margin-right:{{!item.safe_refute_url||!!item.pic_url?'190rpx':'0'}}">{{item.title}}</text>
+            <view class="rumor-mine-stext-box">
+                <text class="rumor-mine-list-h2" style="font-size:{{24*fontMultiple}}rpx;">{{item.refute_time}} </text>
+                <text class="rumor-mine-list-h2" style="font-size:{{24*fontMultiple}}rpx;">{{item.refute_nickname}} </text>
+                <text class="rumor-mine-list-h3" style="font-size:{{24*fontMultiple}}rpx;">已辟谣</text>
+            </view>
+            <image class="rumor-mine-list-img" src="{{item.pic_url}}"></image>
+        </view>
+    </view>
+</block>
+<view class="rumor-mine-nodata-tips" wx:elif="{{isGivenPerm==1}}">
+    <text style="font-size:{{24*1.5*fontMultiple}}rpx;">你仍未允许此页面</text>
+    <text style="font-size:{{24*1.5*fontMultiple}}rpx;">读取你阅读过的文章及收取辟谣提醒</text>
+    <rich-text bindtap="showPerm" nodes="{{links}}" style="font-size:{{24*1.5*fontMultiple}}rpx;"></rich-text>
+</view>
+<image class="rumor-index-loading-img icon_loading" src="/images/rumor-loading_img.png" wx:elif="{{initial}}"></image>
+<block wx:else>
+    <view class="rumor-mine-nodata-tips">
+        <text style="font-size:{{24*fontMultiple}}rpx;">近期你未接收过辟谣提醒</text>
+        <text style="font-size:{{24*fontMultiple}}rpx;">如想了解近期最新谣言，可进入“谣言识别”查看。</text>
+    </view>
+    <view bindtap="goindex" class="rumor-mine-nodata-btn" hoverClass="weui-cell_active">
+      去“谣言识别”看看
+    </view>
+</block>

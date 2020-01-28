@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>小图标/关于</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="退款页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="购买人申请退款流程2" transform="translate(-1269.000000, -1579.000000)" fill="#00A862">
+            <g id="Group-19" transform="translate(257.000000, 293.000000)">
+                <g id="Group-10" transform="translate(938.000000, 580.000000)">
+                    <g id="小图标/关于" transform="translate(74.000000, 706.000000)">
+                        <g id="Detail-Disclosure">
+                            <path d="M16.4848485,32 C7.163444,32 0,24.836556 0,16.4848485 C0,7.163444 7.163444,0 16.4848485,0 C24.836556,0 32,7.163444 32,16.4848485 C32,24.836556 24.836556,32 16.4848485,32 Z M16,30 C23.7319865,30 30,23.7319865 30,16 C30,8.2680135 23.7319865,2 16,2 C8.2680135,2 2,8.2680135 2,16 C2,23.7319865 8.2680135,30 16,30 Z M13,12 L18,12 L18,24 L20,24 L20,25 L13,25 L13,24 L15,24 L15,13 L13,13 L13,12 Z M16,10 C14.8954305,10 14,9.1045695 14,8 C14,6.8954305 14.8954305,6 16,6 C17.1045695,6 18,6.8954305 18,8 C18,9.1045695 17.1045695,10 16,10 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

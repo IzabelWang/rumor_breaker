@@ -1,0 +1,38 @@
+<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">索引</view>
+</cu-custom>
+<view class="cu-bar bg-white search fixed" style="top:{{CustomBar}}px;">
+    <view class="search-form round">
+        <text class="cuIcon-search"></text>
+        <input confirmType="search" placeholder="输入搜索的关键词" type="text"></input>
+    </view>
+    <view class="action">
+        <button class="cu-btn bg-gradual-green shadow-blur round">搜索</button>
+    </view>
+</view>
+<scroll-view scrollY class="indexes" enableBackToTop="true" scrollIntoView="indexes-{{listCurID}}" scrollWithAnimation="true" style="height:calc(100vh - {{CustomBar}}px - 50px)">
+    <block wx:for="{{list}}">
+        <view class="padding indexItem-{{list[index]}}" data-index="{{list[index]}}" id="indexes-{{list[index]}}">{{list[index]}}</view>
+        <view class="cu-list menu-avatar no-padding">
+            <view class="cu-item" wx:for="{{2}}" wx:for-index="sub">
+                <view class="cu-avatar round lg">{{list[index]}}</view>
+                <view class="content">
+                    <view class="text-grey">{{list[index]}}
+            <text class="text-abc">{{list[sub]}}</text>君</view>
+                    <view class="text-gray text-sm">
+            有{{sub+2}}个主子需要伺候
+          </view>
+                </view>
+            </view>
+        </view>
+    </block>
+</scroll-view>
+<view class="indexBar" style="height:calc(100vh - {{CustomBar}}px - 50px)">
+    <view bindtouchend="tEnd" bindtouchstart="tStart" catchtouchmove="tMove" class="indexBar-box">
+        <view bindtouchend="setCur" bindtouchstart="getCur" class="indexBar-item" id="{{index}}" wx:for="{{list}}">{{list[index]}}</view>
+    </view>
+</view>
+<view class="indexToast" hidden="{{hidden}}">
+  {{listCur}}
+</view>

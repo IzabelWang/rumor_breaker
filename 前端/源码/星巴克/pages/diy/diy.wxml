@@ -1,0 +1,32 @@
+<view class="bg" style="background: url({{background_url}}) no-repeat center top / 100% auto;">
+    <view class="init">
+        <view class="{{scr}} title"></view>
+        <view class="{{scr}} mid-content">
+            <view class="big-card-show">
+                <image src="{{cover_curr.image}}"></image>
+            </view>
+            <view class="{{scr=='nml'&&isAndroid?'small':''}} card-top-text" wx:if="{{cover_list}}">选择一张你喜欢的卡面背景</view>
+            <scroll-view scrollX class="card-list">
+                <view class="item_box" wx:for="{{cover_list}}" wx:for-index="idx" wx:key="key">
+                    <view catchtap="selectCard" class="card-item" data-id="{{item.id}}" data-image="{{item.image}}" data-index="{{idx}}">
+                        <image class="card-image" src="{{item.image}}"></image>
+                        <block wx:if="{{item.id==cover_curr.id}}">
+                            <view class="card_select"></view>
+                            <view class="card_border"></view>
+                        </block>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <view class="{{scr}} btn-wrapper">
+            <view class="coupon-result" wx:if="{{firstCoupon}}">
+                <text>{{firstMessage}}</text>
+            </view>
+            <button bindtap="goStart" class="btn-start" disabled="{{!cover_curr}}">下一步</button>
+            <view class="notice">
+                <view bindtap="gotoTerms" class="notice-item">使用须知</view>
+                <view bindtap="gotoPrivacy" class="notice-item">隐私权条款</view>
+            </view>
+        </view>
+    </view>
+</view>

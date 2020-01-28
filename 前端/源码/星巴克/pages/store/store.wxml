@@ -1,0 +1,14 @@
+<view class="store">
+    <view class="store__tip">仅显示离你最近的30家门店</view>
+    <view class="store__item" wx:for="{{stores}}" wx:key="key">
+        <view class="store__info">
+            <view class="store__name">{{item.branch_name}}</view>
+            <view class="store__address">{{item.address}}</view>
+        </view>
+        <view class="store__distance">
+            <view class="store__distance-num">{{item.distance}}</view>
+            <view class="store__line"></view>
+            <image bindtap="openMap" class="store__pin" data-store="{{item}}" mode="widthFix" src="/image/pin.svg"></image>
+        </view>
+    </view>
+</view>

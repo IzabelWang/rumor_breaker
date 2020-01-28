@@ -1,0 +1,44 @@
+<cu-custom bgColor="bg-gradual-pink" isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">轮播图</view>
+</cu-custom>
+<view class="cu-bar bg-white">
+    <view class="action">
+        <text class="cuIcon-title text-pink"></text> 全屏限高轮播
+  </view>
+    <view class="action">
+        <switch bindchange="DotStyle" class="sm"></switch>
+    </view>
+</view>
+<swiper autoplay="true" circular="true" class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" duration="500" indicatorDots="true" interval="5000">
+    <swiper-item wx:for="{{swiperList}}">
+        <image mode="aspectFill" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
+        <video autoplay loop muted controls="{{false}}" objectFit="cover" showPlayBtn="{{false}}" src="{{item.url}}" wx:if="{{item.type=='video'}}"></video>
+    </swiper-item>
+</swiper>
+<view class="cu-bar bg-white margin-top">
+    <view class="action">
+        <text class="cuIcon-title text-pink"></text> 卡片式轮播
+  </view>
+</view>
+<swiper autoplay="true" bindchange="cardSwiper" circular="true" class="card-swiper {{DotStyle?'square-dot':'round-dot'}}" duration="500" indicatorActiveColor="#0081ff" indicatorColor="#8799a3" indicatorDots="true" interval="5000">
+    <swiper-item class="{{cardCur==index?'cur':''}}" wx:for="{{swiperList}}">
+        <view class="swiper-item">
+            <image mode="aspectFill" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
+            <video autoplay loop muted controls="{{false}}" objectFit="cover" showPlayBtn="{{false}}" src="{{item.url}}" wx:if="{{item.type=='video'}}"></video>
+        </view>
+    </swiper-item>
+</swiper>
+<view class="cu-bar bg-white margin-top">
+    <view class="action">
+        <text class="cuIcon-title text-pink"></text> 堆叠式轮播
+  </view>
+</view>
+<view bindtouchend="towerEnd" bindtouchmove="towerMove" bindtouchstart="towerStart" class="tower-swiper">
+    <view class="tower-item {{item.zIndex==1?'none':''}}" style="--index:{{item.zIndex}};--left:{{item.mLeft}}" wx:for="{{swiperList}}">
+        <view class="swiper-item">
+            <image mode="aspectFill" src="{{item.url}}" wx:if="{{item.type=='image'}}"></image>
+            <video autoplay loop muted controls="{{false}}" objectFit="cover" showPlayBtn="{{false}}" src="{{item.url}}" wx:if="{{item.type=='video'}}"></video>
+        </view>
+    </view>
+</view>

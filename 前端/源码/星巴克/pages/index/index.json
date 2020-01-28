@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "星巴克用星说",
+    "usingComponents": {
+        "auth-popup": "/components/authPopup/authPopup"
+    }
+}

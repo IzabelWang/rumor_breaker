@@ -1,0 +1,92 @@
+<view class="cardDetail {{isIpx?'fix-iphonex':''}} {{isSpecil?'specialDetail':''}} {{showBottomPopup?'inPopup':''}}" wx:if="{{cardData}}">
+    <view class="banner_box" wx:if="{{!isSpecil}}">
+        <block wx:if="{{collectInfo&&collectInfo.length>1}}">
+            <image catchtap="changeCard" class="arrow_icon arrow_left" data-type="left" mode="widthFix" src="/image/arrow-left.png"></image>
+            <image catchtap="changeCard" class="arrow_icon arrow_right" data-type="right" mode="widthFix" src="/image/arrow-left.png"></image>
+        </block>
+        <image class="banner" mode="aspectFill" src="{{collectInfo[selectedCardNum].cover_path||cardData.cover_list[selectedCardNum].image}}" wx:if="{{!customInfo}}"></image>
+        <image class="banner_custom" mode="aspectFill" src="{{customInfo.cover_path}}" wx:if="{{customInfo}}"></image>
+        <view catchtap="collectControl" class="banner_collect" data-item="{{collectInfo[selectedCardNum]||customInfo||cardData.cover_list[selectedCardNum]}}" data-type="banner">
+            <image mode="widthFix" src="/image/{{collectInfo&&collectInfo[selectedCardNum].status||(customInfo?customInfo.is_favorite:cardData.cover_list[selectedCardNum].is_favorite)?'':'un'}}like_icon.png"></image>
+        </view>
+    </view>
+    <image class="banner" mode="aspectFill" src="{{cardData.banner_image_url}}" wx:if="{{isSpecil&&cardData.theme_type=='1'}}"></image>
+    <view class="card-cover" wx:if="{{isSpecil&&cardData.theme_type=='1'}}">选择卡封面</view>
+    <scroll-view class="scroll-view_H" scrollIntoView="{{scrollToView}}" scrollX="true" wx:if="{{!customInfo}}">
+        <view bindtap="selected" class="card-wrap" data-item="{{item}}" data-key="{{index}}" id="card_{{index}}" wx:for="{{collectInfo||cardData.cover_list}}" wx:key="{{item.id || item.cover_id}}">
+            <image class="card" src="{{item.image||item.cover_path}}"></image>
+            <view class="cover" hidden="{{index!=selectedCardNum}}"></view>
+            <image alt="" class="right" hidden="{{index!=selectedCardNum}}" mode="widthFix" src="/image/right.png"></image>
+            <view catchtap="collectControl" class="collect_icon" data-index="{{index}}" data-item="{{item}}" data-type="cover">
+                <image alt="" mode="widthFix" src="/image/{{item.is_favorite||item.status?'':'un'}}like_icon.png"></image>
+            </view>
+        </view>
+    </scroll-view>
+    <view class="title" wx:if="{{!isSpecil}}">选择商品</view>
+    <view class="gift" wx:if="{{isSpecil}}">选择一份礼物</view>
+    <view class="goods">
+        <view class="good-item" wx:for="{{cardData.goods_list}}" wx:key="key">
+            <view bindtap="toggleBottomPopup" class="good-item-content" data-ind="{{index}}">
+                <image class="product" mode="aspectFill" src="{{item.image}}"></image>
+                <view class="content">
+                    <view class="content-name">{{item.name}}</view>
+                    <view>¥ {{item.price}}</view>
+                </view>
+            </view>
+            <view class="bottom" wx:if="{{!isSelfGifting}}">
+                <image catchtap="changeGoodNum" class="icon" data-ind="{{index}}" data-type="minus" hidden="{{item.num==0}}" mode="widthFix" src="/image/remove.png"></image>
+                <input bindblur="goodNumBlur" class="num" data-ind="{{index}}" hidden="{{item.num==0}}" maxlength="2" type="number" value="{{item.num}}"></input>
+                <image catchtap="changeGoodNum" class="icon" data-ind="{{index}}" data-type="add" hidden="{{item.num==0}}" mode="widthFix" src="/image/add1.png"></image>
+                <image catchtap="changeGoodNum" class="icon" data-ind="{{index}}" data-type="add" hidden="{{item.num!=0}}" mode="widthFix" src="/image/add2.png"></image>
+            </view>
+            <view class="bottom" wx:if="{{isSelfGifting}}">
+                <image catchtap="changeGoodNumSelf" class="icon" data-ind="{{index}}" data-type="minus" hidden="{{item.num==0}}" mode="widthFix" src="/image/select_active.png"></image>
+                <image catchtap="changeGoodNumSelf" class="icon" data-ind="{{index}}" data-type="add" hidden="{{item.num!=0}}" mode="widthFix" src="/image/select.png"></image>
+            </view>
+        </view>
+    </view>
+    <view class="notice">
+        <view bindtap="gotoTerms" class="notice-item">使用须知</view>
+        <view bindtap="gotoPrivacy" class="notice-item">隐私权条款</view>
+    </view>
+    <view class="shopcart">
+        <view class="number">{{shopcartNum}}份礼品</view>
+        <view class="price">
+            <text class="sign">¥</text>
+            <text class="second">{{shopcartPrice}}</text>
+        </view>
+        <button bindgetuserinfo="buy" class="btn" disabled="{{shopcartNum==0}}" openType="getUserInfo">
+            购买
+        </button>
+    </view>
+    <view class="card-detail popup-example--bottom zan-popup zan-popup--bottom {{showBottomPopup?'zan-popup--show':''}}">
+        <view bindtouchend="toggleBottomPopup" class="zan-popup__mask"></view>
+        <view class="wrapper zan-popup__container">
+            <view catchtouchmove="preventdefault" class="wrapper-fake"></view>
+            <image bindtouchend="toggleBottomPopup" class="close" mode="widthFix" src="/image/close.png"></image>
+            <image class="coffee" mode="aspectFill" src="{{popupGood.image}}"></image>
+            <scroll-view scrollY class="">
+                <view class="name">{{popupGood.name}}</view>
+                <view class="price">¥<text decode="{{true}}" space="{{true}}">&nbsp;&nbsp;</text>{{popupGood.price}}</view>
+                <view class="line"></view>
+                <view class="detail-main">
+                    <view class="detail-item clearfix">
+                        <view class="fl mr">适用门店:</view>
+                        <view bindtap="gotoStore" class="look">查看全部门店</view>
+                    </view>
+                    <view class="detail-item clearfix">
+                        <view class="fl mr">可用时段:</view>
+                        <view class="gray">{{popupGood.expire_time}}</view>
+                    </view>
+                    <view class="detail-item clearfix">
+                        <text bindtap="gotoTerms" class="fl mr">使用须知:</text>
+                        <view class="fr gray">
+                            <text>{{popupGood.notice}}</text>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+    </view>
+    <collect-tips bindagain="collectAgain" bindcloseMaxTips="closeMaxTips" class="collect_tips_box" closeType="{{closeType}}" isIpx="{{isIpx}}" maxTips="{{maxTips}}" tipsData="{{tipsData}}"></collect-tips>
+</view>
