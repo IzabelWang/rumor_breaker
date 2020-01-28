@@ -1,0 +1,29 @@
+<view class="collect {{isIpx?'fix-iphonex':''}}">
+    <block wx:if="{{noData}}">
+        <view class="collect-none">
+            <view>你还没有收藏任何卡面</view>
+            <view catchtap="getNewCollect" class="btn">前往收藏</view>
+            <view catchtap="showVideo" class="help">如何收藏？</view>
+        </view>
+        <view class="video_box" wx:if="{{videoShow}}">
+            <view class="video_mask"></view>
+            <image catchtap="closeVideo" class="video_close" mode="widthFix" src="/image/landing-close.png"></image>
+            <view class="video_content" style="height: {{videoSize.height}}px;width:{{videoSize.width}}px">
+                <video bindended="videoEnd" controls="{{false}}" id="collectVideo" objectFit="fill" src="https://static.egifting.starbucks.com.cn/upload/video/collectVideo.mp4"></video>
+            </view>
+        </view>
+    </block>
+    <block wx:if="{{collectList.length>0&&!noData}}">
+        <view class="list_box">
+            <view bindtap="goDetail" class="item_box" data-index="{{index}}" data-item="{{item}}" wx:if="{{item}}" wx:for="{{collectList}}" wx:key="{{item.id}}">
+                <image class="item_img" mode="aspectFill" src="{{item.cover_path}}"></image>
+                <view class="item_title">
+                    <view class="collect_name">{{item.cover_theme_name}}</view>
+                    <image catchtap="collectControl" class="collect_icon" data-index="{{index}}" data-item="{{item}}" mode="widthFix" src="/image/{{item.status?'':'un'}}like_icon.png"></image>
+                </view>
+            </view>
+        </view>
+        <view catchtap="getNewCollect" class="btn btm-btn">收藏最新卡面</view>
+    </block>
+    <collect-tips bindagain="collectAgain" bindcloseMaxTips="closeMaxTips" class="collect_tips_box" closeType="{{closeType}}" isIpx="{{isIpx}}" maxTips="{{maxTips}}" tipsData="{{tipsData}}"></collect-tips>
+</view>

@@ -1,0 +1,81 @@
+<view class="invoice">
+    <view class="order">
+        <view class="order__item">
+            <view class="order__item-left">订单号</view>
+            <view class="order__item-oid {{isOldOrder?'old':''}}">{{invoiceData.order_id}}</view>
+        </view>
+        <view class="order__item">
+            <view class="order__item-left">金额</view>
+            <view>{{invoiceData.invoice_money/100}} 元</view>
+        </view>
+        <view class="order__item">
+            <view class="order__item-left">下单时间</view>
+            <view>{{invoiceData.invoice_time}}</view>
+        </view>
+    </view>
+    <view class="invoice-body {{applyType=='2'?'enterprise':''}}">
+        <form bindsubmit="invoiceSubmit">
+            <view class="invoice-body__item">
+                <view class="invoice-body__item-left">发票类型</view>
+                <view class="invoice-body__item-right invoice-body__title">
+                    <input bindinput="changeValue" class="ipt ipt--hide" data-name="invoice_type" type="text" value="{{applyType}}"></input>
+                    <button catchtap="selectApplyTap" class="invoice__type-btn {{applyType=='1'?'title--select':''}}" data-type="1">个人</button>
+                    <button catchtap="selectApplyTap" class="invoice__type-btn {{applyType=='2'?'title--select':''}}" data-type="2">单位</button>
+                </view>
+            </view>
+            <view class="invoice-body__item" wx:if="{{iptPlaceholder['title'][applyType]!=-1}}">
+                <view class="invoice-body__item-left">抬头名称</view>
+                <view class="invoice-body__item-right">
+                    <input bindinput="changeValue" class="ipt ipt__title" data-name="invoice_title" placeholder="{{iptPlaceholder['title'][applyType]}}" placeholderClass="ipt__placeholder" type="text" value="{{invoice_title}}"></input>
+                </view>
+                <view bindtap="invoiceTitle" class="invoice-body__item-absolute">
+                选择抬头
+                </view>
+            </view>
+            <view class="invoice-body__item" wx:if="{{iptPlaceholder['dutyNum'][applyType]!=-1}}">
+                <view class="invoice-body__item-left">税号</view>
+                <view class="invoice-body__item-right">
+                    <input bindinput="changeValue" class="ipt" data-name="tax_no" placeholder="{{iptPlaceholder['dutyNum'][applyType]}}" placeholderClass="ipt__placeholder" type="text" value="{{tax_no}}"></input>
+                </view>
+            </view>
+            <view class="invoice-body__item" wx:if="{{iptPlaceholder['phone'][applyType]!=-1}}">
+                <view class="invoice-body__item-left">手机号码</view>
+                <view class="invoice-body__item-right">
+                    <input bindinput="changeValue" class="ipt" data-name="receiver_phone" placeholder="{{iptPlaceholder['phone'][applyType]}}" placeholderClass="ipt__placeholder" type="number"></input>
+                </view>
+            </view>
+            <view class="invoice-body__item" wx:if="{{iptPlaceholder['name'][applyType]!=-1}}">
+                <view class="invoice-body__item-left">姓名</view>
+                <view class="invoice-body__item-right">
+                    <input bindinput="changeValue" class="ipt" data-name="receiver_name" placeholder="{{iptPlaceholder['name'][applyType]}}" placeholderClass="ipt__placeholder" type="text"></input>
+                </view>
+            </view>
+            <view class="invoice-body__item" wx:if="{{iptPlaceholder['email'][applyType]!=-1}}">
+                <view class="invoice-body__item-left">邮箱</view>
+                <view class="invoice-body__item-right">
+                    <input bindinput="changeValue" class="ipt" data-name="receiver_email" placeholder="{{iptPlaceholder['email'][applyType]}}" placeholderClass="ipt__placeholder" type="text"></input>
+                </view>
+            </view>
+            <view catchtap="toggleAgree" class="tips">
+                <view class="checkbox">
+                    <image class="icon" hidden="{{!agree}}" src="/image/selected.png"></image>
+                </view>
+              已阅读并同意<view catchtap="showRuleTap" class="tips_btn">《发票规定》</view>
+            </view>
+            <view class="invoice-body__footer">
+                <button bindtap="showSubscribe" class="invoice-body__btn">申请开票</button>
+            </view>
+        </form>
+        <view class="dialog" wx:if="{{showRule}}">
+            <view class="weapp-mask"></view>
+            <view class="weapp-dialog">
+                <view class="weapp-dialog__hd weapp-dialog__title">发票规定</view>
+                <view class="weapp-dialog__bd">发票开具人应为原购买人，开具发票需提供相应的发票抬头（个人和单位均可）。如果您因为任何原因需要退款，退款时需配合客服人员退回开具的发票。持星巴克"用星说"平台所出售的卡券在星巴克门店兑换商品时，星巴克门店不再就该商品开具发票。</view>
+                <view class="weapp-dialog__ft">
+                    <button catchtap="cancelTap" class="weapp-dialog__btn weapp-dialog__btn_default" style="border-right: 1px solid #E5E5E5;">取消</button>
+                    <button catchtap="agreeTap" class="weapp-dialog__btn weapp-dialog__btn_primary">接受</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

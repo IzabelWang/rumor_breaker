@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "",
+    "usingComponents": {
+        "collect-tips": "/components/collectTips/collectTips"
+    }
+}

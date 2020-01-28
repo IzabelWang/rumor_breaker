@@ -1,0 +1,25 @@
+<view class="cardQr {{isIpx?'fix-iphonex':''}} {{info.type==1?'isCommon':''}} {{isIOS?'':'isAndroid'}}" wx:if="{{!showFake}}">
+    <image class="cardQr__banner" mode="aspectFill" src="{{info.img_url}}"></image>
+    <view class="cardQr__num">{{info.code}}</view>
+    <view class="cardQr__code">
+        <canvas canvasId="mycanvas" class="mycanvas" style="width: {{cSize}}px; height: {{cSize}}px"></canvas>
+    </view>
+    <view class="cardQr__tip" wx:if="{{info.type==2}}">
+        <text class="cardQr__tip-second">{{countDownTime}}</text>秒后重新刷新二维码</view>
+</view>
+<view class="cardQr" wx:if="{{showFake}}">
+    <view class="cardQr__banner">
+        <image class="cardQr__banner-bg" src="https://static.egifting.starbucks.com.cn/giftcard/img/bg.jpg"></image>
+        <image class="cardQr__banner-cup" src="https://static.egifting.starbucks.com.cn/giftcard/img/icon1.png"></image>
+    </view>
+    <view class="cardQr__tempqr-container">
+        <image class="cardQr__tempqr" mode="widthFix" src="https://static.egifting.starbucks.com.cn/giftcard/img/qrcode.png"></image>
+        <view class="cardQr__tempqr-mask">
+            <image class="cardQr__spin" mode="widthFix" src="https://static.egifting.starbucks.com.cn/giftcard/img/loading.gif"></image>
+        </view>
+    </view>
+    <view class="cardQr__fake-tip">
+        <view>正在激活中</view>
+        <view>请稍后再试</view>
+    </view>
+</view>

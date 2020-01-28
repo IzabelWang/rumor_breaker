@@ -1,0 +1,11 @@
+<scroll-view scrollY class="scrollPage">
+    <image class="response" mode="widthFix" src="/images/componentBg.png"></image>
+    <view class="nav-list">
+        <navigator class="nav-li bg-{{item.color}}" hoverClass="none" url="/pages/component/{{item.name}}/{{item.name}}" wx:for="{{elements}}">
+            <view class="nav-title">{{item.title}}</view>
+            <view class="nav-name">{{item.name}}</view>
+            <text class="cuIcon-{{item.icon}}"></text>
+        </navigator>
+    </view>
+    <view class="cu-tabbar-height"></view>
+</scroll-view>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Cells/Editing/Select</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="IOS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-X" transform="translate(-90.000000, -524.000000)">
+            <g id="Cells/Editing/Select" transform="translate(78.000000, 512.000000)">
+                <g id="Float" transform="translate(12.000000, 12.000000)">
+                    <circle id="Circle" fill="#00A862" cx="11" cy="11" r="11"></circle>
+                    <polyline id="Check" stroke="#FFFFFF" points="4.5 11.5 8 15 16 7"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

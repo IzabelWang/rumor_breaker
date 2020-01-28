@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="IOS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-X-Copy-3" transform="translate(-194.000000, -319.000000)">
+            <g id="Group" transform="translate(206.696938, 331.696938) rotate(-345.000000) translate(-206.696938, -331.696938) translate(194.696938, 319.696938)">
+                <g id="Float-Copy">
+                    <circle id="Circle" fill="#F7F7F7" cx="12" cy="12" r="12"></circle>
+                    <path d="M6,6 L17.7961894,17.7961894" id="Path-2" stroke="#00A862" stroke-width="3"></path>
+                    <path d="M17.7961894,6 L6,17.7961894" id="Path-2" stroke="#00A862" stroke-width="3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

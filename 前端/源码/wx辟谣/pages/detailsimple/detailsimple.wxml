@@ -1,0 +1,167 @@
+<template name="detailSimpleMain">
+    <text class="title" style="font-size:{{87*750/1242*ratio}}rpx; line-height:{{87*1.6*750/1242*ratio}}rpx">{{msg.title}}</text>
+    <text class="author" style="font-size:{{45*750/1242*ratio}}rpx;">{{msg.source_name}}{{msg.time}}</text>
+    <block wx:for="{{listData}}" wx:for-index="idx">
+        <view class="main-body {{item.marginMore}} {{item.pre?'body-pre':''}} {{item.marginBottom}}" style="font-size:{{54*750/1242*ratio*fontMultiple}}rpx; line-height:{{54*1.5*750/1242*ratio}}rpx" wx:if="{{item.type==enum.MAIN_BODY}}">
+            <block wx:for="{{item.list}}" wx:for-index="cidx" wx:for-item="citem">
+                <block wx:if="{{citem.encode_href}}">
+                    <navigator class="inline-link" hoverClass="navigator-hover" hoverStartTime="150" hoverStayTime="200" openType="redirect" url="detailsimple?url={{citem.encode_href}}&frompage=inside_links" wx:if="{{citem.encode_href}}">
+                        <text class="{{tC.class}} nav-text" wx:for="{{citem.content}}" wx:for-index="tI" wx:for-item="tC">{{tC.content}}</text>
+                    </navigator>
+                </block>
+                <block wx:else>
+                    <text class="{{tC.class}}" wx:for="{{citem.content}}" wx:for-index="tI" wx:for-item="tC">{{tC.content}}</text>
+                </block>
+            </block>
+        </view>
+        <block wx:elif="{{item.type==enum.PHOTO}}">
+            <block wx:if="{{item.encode_href}}">
+                <navigator hoverClass="navigator-hover" hoverStartTime="150" hoverStayTime="200" url="detailsimple?url={{item.encode_href}}&frompage=inside_links" wx:if="{{item.encode_href}}">
+                    <image class="photo {{item.marginMore}}" mode="widthFix" src="{{item.src}}" style="width: {{item.width}};"></image>
+                </navigator>
+            </block>
+            <image class="photo {{item.marginMore}}" mode="widthFix" src="{{item.src}}" style="width: {{item.width}};" wx:else></image>
+        </block>
+        <video class="video {{item.marginMore}}" src="{{item.src}}" wx:elif="{{item.type==enum.VIDEO}}"></video>
+        <block wx:elif="{{item.type==enum.AUDIO}}">
+            <audio controls author="{{item.author}}" bindtimeupdate="updateAudio" class="audio" data-id="{{item.audioid}}" id="{{item.audioid}}" name="{{item.name}}" poster="{{item.poster}}" src="{{item.src}}"></audio>
+            <view bindtap="ctrlSound" class="fake-audio {{item.marginMore}}" data-id="{{item.audioid}}">
+                <image class="{{item.isVoice?'fake-audio__voice':'fake-audio__poster'}}" mode="aspectFill" src="{{item.isVoice?item.isPlay?'/images/Details_VoiceHl@3x.png':'/images/Details_Voice@3x.png':item.poster}}"></image>
+                <view class="{{item.isVoice?'fake-audio__sep-line':''}}"></view>
+                <view class="fake-audio__info">
+                    <text class="fake-audio__name">{{item.name}}</text>
+                    <text class="fake-audio__author">{{item.author}}</text>
+                </view>
+                <text class="fake-audio__duration">{{item.currentTime}}</text>
+                <image class="fake-audio__play" mode="aspectFill" src="{{item.isVoice?item.isPlay?'/images/Details_VoiceHl@3x.png':'/images/Details_Voice@3x.png':item.isPlay?'/images/Details_Music_PlayHl@3x.png':'/images/Details_Music_Play@3x.png'}}"></image>
+            </view>
+        </block>
+    </block>
+    <view class="bizinfo" wx:if="{{biz_info}}">
+        <navigator hoverClass="navigator-hover" hoverStartTime="150" hoverStayTime="200" openType="redirect" url="/page/bizprofile/bizprofile?__biz={{__biz}}">
+            <view class="bizinfo-hover-area">
+                <image class="bizinfo__brandicon" src="{{biz_info.brandiconurl}}"></image>
+                <view class="bizinfo-right">
+                    <view class="bizinfo__nickname" style="font-size:{{54*750/1242*ratio}}rpx;">
+                        <text>{{biz_info.nickname}}</text>
+                    </view>
+                    <view class="bizinfo__signature">
+                        <text style="font-size:{{45*750/1242*ratio}}rpx; line-height:{{45*1.5*750/1242*ratio}}rpx;">{{biz_info.signature}}</text>
+                    </view>
+                </view>
+            </view>
+        </navigator>
+    </view>
+    <view wx:if="{{relart}}">
+        <view class="related-upper">
+            <view class="related-upper__line related-upper__line_left"></view>
+            <view class="related-upper__text" style="font-size:{{54*750/1242*ratio}}rpx;">
+                <text>相关推荐</text>
+            </view>
+            <view class="related-upper__line related-upper__line_right"></view>
+        </view>
+        <view class="relart-artbody-wrapper">
+            <block wx:for="{{relart.list}}">
+                <template is="detailRelateArticle" data="{{item:item,ratio:ratio}}" wx:if="{{mode==1}}"></template>
+                <template is="articleWhite" data="{{item:item,ratio:ratio}}" wx:else></template>
+            </block>
+        </view>
+    </view>
+    <block wx:if="{{comment_info}}">
+        <view class="related-upper" style="margin-top:50rpx" wx:if="{{comment_info.elected_comment.length>0}}">
+            <view class="related-upper__line related-upper__line_left"></view>
+            <view class="related-upper__text" style="font-size:{{54*750/1242*ratio}}rpx;">
+                <text>精彩评论</text>
+            </view>
+            <view class="related-upper__line related-upper__line_right"></view>
+        </view>
+        <view class="comment-wrapper">
+            <block wx:for="{{comment_info.elected_comment}}" wx:for-index="idx">
+                <view class="{{item.reply.reply_list.length>0?'single-reply':'single-comment'}}">
+                    <view>
+                        <view style="display: inline-block;">
+                            <image class="avatar" src="{{item.logo_url}}"></image>
+                            <text class="author-name" style="font-size:{{45*750/1242*ratio}}rpx;">{{item.nick_name}}{{item.is_from_friend==1?'（朋友）':''}}</text>
+                        </view>
+                        <view class="like-wrapper">
+                            <view bindtap="likeComment" data-content_id="{{item.content_id}}" data-idx="{{idx}}" data-like_status="{{item.like_status}}" style="display: inline-block; vertical-align: middle;">
+                                <image class="image-like" src="{{item.like_status==1?'/images/Thumbs_Up_CommentHl@3x.png':'/images/Thumbs_Up_Comment@3x.png'}}"></image>
+                                <text class="like-num" style="font-size:{{45*750/1242*ratio}}rpx;">{{item.like_num}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <text class="comment-content" style="font-size:{{54*750/1242*ratio}}rpx; line-height:{{70*750/1242*ratio}}rpx;">{{item.content}}</text>
+                    <view class="{{item.reply.reply_list.length==0?'comment-bottom':'reply-comment-bottom'}}">
+                        <text class="comment-time" style="font-size:{{45*750/1242*ratio}}rpx; line-height:{{70*750/1242*ratio}}rpx;">{{item.time}}</text>
+                    </view>
+                    <view class="comment-sep-line"></view>
+                </view>
+                <view class="single-comment" wx:for="{{item.reply.reply_list}}" wx:for-index="ridx" wx:for-item="ritem">
+                    <view>
+                        <view style="display: inline-block;">
+                            <image class="avatar" src=""></image>
+                            <text class="author-name" style="font-size:{{45*750/1242*ratio}}rpx;">作者回复</text>
+                        </view>
+                        <view class="like-wrapper">
+                            <view bindtap="likeAuthorReply" data-content_id="{{item.content_id}}" data-idx="{{idx}}" data-reply_id="{{ritem.reply_id}}" data-reply_like_status="{{ritem.reply_like_status}}" data-ridx="{{ridx}}" style="display: inline-block; vertical-align: middle;">
+                                <image class="image-like" src="{{ritem.reply_like_status==1?'/images/Thumbs_Up_CommentHl@3x.png':'/images/Thumbs_Up_Comment@3x.png'}}"></image>
+                                <text class="like-num" style="font-size:{{45*750/1242*ratio}}rpx;">{{ritem.reply_like_num}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <text class="comment-content" style="font-size:{{54*750/1242*ratio}}rpx; line-height:{{70*750/1242*ratio}}rpx;">{{ritem.content}}</text>
+                    <view class="{{item.reply.reply_list.length==0?'comment-bottom':'reply-comment-bottom'}}">
+                        <text class="comment-time" style="font-size:{{45*750/1242*ratio}}rpx; line-height:{{70*750/1242*ratio}}rpx;">{{ritem.time}}</text>
+                    </view>
+                    <view class="comment-sep-line"></view>
+                </view>
+            </block>
+        </view>
+    </block>
+    <view class="write-comment-btn-wrapper" wx:if="{{comment_info}}">
+        <text bindtap="navigateMakeComment" class="write-comment-btn">写评论...</text>
+    </view>
+</template>
+<template name="articleWhite">
+    <navigator hoverClass="navigator-hover" hoverStartTime="150" hoverStayTime="200" openType="redirect" url="detailsimple?url={{item.encode_url}}&frompage=relate_article">
+        <view class="article-white-single-article">
+            <view class="article-white-article-msg">
+                <view class="article-white-article-title" style="color:{{item.is_readed==1?'#888':''}}; font-size:{{32.60869565*ratio}}rpx; line-height:{{48.91304348*ratio}}rpx">
+                    <text class="{{tC.class}}" wx:for="{{item.title}}" wx:for-index="tI" wx:for-item="tC">{{tC.content}}</text>
+                </view>
+                <view class="article-white-article-msg-wrapper">
+                    <view class="article-white-article-author" style="font-size:{{45*750/1242*ratio}}rpx;">{{item.bizname}}</view>
+                </view>
+                <view class="article-white-line"></view>
+            </view>
+        </view>
+    </navigator>
+</template>
+<template name="detailRelateArticle">
+    <navigator hoverClass="navigator-hover" hoverStartTime="150" hoverStayTime="200" openType="redirect" url="detailsimple?url={{item.encode_url}}&frompage=relate_article">
+        <view class="related-article">
+            <view class="related-article__msg">
+                <view class="related-article__title" style="font-size:{{54*750/1242*ratio}}rpx; line-height:{{54*1.4*750/1242*ratio}}rpx;">
+                    <text class="{{tC.class}}" wx:for="{{item.title}}" wx:for-index="tI" wx:for-item="tC">{{tC.content}}</text>
+                </view>
+                <view class="related-article__author" style="font-size:{{45*750/1242*ratio}}rpx;">{{item.bizname}}</view>
+            </view>
+            <image class="related-article__cover-pic" mode="aspectFill" src="{{item.pic_url}}"></image>
+        </view>
+    </navigator>
+</template>
+<import src="../commtemplate/comment.wxml"></import>
+<block wx:if="{{del_flag==0}}"></block>
+<block wx:elif="{{del_flag==3}}">
+    <image class="rumor-no-appmsg-icon" src="/images/appmsg_icon_grey.png"></image>
+    <text class="rumor-no-appmsg-text">该内容已被发布者删除</text>
+</block>
+<block wx:else>
+    <image class="rumor-no-appmsg-icon" src="/images/appmsg_icon_grey.png"></image>
+    <text class="rumor-no-appmsg-text">该内容已被删除</text>
+</block>
+<scroll-view bindscroll="scroll" bindscrolltolower="lower" bindscrolltoupper="upper" scrollIntoView="{{toView}}" scrollTop="{{scrollTop}}" scrollY="true" style="height: {{windowHeight}}px;" wx:if="{{false}}">
+    <template is="detailSimpleMain" data="{{listData:listData,enum:enum,msg:msg,biz_info:biz_info,relart:relart,comment_info:comment_info,__biz:__biz,mode:mode,ratio:ratio}}"></template>
+</scroll-view>
+<template is="detailSimpleMain" data="{{listData:listData,enum:enum,msg:msg,biz_info:biz_info,relart:relart,comment_info:comment_info,__biz:__biz,mode:mode,ratio:ratio}}" wx:else></template>
+<view class="global-bg global-bg_light"></view>

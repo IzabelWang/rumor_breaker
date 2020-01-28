@@ -1,0 +1,8 @@
+{
+    "navigationBarTitleText": "",
+    "disableScroll": true,
+    "usingComponents": {
+        "fade-box": "/components/fadeBox/fadeBox",
+        "auth-popup": "/components/authPopup/authPopup"
+    }
+}

@@ -1,0 +1,79 @@
+<view class="refund_application">
+    <view class="section">
+        <view class="title">退款订单</view>
+        <view class="content">
+            <view class="info">
+                <view class="info_title">订单号</view>
+                <view class="info_content {{isOldOrder?'old':''}}">{{refundData.order_id}}</view>
+            </view>
+        </view>
+    </view>
+    <form bindsubmit="refundSubmit">
+        <view class="section">
+            <view class="title">请填写退款人信息</view>
+            <view class="content">
+                <view class="info">
+                    <view class="info_title">姓名</view>
+                    <view class="info_content">
+                        <input bindinput="changeValue" data-name="receiver_name" name="receiver_name" placeholder="请输入完整姓名" placeholderClass="inputbox" type="text"></input>
+                    </view>
+                </view>
+                <view class="info top_border">
+                    <view class="info_title">手机号码</view>
+                    <view class="info_content">
+                        <input bindinput="changeValue" data-name="receiver_phone" name="receiver_phone" placeholder="请输入您的手机号" placeholderClass="inputbox" type="number"></input>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="section" id="application" wx:if="{{refundData.is_self}}">
+            <view class="title">请选择您的卡包内需退卡券(已兑换卡券不可退款)</view>
+            <view class="content">
+                <view catchtap="selectTap" class="prod-item" data-code="{{item.code_no}}" data-ind="{{index}}" data-used="{{item.status==='7'}}" wx:for="{{refundData.own_code}}" wx:key="key">
+                    <block wx:if="{{!isChooseCase}}">
+                        <image class="prod-item__left-unselect" src="/image/circle_gray.svg" wx:if="{{item.status==='7'}}"></image>
+                        <icon class="prod-item__left{{selectedList[index].selected?' prod-item__left-select':''}}" color="{{selectedList[index].selected?'#00A862':'#fff'}}" size="20" type="success" wx:else></icon>
+                    </block>
+                    <view class="prod-item__right">
+                        <view class="info_title">{{item.goods_name}}</view>
+                        <view class="info_content right">¥{{item.price/100}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view catchtap="tipAgreeTap" class="tips">
+            <view>
+                <view class="checkbox">
+                    <image class="icon" hidden="{{!agree}}" src="/image/selected.png"></image>
+                </view>
+                已阅读并同意<view catchtap="showRuleTap" class="tips_btn">《退款规定》</view>
+            </view>
+        </view>
+        <button bindtap="showSubscribe" class="btn" disabled="{{refundData.allUsed&&refundData.friends_code.length==0}}" wx:if="{{refundData.own_code.length==0||refundData.friends_code.length==0}}">提交申请</button>
+        <view wx:if="{{refundData.own_code.length>0&&refundData.friends_code.length>0}}">
+            <button bindtap="showSubscribe" class="btn" disabled="{{selectedListIsEmpty}}">提交申请</button>
+            <button class="btn" disabled="{{!selectedListIsEmpty}}" formType="submit">不，申请已转赠卡券</button>
+        </view>
+        <view bindtap="packageDetail" class="btm_btn not-in-one" wx:if="{{greaterThanHeight}}">查看礼包券详情</view>
+    </form>
+    <view class="dialog" wx:if="{{showRule}}">
+        <view class="weapp-mask"></view>
+        <view class="weapp-dialog">
+            <view class="weapp-dialog__hd weapp-dialog__title">退款规定</view>
+            <view class="weapp-dialog__bd" style="text-align: center;">
+                请按照以下步骤完成退款流程：
+                <view>填写姓名和手机号，提交退款申请。</view>
+                <view>若券已转赠好友，请将退款申请提交</view>
+                <view>成功后页面发送给领取礼券的好友，</view>
+                <view>并通知对方24小时之内点击链接并确</view>
+                <view>认退款。如果该笔订单已经申请过发</view>
+                <view>票，请配合客服人员将发票退回。</view>
+            </view>
+            <view class="weapp-dialog__ft">
+                <button catchtap="cancelTap" class="weapp-dialog__btn weapp-dialog__btn_default" style="border-right: 0;">取消</button>
+                <button catchtap="agreeTap" class="weapp-dialog__btn weapp-dialog__btn_primary">接受</button>
+            </view>
+        </view>
+    </view>
+    <view bindtap="packageDetail" class="btm_btn in-one" wx:if="{{!greaterThanHeight}}">查看礼包券详情</view>
+</view>

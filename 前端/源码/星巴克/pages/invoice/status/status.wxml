@@ -1,0 +1,61 @@
+<view class="status">
+    <view class="status-body">
+        <view class="result" wx:if="{{!showDetail}}">
+            <icon class="icon" color="#00A862" size="93" type="waiting" wx:if="{{currentStatus.type=='Ing'||currentStatus.type=='RefundIng'}}"></icon>
+            <icon class="icon" size="93" type="cancel" wx:if="{{currentStatus.type=='ERROR'}}"></icon>
+            <icon class="icon" color="#00A862" size="93" type="success" wx:if="{{currentStatus.type=='End'||currentStatus.type=='RefundEnd'}}"></icon>
+            <view class="title">{{currentStatus.title}}</view>
+            <view class="text">{{currentStatus.content}}</view>
+            <button catchtap="showDetailTap" class="btn" wx:if="{{currentStatus.type=='Ing'}}">开票预览</button>
+        </view>
+        <view class="detail-wrapper" wx:if="{{showDetail}}">
+            <view class="detail">
+                <view class="detail__group-container">
+                    <view class="detail__group">
+                        <view class="detail__item">
+                            <view class="detail__item-left">开票订单</view>
+                            <view class="detail__item-right status__orderId {{isOldOrder?'old':''}}">{{invoiceData.order_id}}</view>
+                        </view>
+                        <view class="detail__item">
+                            <view class="detail__item-left">开票金额</view>
+                            <view class="detail__item-right">￥{{invoiceData.invoice_price/100}}</view>
+                        </view>
+                    </view>
+                    <view class="detail__group">
+                        <view class="detail__item">
+                            <view class="detail__item-left">开票类型</view>
+                            <view class="detail__item-right">{{invoiceData.invoice_type==1?'个人发票':'公司发票'}}</view>
+                        </view>
+                        <view class="detail__item">
+                            <view class="detail__item-left">开票抬头</view>
+                            <view class="detail__item-right">{{invoiceData.title}}</view>
+                        </view>
+                        <view class="detail__item">
+                            <view class="detail__item-left">开票内容</view>
+                            <view class="detail__item-right">{{invoiceData.content}}</view>
+                        </view>
+                        <view class="detail__item" wx:if="{{invoiceData.invoice_type==2}}">
+                            <view class="detail__item-left">公司税号</view>
+                            <view class="detail__item-right">{{invoiceData.tax_no}}</view>
+                        </view>
+                    </view>
+                    <view class="detail__group">
+                        <view class="detail__item">
+                            <view class="detail__item-left">姓名</view>
+                            <view class="detail__item-right">{{invoiceData.name}}</view>
+                        </view>
+                        <view class="detail__item">
+                            <view class="detail__item-left">号码</view>
+                            <view class="detail__item-right">{{invoiceData.phone}}</view>
+                        </view>
+                        <view class="detail__item">
+                            <view class="detail__item-left">邮箱</view>
+                            <view class="detail__item-right">{{invoiceData.email}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view catchtap="closeTap" class="detail__close">关闭</view>
+            </view>
+        </view>
+    </view>
+</view>

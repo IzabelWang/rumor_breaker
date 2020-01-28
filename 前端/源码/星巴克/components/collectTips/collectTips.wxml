@@ -1,0 +1,20 @@
+<view class="collect_box {{isIpx?'fix-iphonex':''}}">
+    <view class="collect_tips {{tipsData.again?'again':''}} {{tipsData.show==2?'show':''}} {{tipsData.show==1?'hide':''}}">
+        <view class="collect_tips_text">{{tipsData.collectType==1?'取消':'收藏'}}{{tipsData.again?'失败，请稍后重试':'成功！'}}</view>
+        <view catchtap="again" class="collect_tips_btn" hidden="{{!tipsData.again}}">再试一次</view>
+    </view>
+    <view class="over_collect {{maxTips==2?'show':''}} {{maxTips==1?'hide':''}}">
+        <view class="over_mask"></view>
+        <view class="over_content">
+            <view class="over_icon">
+                <image mode="widthFix" src="../../image/card_icon.png"></image>
+            </view>
+            <view class="over_title">阿欧~</view>
+            <view class="over_text">您收藏卡面已达上限，不可继续添加！</view>
+            <view class="over_btn">
+                <view catchtap="closeMaxTips" class="over_btn_left">知道了</view>
+                <view catchtap="toCollectList" class="over_btn_right">我的卡面收藏</view>
+            </view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,19 @@
+<view class="auth-popup" hidden="{{!show}}">
+    <view class="auth-popup-container">
+        <image catch:tap="toggleAuthPopup" class="auth-popup-close" src="/image/close.svg" wx:if="{{canClose}}"></image>
+        <view class="logo">
+            <image class="image" src="/image/logo.svg"></image>
+        </view>
+        <view class="title">“星”意须知</view>
+        <view class="p">为确保您能正常体验小程序功能，星巴克用星说将获取您的昵称、头像等信息。</view>
+        <view class="links">
+            <navigator class="navigator" url="/pages/terms/terms">使用须知</navigator>
+            <text>　 </text>
+            <navigator class="navigator" url="/pages/privacy/privacy">隐私权条款</navigator>
+        </view>
+        <view class="actions">
+            <button bind:tap="toggleAuthPopup" class="btn default">取消</button>
+            <button bindgetuserinfo="getUserInfo" class="btn primary" disabled="{{isSubmiting}}" openType="getUserInfo">同意</button>
+        </view>
+    </view>
+</view>

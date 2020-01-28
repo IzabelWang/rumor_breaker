@@ -1,0 +1,50 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/mine/mine",
+        "pages/organization/organization",
+        "pages/partner/partner",
+        "pages/middle/middle",
+        "pages/detailsimple/detailsimple"
+    ],
+    "window": {
+        "navigationBarBackgroundColor": "#333333",
+        "navigationBarTextStyle": "white",
+        "navigationBarTitleText": "",
+        "backgroundColor": "#333333",
+        "backgroundTextStyle": "dark",
+        "enablePullDownRefresh": false
+    },
+    "tabBar": {
+        "color": "#aaaaaa",
+        "selectedColor": "#333333",
+        "backgroundColor": "#FBFBFB",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "谣言识别",
+                "iconPath": "images/tab_1_d.png",
+                "selectedIconPath": "images/tab_1_s.png"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "text": "与我相关",
+                "iconPath": "images/tab_2_d.png",
+                "selectedIconPath": "images/tab_2_s.png"
+            },
+            {
+                "pagePath": "pages/organization/organization",
+                "text": "辟谣机构",
+                "iconPath": "images/tab_3_d.png",
+                "selectedIconPath": "images/tab_3_s.png"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 60000,
+        "connectSocket": 60000,
+        "downloadFile": 60000,
+        "uploadFile": 60000
+    },
+    "debug": true
+}
