@@ -1,0 +1,26 @@
+{
+    "pages": [
+        "pages/final_start/final_start",
+        "pages/final_select/final_select",
+        "pages/final_finish/final_finish",
+        "pages/final_web/final_web",
+        "pages/final_ad/final_ad"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "年度观影记录",
+        "navigationBarTextStyle": "black"
+    },
+    "networkTimeout": {
+        "request": 15000,
+        "downloadFile": 12000
+    },
+    "navigateToMiniProgramAppIdList": [
+        "wxf86993f1b3fbb94e",
+        "wxe52eea5da24560c6",
+        "wxf1d4ce5ac1ba49b2",
+        "wx7f216f1fc3480088"
+    ],
+    "debug": true
+}

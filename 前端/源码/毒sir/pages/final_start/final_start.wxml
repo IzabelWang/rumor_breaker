@@ -1,0 +1,39 @@
+<view class="this-root-container">
+    <view class="bg-container1">
+        <image animation="{{bgAms[0]}}" class="abs img" style="width: 124rpx; height: 9999999rpx; left: 0rpx; top: -60rpx;  background-image: url('http://image4.dushemovie.com/201912/summary2019/home/1.png');"></image>
+        <image animation="{{bgAms[1]}}" class="abs img" style="width: 168rpx;  height: 9999999rpx; left: 124rpx;  top: -9997000rpx;  background-image: url('http://image4.dushemovie.com/201912/summary2019/home/2.png');"></image>
+        <image animation="{{bgAms[2]}}" class="abs img" style="width: 164rpx;  height: 9999999rpx; left: 292rpx;  top: -40rpx;  background-image: url('http://image4.dushemovie.com/201912/summary2019/home/3.png');"></image>
+        <image animation="{{bgAms[3]}}" class="abs img" style="width: 170rpx;  height: 9999999rpx; left: 456rpx;  top: -9997000rpx;  background-image: url('http://image4.dushemovie.com/201912/summary2019/home/4.png');"></image>
+        <image animation="{{bgAms[4]}}" class="abs img" style="width: 124rpx;  height: 9999999rpx; left: 626rpx;  top: -60rpx;  background-image: url('http://image4.dushemovie.com/201912/summary2019/home/5.png');"></image>
+    </view>
+    <view class="bg-container2">
+        <image mode="widthFix" src="/images/start/ic_start_top_bg.png" style="width: 660rpx; height: 880rpx;"></image>
+        <image class="abs" src="/images/start/ic_start_bottom_bg.png" style="width: 100%; height: 395rpx; bottom: 21.5%;"></image>
+        <view style="height:    22%;"></view>
+    </view>
+    <view class="bg-container3">
+        <image animation="{{floatAms[0]}}" src="/images/start/float1.png" style="width: 76rpx; height: 102rpx; position: absolute; left: 0; top: 25%;"></image>
+        <image animation="{{floatAms[1]}}" src="/images/start/float2.png" style="width: 142rpx;  height: 260rpx; position: absolute; left: 0; top: 42%;"></image>
+        <image animation="{{floatAms[2]}}" src="/images/start/float3.png" style="width: 148rpx;  height: 159rpx; position: absolute; left: 130rpx;  top: 32%;"></image>
+        <image animation="{{floatAms[3]}}" src="/images/start/float4.png" style="width: 114rpx; height: 162rpx; position: absolute; left: 550rpx;  top: 30%;"></image>
+        <image animation="{{floatAms[4]}}" src="/images/start/float5.png" style="width: 176rpx; height: 264rpx; position: absolute; right: 0;  top: 42%;"></image>
+        <image animation="{{starAms[0]}}" src="/images/start/star.png" style="width: 72rpx;  height: 50rpx; position: absolute; left:100rpx; top:100rpx;opacity: 0;"></image>
+        <image animation="{{starAms[1]}}" src="/images/start/star.png" style="width: 140rpx;  height: 97rpx; position: absolute; left:180rpx; top:200rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[2]}}" src="/images/start/star.png" style="width: 80rpx;  height: 55rpx; position: absolute; left:260rpx; top:300rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[3]}}" src="/images/start/star.png" style="width: 80rpx;  height: 55rpx; position: absolute; left:390rpx; top:400rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[4]}}" src="/images/start/star.png" style="width: 120rpx;  height: 83rpx; position: absolute; left:450rpx; top:350rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[5]}}" src="/images/start/star.png" style="width: 72rpx;  height: 50rpx; position: absolute; left:560rpx; top:380rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[6]}}" src="/images/start/star.png" style="width: 120rpx;  height: 83rpx; position: absolute; left:660rpx; top:400rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[7]}}" src="/images/start/star.png" style="width: 80rpx;  height: 55rpx; position: absolute; left:130rpx; top:500rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[8]}}" src="/images/start/star.png" style="width: 120rpx;  height: 83rpx; position: absolute; left:450rpx; top:350rpx;  opacity: 0;"></image>
+        <image animation="{{starAms[9]}}" src="/images/start/star.png" style="width: 140rpx;  height: 97rpx; position: absolute; left:600rpx; top:280rpx;  opacity: 0;"></image>
+        <text class="abs text" style="bottom: {{29.2-index*3.3}}%;" wx:for="{{titleTexts}}">{{item}}</text>
+        <view class="bottom-button-container">
+            <form bindsubmit="onFormSubmit" reportSubmit="true">
+                <button bindtap="onTappedStart" class="bottom-button" formType="submit">
+                    <image src="/images/start/ic_start_button.png" style="width:100%; height:100%"></image>
+                </button>
+            </form>
+        </view>
+    </view>
+</view>
