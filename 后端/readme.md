@@ -131,3 +131,81 @@ scrapy crawl liuyan -o liuyan.json
 * 真流言（非谣言）：474条
 * 假流言（谣言）：899条
 * 论证中的流言：337条
+
+## 1.3 新冠专项
+有两个平台，一个专注肺炎病毒辟谣的h5页面，另一个是小程序
+h5页面的爬虫比较简单，数据以json格式封装，使用几个get请求即可
+小程序页面需要使用抓包
+
+肺炎专项谣言数据
+对于每个流言，有以下字段：
+
+1. 流言标题（字数尽量少）
+2. 流言详细内容（看字数决定用不用）
+3. 留言类别（真、假）
+4. 解析（网页中的真相内容）
+5. 详细解析（网页中的论证内容，包括html样式）
+6. 论证机构
+
+https://vp.fact.qq.com/loadmore?artnum=0&page=10&_=1580272280867
+### 1.3.1 h5页面爬虫
+依旧使用scrapy,代码如下：
+```python
+# -*- coding: utf-8 -*-
+import scrapy
+from urllib.parse import urlencode
+import json
+from jiaozhen.items import JiaozhenItem
+
+class LiuyanSpider(scrapy.Spider):
+    name = 'liuyan'
+    allowed_domains = ['https://vp.fact.qq.com/']
+    base_url = 'http://https://vp.fact.qq.com/loadmore/'
+    article_url = 'https://vp.fact.qq.com/article'
+    start_urls = []
+    for i in range(1,11):
+        params = {  
+            'page': i  
+        } 
+        url = base_url + urlencode(params)
+        start_urls.append(url)
+    
+    def parse(self, response):
+        resp = json.loads(response.text)
+        for item in resp["content"]:
+            params = {  
+                'id': item["id"] 
+            } 
+            yield scrapy.Request(url=article_url+ urlencode(params), callback=self.parse_detail)
+
+    def parse_detail(self,response):
+        item = JiaozhenItem()
+        item['title'] = response.css('body > div.title > h1::text').extract_first()
+        item['descrip'] = response.css('body > div.title > p.subtitle text::text').extract_first()
+        item['LiuyanType'] = response.css('body > div.check_content.text > div.check_content_mark > span.mark_total > span.mark_title.fake_mark::text').extract_first()
+        item['answer'] = response.css('body > div.check_content.text > div.check_content_points::text').extract_first()
+        item['detail'] = response.css('body > div.question.text').extract_first()
+        item['author'] = response.css('body > div.check_content.text > div.check_content_text.check_content_writer::text').extract_first()
+        yield item
+```
+数据汇总（一共98条）：
+* 真（非谣言）：7条
+* 假（谣言）：83条
+* 疑：8条
+
+### 1.3.2 丁香园辟谣信息
+使用现成api瞬间搞定（感谢(Isaac Lin)[https://github.com/BlankerL]）
+就只有三项：标题、简介、理由
+都比较简洁
+数据共105条
+
+
+### 1.3.3 现成的题库
+两个答题链接：
+* https://news.qq.com/zt2020/2020wuhan
+* https://news.qq.com/zt2020/2020wuhan/disinfect.htm?adtag=jz
+
+
+求真的问卷每个题目四个信息：标题、图片、选项、答案以及解答
+地一个辟谣知识有66道题目
+第二个消毒知识有38道题目
