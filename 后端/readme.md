@@ -194,7 +194,7 @@ class LiuyanSpider(scrapy.Spider):
 * 疑：8条
 
 ### 1.3.2 丁香园辟谣信息
-使用现成api瞬间搞定（感谢(Isaac Lin)[https://github.com/BlankerL]）
+使用现成api瞬间搞定 感谢[Isaac Lin](https://github.com/BlankerL)
 就只有三项：标题、简介、理由
 都比较简洁
 数据共105条
@@ -207,5 +207,8 @@ class LiuyanSpider(scrapy.Spider):
 
 
 求真的问卷每个题目四个信息：标题、图片、选项、答案以及解答
-地一个辟谣知识有66道题目
+
+第一个辟谣知识有66道题目
 第二个消毒知识有38道题目
+
+## 2.
