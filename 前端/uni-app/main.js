@@ -16,6 +16,9 @@ Vue.component('cu-custom',cuCustom)
 import quiz from './pages/quiz/quiz.vue'
 Vue.component('quiz',quiz)
 
+import navbar from './pages/component/navbar.vue'
+Vue.component('navbar',navbar)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'
