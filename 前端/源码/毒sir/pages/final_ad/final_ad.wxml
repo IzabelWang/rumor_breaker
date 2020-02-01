@@ -1,0 +1,3 @@
+<view class="ad-container">
+    <image bindtap="onTapAditem" class="ad-item" data-item="{{item}}" src="{{item.imageUrl}}" wx:for="{{adList}}"></image>
+</view>
