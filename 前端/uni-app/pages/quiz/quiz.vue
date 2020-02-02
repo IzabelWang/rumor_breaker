@@ -3,11 +3,11 @@
 		<cu-custom style='background:#690500;' id="top-box" ><block slot="content"><text class="text-white text-bold " style="font-size: 28rpx;">中老年养生信息辟谣平台</text></block></cu-custom>
 			<!--欢迎页面-->
 		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
-			<view class="flex align-center" :style="{'height':height}" style="background:url('static/bg-quiz.png') no-repeat;" >
+			<view class="flex align-center" :style="{'height':height}" style="background:url('static/bg-quiz.png') no-repeat; " >
 				<!-- 背景设置 -->
-				<image src="/static/text-quiz.png" mode="scaleToFill" style="width: 100%;height:100%;"  :style="[{animation: 'show 1s 1'}]"></image>
+				<image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image>
 					<!-- 背景设置 -->
-				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 50%;height:100%; position:inherit; left:107px; top:230px; border:#000 solid 1px;" :style="[{animation: 'show 1s 1'} ]"></image>
+				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(900rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->
