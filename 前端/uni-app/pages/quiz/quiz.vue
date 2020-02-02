@@ -2,8 +2,8 @@
 	<view>
 		<cu-custom style='background:#660100;' id="top-box" ><block slot="content"><text class="text-white text-bold " style="font-size: 28rpx;">中老年养生信息辟谣平台</text></block></cu-custom>
 			<!--欢迎页面-->
-		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}">           
-			<view class="flex align-center" :style="{'height':height}" style="background:url('static/bg-quiz.png') no-repeat;" @click="showContent">
+		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" @click="showContent">           
+			<view class="flex align-center" :style="{'height':height}" style="background:url('static/bg-quiz.png') no-repeat;" >
 				<!-- 背景设置 -->
 				<image src="/static/text-quiz.png" mode="aspectFit" style="width: 100%;height:100%;"  :style="[{animation: 'show 1s 1'}]"></image>
 			</view>		
@@ -57,7 +57,7 @@
 						<!--选项按钮-->
 						<view>
 							<radio-group class="block"  @change="RadioboxChange" >
-								<view class="cu-form-group" v-for="option in [quiz.item__001,quiz.item__002,quiz.item__003,quiz.item__004]" :key="option">
+								<view class="cu-form-group" v-for="(option,index) in [quiz.item__001,quiz.item__002,quiz.item__003,quiz.item__004]" :key="index">
 									<radio :value="option" :checked="quiz.flag == option ?true:false" v-if="option.length>0" >
 										<view class="title text-black"  v-if="option.length>0" style="font-size:40upx">{{option}}</view>
 									</radio>
@@ -66,7 +66,7 @@
 
 						</view>
 						<!--答案解析-->
-						<view  class="margin-top solid-top" v-if="quiz.flag.length>0">
+						<view  class="margin-top solid-top" v-if="quiz.flag.length>1">
 								<view class="content text-xl text-center" v-if="optionList[quiz.ans] == quiz.flag">
 									<text class=" cuIcon-roundcheckfill text-green"></text>恭喜您，您答对了！
 								</view>
@@ -172,7 +172,7 @@
 						//用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
 					}
 					this.fullQuizList = res.data;
-					console.log(this.fullQuizList)
+					//console.log(this.fullQuizList)
 					this.fullQuizList.sort(randomsort); //打乱数组
 					this.quizList = this.fullQuizList.slice(1,11)
 					uni.hideLoading();
@@ -189,12 +189,6 @@
 		methods: {
 			showContent: function(e) {
 				this.showWelcome = false
-				// console.log(this.showWelcome)
-			},
-			hideContent: function(e) {
-				this.showWelcome = true
-				this.subjectIndex = 0
-				//随机选取10道题目
 				// console.log(this.showWelcome)
 			},
 			showCardModal: function(e) {
@@ -214,9 +208,7 @@
 				let index = e.target.current;
 				
 				if (index != undefined) {
-					this.subjectIndex = index;
-					this.currentType = this.subjectList[index].type;
-					this.userFavor = this.subjectList[index].userFavor;					
+					this.subjectIndex = index;	
 				}								
 			},			
 			RadioboxChange : function(e) { //单选选中
@@ -224,7 +216,7 @@
 				var values = e.detail.value;				
 				this.optionList = [qui.item__001,qui.item__002,qui.item__003,qui.item__004];
 				this.quizList[this.subjectIndex].flag = values;
-				console.log(quiz)
+				//console.log(quiz)
 				// if(this.autoRadioNext && this.subjectIndex < this.subjectList.length - 1){
 				// 	this.subjectIndex += 1;						
 				// 	};
@@ -248,16 +240,21 @@
 			},			
 			//打乱题目
 			GetRandomQuiz:function(e){
-				//返回欢迎界面
-				this.showWelcome = true
-				this.subjectIndex = 0
 				//打乱题目
 				function randomsort(a, b) {
 					return Math.random()>.5 ? -1 : 1;
 					//用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
 				}				
 				this.fullQuizList.sort(randomsort); //打乱数组
-				this.quizList = this.fullQuizList.slice(1,11)
+				this.quizList = this.fullQuizList.slice(1,11);
+				//删除上次的答题信息
+				for (var i = 0; i < this.quizList.length; i++) {		
+				this.$set(this.quizList[i],"flag","");				
+			}
+				//返回欢迎界面
+				this.showWelcome = true
+				this.subjectIndex = 0
+
 			}
 			
 		}
