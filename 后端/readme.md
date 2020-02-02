@@ -208,8 +208,52 @@ class LiuyanSpider(scrapy.Spider):
 
 求真的问卷每个题目四个信息：标题、图片、选项、答案以及解答
 
-第一个辟谣知识有66道题目
-第二个消毒知识有38道题目
+第一个辟谣知识有33道题目
+第二个消毒知识有19道题目
 
 ## 1.3.4 今日头条辟谣内容
+现成的api（目前有169条，170可以换成一个较大的数字）：
+https://i.snssdk.com/rumor-denier/list/?count=170<br/>
+其中有用内容如下：
+* 谣言id（id）：对应文章地址，形似https://m.toutiao.com/i6787665808240673283
+* 封面图片地址（pic_url）
+* 谣言标题（title）
+* 谣言类型（top）：0为谣言，1为论证中
 
+在此基础上新增两项：
+* 详细解析：富文本格式
+
+使用一次爬虫即可，这次使用pyspider，安装有一点麻烦
+https://blog.csdn.net/u011451186/article/details/88222328
+
+```python
+from pyspider.libs.base_handler import *
+import json
+
+class Handler(BaseHandler):
+    crawl_config = {
+    }
+
+    @every(minutes=24 * 60)
+    def on_start(self):
+        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=170', callback=self.index_page)
+
+    @config(age=10 * 24 * 60 * 60)
+    def index_page(self, response):
+        resp = json.loads(response.text)
+        article_url = 'https://www.toutiao.com/i'
+        for item in resp["data"]:
+            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"]})            
+
+
+    @config(priority=2)
+    def detail_page(self, response):
+        return {
+            "itemId":response.save["id"],
+            "pic_url":response.save["pic_url"],
+            "title":response.save["title"],
+            "top":response.save["top"],
+            "ans":response.doc('div.article-box > div.article-content').html()
+        }
+```
+总共169条谣言数据，比其他数据好的地方是有封面图片
