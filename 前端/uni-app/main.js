@@ -13,11 +13,14 @@ Vue.component('plugin',plugin)
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
-import quiz from './pages/quiz/quiz.vue'
-Vue.component('quiz',quiz)
-
 import navbar from './pages/component/navbar.vue'
 Vue.component('navbar',navbar)
+
+import UniPopup from './components/uni-popup/uni-popup.vue'
+Vue.component('UniPopup',UniPopup)
+
+import rumors from './pages/rumors/rumors.vue'
+Vue.component('rumors',rumors)
 
 Vue.config.productionTip = false
 
