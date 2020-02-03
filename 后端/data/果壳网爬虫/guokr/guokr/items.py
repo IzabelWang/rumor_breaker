@@ -15,4 +15,5 @@ class LiuyanItem(scrapy.Item):
     LiuyanType = scrapy.Field()
     answer = scrapy.Field()
     detail = scrapy.Field()
+    type = scrapy.Field()
 
