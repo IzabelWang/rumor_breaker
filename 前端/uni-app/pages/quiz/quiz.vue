@@ -1,13 +1,20 @@
 <template>
 	<view>
-		<cu-custom style='background:#690500;' id="top-box" ><block slot="content"><text class="text-white text-bold " style="font-size: 28rpx;">中老年养生信息辟谣平台</text></block></cu-custom>
+		<cu-custom style='background:#690500;' id="top-box" >
+			<block slot="content">
+				<text class="text-white text-bold " style="font-size: 28rpx;">
+				中老年养生信息辟谣平台
+				</text>
+			</block>
+		</cu-custom>
 			<!--欢迎页面-->
 		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
-			<view class="flex align-center" :style="{'height':height}" style="background:url('static/bg-quiz.png') no-repeat; " >
+			<view class="flex align-center" :style="{'height':height}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
-				<image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image>
+				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 					<!-- 背景设置 -->
-				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(900rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				
+				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(925rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->
@@ -15,7 +22,7 @@
 				<!-- <button class="cu-btn block lg line-red" style="";" @click="showContent"></button> -->
 			<!-- </view>	 -->
 		</view>
-		<view class="content " v-if="showWelcome==false">
+		<view class="content" v-if="showWelcome==false">
 			<!--答题卡部分-->	
 			<view id="top-box" class="cu-bar bg-white solid-bottom">
 				<view class="action">
@@ -61,15 +68,14 @@
 						<view>
 							<radio-group class="block"  @change="RadioboxChange" >
 								<view class="cu-form-group" v-for="(option,index) in [quiz.item__001,quiz.item__002,quiz.item__003,quiz.item__004]" :key="index">
-									<radio :value="option" :checked="quiz.flag == option ?true:false" v-if="option.length>0" >
-										<view class="title text-black"  v-if="option.length>0" style="font-size:40upx">{{option}}</view>
-									</radio>
+									<radio :value="option" :checked="quiz.flag == option ?true:false" v-if="option.length>0" ></radio>
+									<view class="title text-black"  v-if="option.length>0" style="font-size:40upx">{{option}}</view>									
 								</view>
 							</radio-group>
 
 						</view>
 						<!--答案解析-->
-						<view  class="margin-top solid-top" v-if="quiz.flag.length>1">
+						<!-- <view  class="margin-top solid-top" v-if="quiz.flag.length>1">
 								<view class="content text-xl text-center" v-if="optionList[quiz.ans] == quiz.flag">
 									<text class=" cuIcon-roundcheckfill text-green"></text>恭喜您，您答对了！
 								</view>
@@ -80,8 +86,7 @@
 								<rich-text class="richText"  :nodes="quiz.tip"></rich-text>
 							</view>						
 
-						</view>
-
+						</view> -->
 						</view>
 						<!--按钮组-->
 						<view class="padding flex flex-wrap justify-between align-center bg-white padding-bottom-xl margin-bottom-lg">
@@ -95,15 +100,38 @@
 				</swiper>		
 			</form>
 		</view>
-		<!--导航栏 改变-->
+		<!--答案 居中弹窗-->
+		<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
+			<view  class="uni-tip">
+					<view class="uni-tip-title text-xl" v-if="quizList.length>0 && optionList[quizList[subjectIndex].ans] == quizList[subjectIndex].flag">
+						<text class=" cuIcon-roundcheckfill text-green"></text>恭喜您，您答对了！
+					</view>
+					<view class="uni-tip-title text-xl" v-if="quizList.length>0 && optionList[quizList[subjectIndex].ans] != quizList[subjectIndex].flag">
+						<text class="text-red cuIcon-roundclosefill"></text>不好意思，您答错了！
+					</view>
+					<view class="uni-tip-content">
+						<rich-text class="richText text-xl"  :nodes="quizList.length>0 && quizList[subjectIndex].tip"></rich-text>
+					</view>		
+					<view class="uni-tip-group-button">
+							<text class="uni-tip-button text-xl" @click="closeAns">取消</text>
+							<text class="uni-tip-button text-xl" @click="closeAns">确定</text>
+					</view>												
+			</view>
 
+		</uni-popup>
+		<!--导航栏 改变-->
 		<navbar ref="navbar"></navbar>
 	</view>
 	
 </template>
 
 <script>
+//引入插件
+import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components: {
+			uniPopup	
+		},
 		data() {
 			return {
 				showWelcome:true,//显示欢迎界面
@@ -115,7 +143,6 @@
 				//当前题目的选项列表
 				optionList:[],
 				modalCard: null ,//显示答题卡
-				PageCur: 'quiz',
 				height:'',
 				welcomeHeight:''
 			}
@@ -153,6 +180,7 @@
 							_me.swiperHeight = tempHeight + 'px';
 							console.log("滑屏最后高度 " + _me.swiperHeight);
 							this.height = _me.swiperHeight;
+							console.log(this.height);
 							this.welcomeHeight = tempHeight-50;
 						}).exec();
 
@@ -219,10 +247,8 @@
 				var values = e.detail.value;				
 				this.optionList = [qui.item__001,qui.item__002,qui.item__003,qui.item__004];
 				this.quizList[this.subjectIndex].flag = values;
-				//console.log(quiz)
-				// if(this.autoRadioNext && this.subjectIndex < this.subjectList.length - 1){
-				// 	this.subjectIndex += 1;						
-				// 	};
+				//显示答案
+				this.$refs.popup.open()
 				
 			},
 			
@@ -253,15 +279,19 @@
 				//删除上次的答题信息
 				for (var i = 0; i < this.quizList.length; i++) {		
 				this.$set(this.quizList[i],"flag","");				
-			}
+				}
 				//返回欢迎界面
 				this.showWelcome = true
 				this.subjectIndex = 0
 
-			}
-			
+			},
+			//关闭答案
+			closeAns:function(e){
+				this.$refs.popup.close()
+			}	
 		}
 	}
+	
 </script>
 
 <style>
@@ -288,4 +318,56 @@
 	}
 	
 	.cu-list.menu>.cu-item-error{justify-content: flex-start;}
+	.button {
+		flex: 1;
+		margin: 10px 0;
+	}
+
+	.popup-content {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
+		background-color: #fff;
+		padding: 15px;
+		font-size: 14px;
+	}
+
+	/* 提示窗口 */
+	.uni-tip {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+		padding: 15px;
+		width: 300px;
+		background-color: #fff;
+		border-radius: 10px;
+	}
+
+	.uni-tip-title {
+		margin-bottom: 10px;
+		text-align: center;
+		font-weight: bold;
+		color: #333;
+	}
+
+	.uni-tip-content {
+		/* padding: 15px;
+ */
+		color: #666;
+	}
+
+	.uni-tip-group-button {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		margin-top: 20px;
+	}
+
+	.uni-tip-button {
+		flex: 1;
+		text-align: center;
+		color: #3b4144;
+	}
 </style>
