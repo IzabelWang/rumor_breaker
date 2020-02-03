@@ -17,3 +17,6 @@ class JiaozhenItem(scrapy.Item):
     answer = scrapy.Field()
     detail = scrapy.Field()
     author = scrapy.Field()
+    tags = scrapy.Field()
+    pic_url = scrapy.Field()
+    type = scrapy.Field()
