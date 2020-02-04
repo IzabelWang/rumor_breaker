@@ -1,13 +1,13 @@
 <template>
 	<view>
-		<cu-custom style="background-color: #910c00;";" id="top-box" ><block slot="content">新冠病毒专项答题</block></cu-custom>
+		<cu-custom bgColor="bg-gradual-pink" id="top-box" ><block slot="content">新冠病毒专项答题</block></cu-custom>
 			<!--欢迎页面-->
-		<view class="welcome padding-bottom-xl margin-bottom-xl" @click="showContent" v-if="showWelcome==true" :style="{'height':height}" style="background-size:100%;background:url(/static/bg-quiz.png);">
+		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" style="background-size:100%;background:url(/static/bg-quiz.png);">
 			<view class="flex align-center" :style="{'height':welcomeHeight+'px'}">
 				<image src="/static/text-quiz.png" mode="aspectFit" style="width: 100%;height:100%;"  :style="[{animation: 'show 1s 1'}]"></image>
 			</view>		
 			<view :style="[{animation: 'show 1s 1'}]">
-				<button class="cu-btn block lg line-red" >开始答题</button>
+				<button class="cu-btn block lg line-red" @click="showContent">开始答题</button>
 			</view>	
 		</view>
 		<view class="content " v-if="showWelcome==false">
@@ -41,9 +41,9 @@
 			<!--题目-->	
 			<form>
 				<swiper :current="subjectIndex" class="swiper-box" @change="SwiperChange" :style="{'height':swiperHeight}">
-					<swiper-item v-for="(quiz,index) in quizList" :key="index">					
+					<swiper-item v-for="(quiz,index) in quizList" :key="index"">					
 					<scroll-view scroll-y=true scroll-top=0 :style="{'height':swiperHeight}"> 
-						<view v-if="index-subjectIndex>=-1 && index-subjectIndex<=1">
+						<view v-if="index-subjectIndex>=-1&&index-subjectIndex<=1">
 						<!--题干部分-->					
 						<view class="cu-bar bg-white solid-bottom">
 							<view class="solid-bottom text-xxl padding">
@@ -66,12 +66,12 @@
 						<!--答案解析-->
 						<view  class="margin-top solid-top" v-if="quiz.flag.length>0">
 								<view class="content text-xl text-center" v-if="optionList[quiz.ans] == quiz.flag">
-									<text class=" cuIcon-roundcheckfill text-green">恭喜您，您答对了！</text>
-									
+									<text class=" cuIcon-roundcheckfill text-green"></text>
+									恭喜您，您答对了！
 								</view>
 								<view class="content text-xl text-center" v-if="optionList[quiz.ans] != quiz.flag">
 									<text class="text-red cuIcon-roundclosefill"></text>
-									答错了！SBCHK
+									不好意思，您答错了！
 								</view>
 							<view class="padding-xl text-xl">
 								<rich-text class="richText"  :nodes="quiz.tip"></rich-text>
