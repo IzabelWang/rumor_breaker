@@ -12,7 +12,7 @@
 				<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="搜索相关谣言" confirm-type="search"  v-model="searchText">
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow-blur round text-xl" @click="searchRumor">搜索</button>
+				<button class="cu-btn shadow-blur round text-xl" style="background-color: #720000; color: #ffffff;" @click="searchRumor">搜索</button>
 			</view>
 		</view>
 		<!--新闻列表-->

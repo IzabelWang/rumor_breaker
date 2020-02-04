@@ -1,6 +1,6 @@
 <template>
     <view>
-        <cu-custom bgColor="bg-gradual-blue" :isBack="true"></cu-custom>
+        <cu-custom style="background-color: #4c0200; color: #ffffff;" :isBack="true"></cu-custom>
         <view class="banner">
             <image class="banner-img" :src="banner.avatar"></image>
             <view class="banner-title">{{banner.title}}</view>
