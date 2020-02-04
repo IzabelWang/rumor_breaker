@@ -208,8 +208,99 @@ class LiuyanSpider(scrapy.Spider):
 
 求真的问卷每个题目四个信息：标题、图片、选项、答案以及解答
 
-第一个辟谣知识有66道题目
-第二个消毒知识有38道题目
+第一个辟谣知识有33道题目
+第二个消毒知识有19道题目
 
 ## 1.3.4 今日头条辟谣内容
+现成的api（目前有169条，170可以换成一个较大的数字）：
+https://i.snssdk.com/rumor-denier/list/?count=170<br/>
+其中有用内容如下：
+* 谣言id（id）：对应文章地址，形似https://m.toutiao.com/i6787665808240673283
+* 封面图片地址（pic_url）
+* 谣言标题（title）
+* 谣言类型（top）：0为谣言，1为论证中
+
+在此基础上新增两项：
+* 详细解析：富文本格式
+
+使用一次爬虫即可，这次使用pyspider，安装有一点麻烦
+https://blog.csdn.net/u011451186/article/details/88222328
+
+```python
+from pyspider.libs.base_handler import *
+import json
+
+class Handler(BaseHandler):
+    crawl_config = {
+    }
+
+    @every(minutes=24 * 60)
+    def on_start(self):
+        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=170', callback=self.index_page)
+
+    @config(age=10 * 24 * 60 * 60)
+    def index_page(self, response):
+        resp = json.loads(response.text)
+        article_url = 'https://www.toutiao.com/i'
+        for item in resp["data"]:
+            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"]})            
+
+
+    @config(priority=2)
+    def detail_page(self, response):
+        return {
+            "itemId":response.save["id"],
+            "pic_url":response.save["pic_url"],
+            "title":response.save["title"],
+            "top":response.save["top"],
+            "ans":response.doc('div.article-box > div.article-content').html()
+        }
+```
+总共169条谣言数据，比其他数据好的地方是有封面图片
+
+## 2.使用caddy部署h5页面（20200202）
+参考：https://blog.univerone.com/post/3-caddy-hugo-git-20181211/
+注意在github仓库上设置webhook
+这样每次commit到远程仓库的时候服务器就会自动更新页面了
+
+## 3. 建立api接口并存储数据
+### 3.1 quiz接口
+链接： http://120.79.197.140:1337/quizzes
+一共有53条数据
+| 名称      | 解释                  |
+|-----------|-----------------------|
+| id        | 编号                  |
+| ques      | 标题内容              |
+| flag      | 空，来存储用户的答案  |
+| img       | 题干图片              |
+| ans       | 题目正确选项，为数字  |
+| tip       | 答案解析，html格式    |
+| item__001 | 选项A                 |
+| item__002 | 选项B                 |
+| item__003 | 选项C（为空则不显示） |
+| item__004 | 选项D（为空则不显示） |
+
+### 3.2 rumor接口
+链接： http://120.79.197.140:1337/rumors
+一共有2307条数据
+| 名称     | 解释                                                |
+|----------|-----------------------------------------------------|
+| id       | 编号                                                |
+| title    | 标题内容                                            |
+| type     | 0为谣言，1为疑问，2为真（null等同于0,还有“新”类型） |
+| category | 分类（0为新冠专项）                                 |
+| img_url  | 封面图片的链接                                      |
+| descrip  | 流言的简述，有些为空                                |
+
+### 3.3 passage接口
+http://120.79.197.140:1337/passages
+一共有2307条数据
+| 名称    | 解释                                                |
+|---------|-----------------------------------------------------|
+| id      | 编号                                                |
+| title   | 标题内容                                            |
+| type    | 0为谣言，1为疑问，2为真（null等同于0,还有“新”类型） |
+| descrip | 流言的简述，有些为空                                |
+| answer  | 简短的流言论证，有些为空                            |
+| detail  | 详细的流言论证                                      |
 
