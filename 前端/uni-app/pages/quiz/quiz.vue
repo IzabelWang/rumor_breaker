@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<cu-custom style='background:#690500;' id="top-box" >
+		<cu-custom style='background:#500200;' id="top-box" >
 			<block slot="content">
 				<text class="text-white text-bold " style="font-size: 28rpx;">
 				中老年养生信息辟谣平台

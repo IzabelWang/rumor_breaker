@@ -1,22 +1,25 @@
 <template>
-    <view class="cu-bar tabbar bg-white shadow foot">
+    <view class="cu-bar tabbar bg-white shadow foot" style="background-color: #540000;">
+		
         <view class="action" @click="NavChange" data-cur="index">
             <view class='cuIcon-cu-image'>
                 <image :src="'/static/tabbar/basics' + [PageCur=='index'?'_cur':''] + '.png'"></image>
             </view>
-            <view :class="PageCur=='basics'?'text-green':'text-gray'">首页</view>
+            <view :class="PageCur=='basics'?'text-white':'text-grey'">搜索页面</view>
         </view>
+		
         <view class="action" @click="NavChange" data-cur="quiz">
             <view class='cuIcon-cu-image'>
                 <image :src="'/static/tabbar/component' + [PageCur == 'quiz'?'_cur':''] + '.png'"></image>
             </view>
-            <view :class="PageCur=='quiz'?'text-green':'text-gray'">答题</view>
+            <view :class="PageCur=='quiz'?'text-white':'text-grey'">辟谣小游戏</view>
         </view>
+		
         <view class="action" @click="NavChange" data-cur="about">
             <view class='cuIcon-cu-image'>
                 <image :src="'/static/tabbar/about' + [PageCur == 'about'?'_cur':''] + '.png'"></image>
             </view>
-            <view :class="PageCur=='list'?'text-green':'text-gray'">关于</view>
+            <view :class="PageCur=='list'?'text-white':'text-grey'">个人界面</view>
         </view>
     </view>
 </template>
