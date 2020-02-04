@@ -16,7 +16,7 @@
             <view class='cuIcon-cu-image'>
                 <image :src="'/static/tabbar/about' + [PageCur == 'about'?'_cur':''] + '.png'"></image>
             </view>
-            <view :class="PageCur=='about'?'text-green':'text-gray'">关于</view>
+            <view :class="PageCur=='list'?'text-green':'text-gray'">关于</view>
         </view>
     </view>
 </template>
@@ -32,6 +32,8 @@
 		methods: {
 			NavChange: function(e) {
                 this.PageCur = e.currentTarget.dataset.cur;
+                // console.log(this.PageCur);
+                // console.log(e.currentTarget.dataset.cur);
                 uni.navigateTo({
                     url:'/pages/'+this.PageCur+'/'+this.PageCur
                 })
