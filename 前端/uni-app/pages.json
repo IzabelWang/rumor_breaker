@@ -103,7 +103,14 @@
 		},{
 			"path": "pages/quiz/quiz",
 			"style": {}
-		}
+		},{
+			"path": "pages/rumors/rumors",
+			"style": {}			
+		},
+        {
+            "path" : "pages/info/info",
+            "style" : {}
+        }		
 	],
 	"globalStyle": {
 		"mp-alipay": {
