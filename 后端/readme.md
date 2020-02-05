@@ -229,32 +229,37 @@ https://blog.csdn.net/u011451186/article/details/88222328
 ```python
 from pyspider.libs.base_handler import *
 import json
-
+import time
 class Handler(BaseHandler):
     crawl_config = {
     }
 
     @every(minutes=24 * 60)
     def on_start(self):
-        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=170', callback=self.index_page)
+        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=300', callback=self.index_page)
 
     @config(age=10 * 24 * 60 * 60)
     def index_page(self, response):
         resp = json.loads(response.text)
         article_url = 'https://www.toutiao.com/i'
         for item in resp["data"]:
-            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"]})            
+            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"],"date":item["created_at"]})            
 
 
     @config(priority=2)
     def detail_page(self, response):
         return {
-            "itemId":response.save["id"],
             "pic_url":response.save["pic_url"],
             "title":response.save["title"],
             "top":response.save["top"],
-            "ans":response.doc('div.article-box > div.article-content').html()
+            "date":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(response.save["date"]/1000 )),
+            "descrip":response.doc('div.article-box > div.article-content > blockquote > p').text(),
+            "points":response.doc('body > div > div.bui-box.container > div.bui-left.index-middle > div.article-box > div.article-content > ul').html(),
+            "ans":response.doc('div.article-box > div.article-content').html(),
+            "source":response.doc('div.article-box > div.article-content > p:nth-child(5)').text().replace('辟谣来源：', ''),
+            "type":response.doc(' div.article-box > div.article-content > p:nth-child(2) > strong').text().replace('鉴定结果：', '')
         }
+
 ```
 总共169条谣言数据，比其他数据好的地方是有封面图片
 
@@ -334,3 +339,7 @@ http://120.79.197.140:1337/passages?_start=10&_limit=10
 更多用法可以参考：
 
 https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html
+
+
+## 20200205 整理数据
+strapi重新装载数据
