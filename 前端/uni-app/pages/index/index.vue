@@ -1,7 +1,7 @@
 <template>
     <view>
 		<!--banner-->
-		<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.jpeg" height="180px" color="#ffffff"></hxNavbar>
+		<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000"></hxNavbar>
         <!-- <view class="banner" >
             <image class="banner-img" :src="banner.cover"></image>
             <view class="banner-title">{{banner.title}}</view>
@@ -50,7 +50,7 @@
                             <!--标题-->
                             {{value.title}}
                                 <!--标签-->
-                                <text class='cu-tag bg-red text-white text-bold sm'>
+                                <text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
                                     {{value.type}}
                                 </text>
                             </view>
@@ -65,14 +65,14 @@
 		<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
 			<view  class="uni-tip">
 					<view class="uni-tip-title text-xl">
-						404 not found
+						暂无相关搜索结果<br/>请尝试更换您的关键词<br/>つ♡⊂<br/>———————————
 					</view>
-					<view class="uni-tip-content">
+					<!-- <view class="uni-tip-content">
 						找不到结果
-					</view>		
+					</view>		 -->
 					<view class="uni-tip-group-button">
-							<text class="uni-tip-button text-xl" @click="clearInput">取消</text>
-							<text class="uni-tip-button text-xl" @click="clearInput">确定</text>
+							<!-- <text class="uni-tip-button text-xl" @click="clearInput">取消</text> -->
+							<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
 					</view>												
 			</view>
 
@@ -207,7 +207,7 @@
 			//加载热门搜索
 			loadHotKeyword() {
 				//定义热门搜索关键字，可以自己实现ajax请求数据再赋值
-				this.hotKeywordList = ['键盘', '鼠标', '显示器', '电脑主机', '蓝牙音箱', '笔记本电脑', '鼠标垫', 'USB', 'USB3.0'];
+				this.hotKeywordList = ['自来水煮过数次真的不能再次饮用吗？', '在外吃饭用开水烫碗筷真的有用吗？', '只吃素菜不吃荤菜真的可以减少健康问题吗？','睡眠时间越长越好吗？','热鸭梨水能抗癌吗？','缺维生素B2会致癌吗？','雪梨银耳能清肺？'];
 			}, 
 			//监听输入
 			inputChange(event) {

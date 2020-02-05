@@ -7,7 +7,7 @@
 			:style="{'background': backgroundColorRgba,'height':height} "
 			class="hx-navbar__content">
 			<block v-if="backgroundImg">
-				<image class="navbgimg" :src="backgroundImg" mode="aspectFit"></image>
+				<image class="navbgimg" :src="backgroundImg" mode="aspectFill" style="background-color: #000000;"></image>
 			</block>
 			
 			<view :style="{ height: statusBarHeight ,'background': statusBarBackground}" class="hx-status-bar" v-if="statusBar" ></view>
