@@ -1,5 +1,6 @@
 <template>
-    <view>
+    <view class="uni-fab-box">
+		<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction" @trigger="trigger" @fabClick="fabClick" />
 		<!--banner-->
 		<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000"></hxNavbar>
         <!-- <view class="banner" >
@@ -84,10 +85,25 @@
 
 <script>
     var dateUtils = require('../../common/util.js').dateUtils;
+	import uniFab from '@/components/uni-fab/uni-fab.vue'
 
     export default {
+		components: {
+			uniFab
+		},
         data() {
             return {
+				title: 'uni-fab',
+				directionStr: '水平',
+				horizontal: 'right',
+				vertical: 'bottom',
+				direction: 'vertical',
+				pattern: {
+					color: '#7A7E83',
+					backgroundColor: '#fff',
+					selectedColor: '#690000',
+					buttonColor: '#690000'
+				},
                 banner: {},
                 listData: [],
                 last_id: "",
@@ -101,6 +117,13 @@
 				forbid: '',
                 isShowKeywordList: false
             }
+		},
+		onBackPress() {
+			if (this.$refs.fab.isShow) {
+				this.$refs.fab.close()
+				return true
+			}
+			return false
 		},
         onLoad() {
 			//自动获取这两个
@@ -311,7 +334,38 @@
                 this.getList();
                 this.$refs.popup.close();
 
-            }
+            },
+			trigger(e) {
+				console.log(e)
+				this.content[e.index].active = !e.item.active
+				uni.showModal({
+					title: '提示',
+					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定')
+						} else if (res.cancel) {
+							console.log('用户点击取消')
+						}
+					}
+				})
+			},
+			fabClick() {
+				uni.showToast({
+					title: '您打开了一个彩蛋',
+					icon: 'none'
+				})
+			},
+			switchBtn(hor, ver) {
+				if (hor === 0) {
+					this.direction = this.direction === 'horizontal' ? 'vertical' : 'horizontal'
+					this.directionStr = this.direction === 'horizontal' ? '垂直' : '水平'
+				} else {
+					this.horizontal = hor
+					this.vertical = ver
+				}
+				this.$forceUpdate()
+			},
         },
     }
 </script>
@@ -539,5 +593,6 @@
 	.keyword-box .keyword-block .keyword {width:94%;padding:3px 3%;display:flex;flex-flow:wrap;justify-content:flex-start;}
 	.keyword-box .keyword-block .hide-hot-tis {display:flex;justify-content:center;font-size:28upx;color:#6b6b6b;}
 	.keyword-box .keyword-block .keyword>view {display:flex;justify-content:center;align-items:center;border-radius:60upx;padding:0 20upx;margin:10upx 20upx 10upx 0;height:60upx;font-size:28upx;background-color:rgb(242,242,242);color:#6b6b6b;}
+
 
 </style>
