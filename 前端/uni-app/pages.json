@@ -4,8 +4,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "谣言粉碎机",
-				"enablePullDownRefresh": true
+				// "navigationBarTitleText": "谣言粉碎机",
+				// "enablePullDownRefresh": true
 			}
 		},{
 			"path": "pages/quiz/quiz",
@@ -17,7 +17,7 @@
 		{
 			"path" : "pages/detail/detail",
 			"style": {
-				"navigationBarTitleText": "详情",
+				// "navigationBarTitleText": "详情",
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent"
@@ -32,8 +32,8 @@
 			"transparentTitle": "always",
 			"allowsBounceVertical": "NO"
 		},
-		"navigationBarBackgroundColor": "#0081ff",
-		"navigationBarTitleText": "ColorUi for UniApp",
+		"navigationBarBackgroundColor": "#500200",
+		// "navigationBarTitleText": "ColorUi for UniApp",
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "white"
 	},
