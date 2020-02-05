@@ -10,6 +10,13 @@ import App from './App'
 // import plugin from './pages/plugin/home.vue'
 // Vue.component('plugin',plugin)
 
+import uniFab from '@/components/uni-fab/uni-fab.vue';//悬浮按钮插件
+export default {
+    components: {
+        uniFab
+    }
+}
+
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
