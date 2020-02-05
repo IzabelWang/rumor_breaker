@@ -1,6 +1,7 @@
 <template>
     <view>
-        <cu-custom style="background-color: #4c0200; color: #ffffff;" :isBack="true"></cu-custom>
+        <hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" :title="banner.title">
+		</hxNavbar>
         <view class="banner">
             <image class="banner-img" :src="banner.avatar"></image>
             <view class="banner-title">{{banner.title}}</view>
