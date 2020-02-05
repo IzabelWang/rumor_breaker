@@ -3827,6 +3827,12 @@ scroll-view.cu-steps .cu-item {
 	color: #e54d42;
 }
 
+.text-white,
+.line-white,
+.lines-white {
+	color: #ffffff;
+}
+
 .text-orange,
 .line-orange,
 .lines-orange {
@@ -3890,7 +3896,7 @@ scroll-view.cu-steps .cu-item {
 .text-grey,
 .line-grey,
 .lines-grey {
-	color: #8799a3;
+	color: #798891;
 }
 
 .text-gray,
