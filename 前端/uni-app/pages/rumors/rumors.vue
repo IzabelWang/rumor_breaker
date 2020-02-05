@@ -1,18 +1,13 @@
 <template>
-	<view>
-		<!-- <basics></basics> -->
-		<!-- <plugin v-if="PageCur=='about'"></plugin> -->
-		<view class="content">
-			<uni-list>
-				<view  v-for="(item,index) in rumors" :key="index">
-					<view  hover-class="uni-list-cell-hover" @tap="openinfo" :data-rumorid="item.id">
-						<uni-list-item :title="item.title" :thumb="item.img_url" :note="item.descrip">
-						</uni-list-item>
-					</view>
-				</view>
-			</uni-list>
-		</view>
-		<navbar ref="navbar"></navbar>
+	<view class="content">
+		<uni-list>
+			<view  v-for="(item,index) in rumors" :key="index">
+                <view  hover-class="uni-list-cell-hover" @tap="openinfo" :data-rumorid="item.id">
+                    <uni-list-item :title="item.title" :thumb="item.img_url" :note="item.descrip">
+                    </uni-list-item>
+                </view>
+			</view>
+		</uni-list>
 	</view>
 </template>
 
@@ -49,9 +44,6 @@
 				complete: () => {}
 			});
 		},
-		onReady() {
-			this.$refs.navbar.PageCur='index';
-		},		
 		methods: {
 			openinfo(e) {
 				var rumorid = e.currentTarget.dataset.rumorid;
@@ -63,6 +55,3 @@
 	}
 </script>
 
-<style>
-
-</style>
