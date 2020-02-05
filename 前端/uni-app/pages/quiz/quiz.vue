@@ -92,6 +92,7 @@
 						<view class="padding flex flex-wrap justify-between align-center bg-white padding-bottom-xl margin-bottom-lg">
 							<button class="cu-btn round lg" @click="MoveSubject(-1)"><text class="lg cuIcon-back"></text>上一题</button>
 							<button class="cu-btn round lg" v-if="subjectIndex!=9" @click="MoveSubject(1)">下一题<text class="lg cuIcon-right"></text></button>
+							<button class="cu-btn round lg" v-if="subjectIndex!=9" @click="GetRandomQuiz">退出答题<text class="lg cuIcon-refresh"></text></button>	
 							<button class="cu-btn round lg" v-if="subjectIndex==9" @click="GetRandomQuiz">再测一次<text class="lg cuIcon-refresh"></text></button>							
 						</view>
 					</scroll-view>
