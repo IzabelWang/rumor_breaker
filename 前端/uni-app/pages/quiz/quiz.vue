@@ -14,7 +14,7 @@
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 					<!-- 背景设置 -->
 				
-				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(925rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(1000rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->
@@ -120,7 +120,7 @@
 
 		</uni-popup>
 		<!--导航栏 改变-->
-		<navbar ref="navbar"></navbar>
+		<!-- <navbar ref="navbar"></navbar> -->
 	</view>
 	
 </template>
@@ -144,11 +144,10 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 				optionList:[],
 				modalCard: null ,//显示答题卡
 				height:'',
-				welcomeHeight:''
 			}
 		},
 		onReady() {
-			this.$refs.navbar.PageCur='quiz';
+			// this.$refs.navbar.PageCur='quiz';
 			var tempHeight = 800;
 			var _me = this;
 			uni.getSystemInfo({
@@ -170,20 +169,13 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 					}, (data) => {
 						tempHeight -= data.height;
 						console.log("减掉顶部后的高度 " + tempHeight);
-
-						uni.createSelectorQuery().select(".foot").fields({
-							size: true,
-							scrollOffset: true
-						}, (data) => {
-							tempHeight -= data.height;
-							console.log("减掉底部后的高度 " + tempHeight);
-							_me.swiperHeight = tempHeight + 'px';
-							console.log("滑屏最后高度 " + _me.swiperHeight);
-							this.height = _me.swiperHeight;
-							console.log(this.height);
-							this.welcomeHeight = tempHeight-50;
-						}).exec();
-
+						console.log("减掉底部后的高度 " + tempHeight);
+						_me.swiperHeight = tempHeight + 'px';
+						console.log("滑屏最后高度 " + _me.swiperHeight);
+						this.height = _me.swiperHeight;
+						console.log("hello world")
+						console.log(this.height);
+						this.welcomeHeight = tempHeight-100;					
 					}).exec();
 				}
 			});

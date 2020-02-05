@@ -13,14 +13,11 @@ import App from './App'
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
-import navbar from './pages/component/navbar.vue'
-Vue.component('navbar',navbar)
-
 import UniPopup from './components/uni-popup/uni-popup.vue'
 Vue.component('UniPopup',UniPopup)
 
-import searchbar from './pages/component/searchbar'
-Vue.component('searchbar',searchbar)
+import mSearch from '@/components/mehaotian-search-revision/mehaotian-search-revision.vue';
+Vue.component('mSearch',mSearch)
 
 Vue.config.productionTip = false
 
