@@ -7,7 +7,7 @@
         </view>
 		<!--搜索栏-->
 		<view class="search-box">
-			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword"></mSearch>
+			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword" @getFocus="showHistory"></mSearch>
 		</view>
 		<view class="search-keyword" @touchstart="blur">
 			<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
@@ -176,8 +176,9 @@
                 })
             },
             //显示搜索历史
-            showHistory:function(){
-                this.showKeywordList = true;
+            showHistory(msg){
+				this.isShowKeywordList = msg;
+				console.log(this.isShowKeywordList);
             },
 			init() {
 				this.loadDefaultKeyword();
@@ -190,7 +191,7 @@
 			//加载默认搜索关键字
 			loadDefaultKeyword() {
 				//定义默认搜索关键字，可以自己实现ajax请求数据再赋值,用户未输入时，以水印方式显示在输入框，直接不输入内容搜索会搜索默认关键字
-				this.defaultKeyword = "默认关键字";
+				this.defaultKeyword = "请输入搜索信息";
 			},
 			//加载历史搜索,自动读取本地Storage
 			loadOldKeyword() {
@@ -216,7 +217,6 @@
 					this.isShowKeywordList = false;
 					return;
 				}
-				this.isShowKeywordList = true;
 			},
 			//高亮关键字
 			drawCorrelativeKeyword(keywords, keyword) {

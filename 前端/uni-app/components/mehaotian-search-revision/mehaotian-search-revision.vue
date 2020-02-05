@@ -5,7 +5,7 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input  :placeholder="placeholder" @input="inputChange" confirm-type="search" @confirm="triggerConfirm" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @blur="blur"/>
+				<input  :placeholder="placeholder" @input="inputChange" confirm-type="search" @confirm="triggerConfirm" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @blur="blur" style="width:150px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
 				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clear"></text>
 			</view>
@@ -72,6 +72,7 @@ export default {
 		},
 		focus() {
 			this.active = true;
+			this.$emit('getFocus',true)
 			//HM修改 增加获取焦点判断
 			if (this.inputVal) {
 				this.isDelShow = true;
