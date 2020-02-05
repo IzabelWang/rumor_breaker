@@ -19,6 +19,10 @@ Vue.component('UniPopup',UniPopup)
 import mSearch from '@/components/mehaotian-search-revision/mehaotian-search-revision.vue';
 Vue.component('mSearch',mSearch)
 
+//顶部导航栏
+import hxNavbar from "@/components/hx-navbar/hx-navbar.vue"
+Vue.component('hxNavbar',hxNavbar)
+
 Vue.config.productionTip = false
 
 App.mpType = 'app'

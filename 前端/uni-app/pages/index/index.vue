@@ -1,10 +1,11 @@
 <template>
     <view>
 		<!--banner-->
-        <view class="banner" >
+		<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.jpeg" height="180px" color="#ffffff"></hxNavbar>
+        <!-- <view class="banner" >
             <image class="banner-img" :src="banner.cover"></image>
             <view class="banner-title">{{banner.title}}</view>
-        </view>
+        </view> -->
 		<!--搜索栏-->
 		<view class="search-box">
 			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword" @getFocus="showHistory"></mSearch>

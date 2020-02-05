@@ -1,12 +1,14 @@
 <template>
 	<view>
-		<cu-custom style='background:#500200;' id="top-box" >
+		<!-- <cu-custom style='background:#500200;' id="top-box" >
 			<block slot="content">
 				<text class="text-white text-bold " style="font-size: 28rpx;">
 				中老年养生信息辟谣平台
 				</text>
 			</block>
-		</cu-custom>
+		</cu-custom> -->
+		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台">
+		</hxNavbar>
 			<!--欢迎页面-->
 		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
 			<view class="flex align-center" :style="{'height':height}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
@@ -164,20 +166,12 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 					// console.log(res.platform);                    
 					tempHeight = res.windowHeight;
 					console.log("屏幕可用高度 " + tempHeight);
-					uni.createSelectorQuery().select("#top-box").fields({
-						size: true,
-						scrollOffset: true
-					}, (data) => {
-						tempHeight -= data.height;
-						console.log("减掉顶部后的高度 " + tempHeight);
-						console.log("减掉底部后的高度 " + tempHeight);
-						_me.swiperHeight = tempHeight + 'px';
-						console.log("滑屏最后高度 " + _me.swiperHeight);
-						this.height = _me.swiperHeight;
-						console.log("hello world")
-						console.log(this.height);
-						this.welcomeHeight = tempHeight-100;					
-					}).exec();
+					_me.swiperHeight = tempHeight + 'px';
+					console.log("滑屏最后高度 " + _me.swiperHeight);
+					this.height = _me.swiperHeight;
+					console.log("hello world")
+					console.log(this.height);
+					this.welcomeHeight = tempHeight-100;					
 				}
 			});
 
