@@ -229,32 +229,37 @@ https://blog.csdn.net/u011451186/article/details/88222328
 ```python
 from pyspider.libs.base_handler import *
 import json
-
+import time
 class Handler(BaseHandler):
     crawl_config = {
     }
 
     @every(minutes=24 * 60)
     def on_start(self):
-        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=170', callback=self.index_page)
+        self.crawl('https://i.snssdk.com/rumor-denier/list/?count=300', callback=self.index_page)
 
     @config(age=10 * 24 * 60 * 60)
     def index_page(self, response):
         resp = json.loads(response.text)
         article_url = 'https://www.toutiao.com/i'
         for item in resp["data"]:
-            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"]})            
+            self.crawl(article_url+ str(item["id"]), callback=self.detail_page,fetch_type='js',save={"id":item["id"],"pic_url":item["pic_url"][0],"title":item["title"],"top":item["top"],"date":item["created_at"]})            
 
 
     @config(priority=2)
     def detail_page(self, response):
         return {
-            "itemId":response.save["id"],
             "pic_url":response.save["pic_url"],
             "title":response.save["title"],
             "top":response.save["top"],
-            "ans":response.doc('div.article-box > div.article-content').html()
+            "date":time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(response.save["date"]/1000 )),
+            "descrip":response.doc('div.article-box > div.article-content > blockquote > p').text(),
+            "points":response.doc('body > div > div.bui-box.container > div.bui-left.index-middle > div.article-box > div.article-content > ul').html(),
+            "ans":response.doc('div.article-box > div.article-content').html(),
+            "source":response.doc('div.article-box > div.article-content > p:nth-child(5)').text().replace('辟谣来源：', ''),
+            "type":response.doc(' div.article-box > div.article-content > p:nth-child(2) > strong').text().replace('鉴定结果：', '')
         }
+
 ```
 总共169条谣言数据，比其他数据好的地方是有封面图片
 
@@ -267,6 +272,7 @@ class Handler(BaseHandler):
 ### 3.1 quiz接口
 链接： http://120.79.197.140:1337/quizzes
 一共有53条数据
+
 | 名称      | 解释                  |
 |-----------|-----------------------|
 | id        | 编号                  |
@@ -283,24 +289,57 @@ class Handler(BaseHandler):
 ### 3.2 rumor接口
 链接： http://120.79.197.140:1337/rumors
 一共有2307条数据
+
+
 | 名称     | 解释                                                |
 |----------|-----------------------------------------------------|
 | id       | 编号                                                |
 | title    | 标题内容                                            |
-| type     | 0为谣言，1为疑问，2为真（null等同于0,还有“新”类型） |
-| category | 分类（0为新冠专项）                                 |
-| img_url  | 封面图片的链接                                      |
+| type     | 谣言类型 |
+| category  | 谣言分类                                      |
+| avatar  | 封面图片的链接                                      |
 | descrip  | 流言的简述，有些为空                                |
+| date  | 流言发布的日期                                |
+| platform  | 流言的辟谣平台                                |
 
 ### 3.3 passage接口
 http://120.79.197.140:1337/passages
 一共有2307条数据
+
+
 | 名称    | 解释                                                |
 |---------|-----------------------------------------------------|
 | id      | 编号                                                |
 | title   | 标题内容                                            |
-| type    | 0为谣言，1为疑问，2为真（null等同于0,还有“新”类型） |
+| avatar  | 封面图片的链接                                      |
+| type    | 流言类型 |
+| category  | 流言分类                                      |
+| date  | 流言发布的日期                                |
 | descrip | 流言的简述，有些为空                                |
-| answer  | 简短的流言论证，有些为空                            |
+| points  | 简短的流言论证，有些为空                            |
+| source  | 流言论证来源                                      |
 | detail  | 详细的流言论证                                      |
+| platform  | 流言的辟谣平台                                |
 
+### 3.4 api接口的几种常见用法
+以 http://120.79.197.140:1337/passages 为例
+
+#### 3.4.1  获取总数
+http://120.79.197.140:1337/passages/count
+#### 3.4.2 获取某一个参数等于特定值的
+http://120.79.197.140:1337/passages?id=1
+#### 3.4.3 按照某一个参数排序
+* 正序： http://120.79.197.140:1337/passages?_sort=id:ASC
+* 逆序： http://120.79.197.140:1337/passages?_sort=id:DESC
+#### 3.4.4 某个参数包含某个字段（即搜索功能）
+http://120.79.197.140:1337/passages?title_contains=病毒
+#### 3.4.5 分段加载
+http://120.79.197.140:1337/passages?_start=10&_limit=10
+
+更多用法可以参考：
+
+https://strapi.io/documentation/3.0.0-beta.x/content-api/parameters.html
+
+
+## 20200205 整理数据
+strapi重新装载数据

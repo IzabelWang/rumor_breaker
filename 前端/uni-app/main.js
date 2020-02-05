@@ -1,26 +1,23 @@
 import Vue from 'vue'
 import App from './App'
 
-import basics from './pages/basics/home.vue'
-Vue.component('basics',basics)
+// import basics from './pages/basics/home.vue'
+// Vue.component('basics',basics)
 
-import components from './pages/component/home.vue'
-Vue.component('components',components)
+// import components from './pages/component/home.vue'
+// Vue.component('components',components)
 
-import plugin from './pages/plugin/home.vue'
-Vue.component('plugin',plugin)
+// import plugin from './pages/plugin/home.vue'
+// Vue.component('plugin',plugin)
 
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
 
-import navbar from './pages/component/navbar.vue'
-Vue.component('navbar',navbar)
-
 import UniPopup from './components/uni-popup/uni-popup.vue'
 Vue.component('UniPopup',UniPopup)
 
-import rumors from './pages/rumors/rumors.vue'
-Vue.component('rumors',rumors)
+import mSearch from '@/components/mehaotian-search-revision/mehaotian-search-revision.vue';
+Vue.component('mSearch',mSearch)
 
 Vue.config.productionTip = false
 
