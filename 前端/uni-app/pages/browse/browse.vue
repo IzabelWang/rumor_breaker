@@ -1,60 +1,129 @@
 <template>
-    <view >
-		<!-- <hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" backgroundImg="../../static/bg.png" height="180px" color="#000000" @click="showDrawer" fixed="true">
-		</hxNavbar> -->
-			<!--新闻列表,只有有数据的时候才显示-->
-		<view class="fixed nav">
-			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
-			<scroll-view scroll-x class="bg-white nav" scroll-with-animation :scroll-left="scrollLeft">
-				<view class="cu-item" :class="item==category?'text-green cur':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item">
-					{{item}}
-				</view>
-			</scroll-view>
-		</view>
-		<view style="height:230px"></view>
-		<view class="uni-list" v-if="listData.length >0">
-			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-				@click="goDetail(value,width)">
-				<view class="uni-media-list">
-					<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
-					<!--显示默认图片-->
-					<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
-					<view class="uni-media-list-body">
-						<view class="uni-media-list-text-top">
-							<!--标题-->
-							{{value.title}}
-								<!--标签-->
-								<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-									{{value.type}}
-								</text>
+    <view class="uni-fab-box">
+		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
+		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
+			<!-- <hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" backgroundImg="../../static/bg.png" height="180px" color="#000000" @click="showDrawer" fixed="true">
+			</hxNavbar> -->
+				<!--新闻列表,只有有数据的时候才显示-->
+			<view class="fixed nav" style="font-size: 0px;">
+				<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
+				<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;">
+					<view class="cu-item text-bold" :class="item==category?'bg-selfset-red':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item" style="font-size: 17px;">
+						{{item}}
+					</view>
+				</scroll-view>
+			</view>
+			<!-- 占位符 -->
+			<view style="height:230px"></view>
+			<view class="uni-list" v-if="listData.length >0">
+				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+					@click="goDetail(value,width)">
+					<view class="uni-media-list">
+						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+						<!--显示默认图片-->
+						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
+						<view class="uni-media-list-body">
+							<view class="uni-media-list-text-top">
+								<!--标题-->
+								{{value.title}}
+									<!--标签-->
+									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+								</view>
+							<view class="uni-media-list-text-bottom">
+								<text>{{value.date}}</text>
 							</view>
-						<view class="uni-media-list-text-bottom">
-							<text>{{value.date}}</text>
 						</view>
 					</view>
 				</view>
-			</view>
-		</view>		
-			<!--触底了-->
-		<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
-			<view  class="uni-tip">
-					<view class="uni-tip-title text-xl">
-						已经到底啦<br/>つ♡⊂<br/>———————————
-					</view>
-					<view class="uni-tip-group-button">
-								<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
-					</view>												
-			</view>
+			</view>		
+				<!--触底了-->
+			<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
+				<view  class="uni-tip">
+						<view class="uni-tip-title text-xl">
+							已经到底啦<br/>つ♡⊂<br/>———————————
+						</view>
+						<view class="uni-tip-group-button">
+									<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
+						</view>												
+				</view>
 
-		</uni-popup>
+			</uni-popup>
+		</scroll-view>
+		
+		<!-- 右侧 -->
+		<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
+			<text class="cuIcon-pullright"></text>
+		</view>
+		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
+			<!-- 个人界面 -->
+			<view class="header" style="margin-left: calc(40upx);">
+				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
+				<!-- </view> -->
+			</view>
+		
+			
+			<!-- list -->
+			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
+				
+				<view class="cu-item arrow">
+					<view class="content">
+						<text class="text-black text-xl"><br/></text>
+						<text class="cuIcon-form text-black"></text>
+						<text class="text-black text-xl text-bold">北京大学</text>
+						<text class="text-white text-xl text-bold"><br/>......</text>
+						<text class="text-black text-xl text-bold">软件与微电子学院</text>
+						<text class="text-white text-xl text-bold"><br/><br/>......</text>
+						<text class="text-black text-xl">
+							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
+														
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
+							
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台面向的受众为中老年群体，内容为养生方向的谣言鉴别和辟除，其中分为搜索界面，谣言列表界面和辟谣问答游戏三个界面，目前已实现基本的所有功能，后期将不断对数据使用自然语言处理进行获取分类，希望得到各位用户的认可～
+							 
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～&nbsp;&nbsp;&nbsp;&nbsp;つ♡⊂
+							 
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
+							
+						</text>
+						<text class="text-white text-xl text-bold"><br/>.</text>
+						<text class="text-white text-xl text-bold"><br/>.</text>
+					</view>
+				</view>			
+						
+			</view>			
+		
+			
+		</scroll-view>
+		<!-- end -->
+		
     </view>
 </template>
 
 <script>
-
+	import cuHeader from '@/components/cu-header.vue';
+	import cuVideo from '@/components/cu-video.vue';
     export default {
+		components: {
+			cuHeader,
+			cuVideo
+		},
         data() {
             return {
+				modalName: null,
+				directionStr: '水平',
+				horizontal: 'right',
+				vertical: 'bottom',
+				direction: 'vertical',
+				pattern: {
+					color: '#7A7E83',
+					backgroundColor: '#fff',
+					selectedColor: '#690000',
+					buttonColor: '#690000'
+				},
 				tabList:["“新冠专项”","食品安全","医学健康","生活窍门","自然环境","宠物花草","科学技术","神秘现象","传说轶事","其他分类"],
                 banner: {},
                 listData: [],
@@ -69,8 +138,15 @@
 				forbid: '',
 				isShowKeywordList: false,
 				category:"“新冠专项”",
-				scrollLeft:0
+				scrollLeft:5
             }
+		},
+		onBackPress() {
+			if (this.$refs.fab.isShow) {
+				this.$refs.fab.close()
+				return true
+			}
+			return false
 		},
         onLoad() {
 			//自动获取这两个
@@ -88,6 +164,29 @@
             this.getList();
         },
         methods: {
+			// Drawer弹出
+			showDrawer(){
+				uni.showToast({
+					title: '您打开了一个彩蛋',
+					icon: 'none'
+				})
+				if( this.modalName == null ){
+					this.modalName = 'viewModal';
+				}else{
+					this.modalName = null;
+				}
+				console.log(this.modalName)
+			},
+			showModal(e) {
+				this.modalName = e.currentTarget.dataset.target
+			},
+			hideModal(e) {
+				this.modalName = null
+			},
+			tabSelect(e) {
+				this.TabCur = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+			},
 			//流言列表的内容
             getList() {
 				uni.showLoading({
@@ -122,15 +221,7 @@
                         console.log('fail' + JSON.stringify(data));
                     }
                 })
-			},	
-			//选中指定分类
-			tabSelect(e) {
-				this.category = e.currentTarget.dataset.id;
-				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
-				this.listData = [];
-				this.last_id = 0;
-				this.getList();
-			},		
+			},			
 			//进入详情页面
             goDetail: function(e) {
                 uni.navigateTo({
@@ -147,6 +238,111 @@
 </script>
 
 <style>
+	
+	page {
+		width: 100vw;
+		overflow: hidden;
+	}
+	
+	.DrawerPage {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		left: 0vw;
+		background-color: #f1f1f1;
+		transition: all 0.4s;
+	}
+	
+	.DrawerPage.show {
+		transform: scale(0.9, 0.9);
+		left: 85vw;
+		box-shadow: 0 0 60upx rgba(0, 0, 0, 0.2);
+		transform-origin: 0;
+	}
+	
+	.DrawerWindow {
+		position: absolute;
+		width: 85vw;
+		height: 100vh;
+		left: 0;
+		top: 0;
+		transform: scale(0.9, 0.9) translateX(-100%);
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+		padding: 100upx 0;
+		background-color: #500200;
+	}
+	
+	.DrawerWindow.show {
+		transform: scale(1, 1) translateX(0%);
+		opacity: 1;
+		pointer-events: all;
+	}
+	
+	.DrawerClose {
+		position: absolute;
+		width: 40vw;
+		height: 100vh;
+		right: 0;
+		top: 0;
+		color: transparent;
+		padding-bottom: 30upx;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
+		letter-spacing: 5px;
+		font-size: 50upx;
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+	}
+	
+	.DrawerClose.show {
+		opacity: 1;
+		pointer-events: all;
+		width: 15vw;
+		color: #fff;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action button.cuIcon {
+		width: 64upx;
+		height: 64upx;
+		line-height: 64upx;
+		margin: 0;
+		display: inline-block;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action .cu-avatar {
+		margin: 0;
+	}
+	
+	.DrawerPage .nav {
+		flex: 1;
+	}
+	
+	.DrawerPage .nav .cu-item.cur {
+		border-bottom: 0;
+		position: relative;
+	}
+	
+	.DrawerPage .nav .cu-item.cur::after {
+		content: "";
+		width: 10upx;
+		height: 10upx;
+		background-color: currentColor;
+		position: absolute;
+		bottom: 10upx;
+		border-radius: 10upx;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action {
+		flex: initial;
+	}
 
     .banner {
         height: 360upx;

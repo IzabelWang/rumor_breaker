@@ -1,9 +1,8 @@
 <template>
     <view class="uni-fab-box">
-		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">			
-			<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="30px" Height="40px" Icon="add"/>
+		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
+			<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
 			<!--banner-->
-			<!-- 导航栏 -->
 			<hxNavbar :statusBar="false" :leftSlot="false" transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000"><block slot="content">首页</block></hxNavbar>
 			<!-- <view class="banner" >
 				<image class="banner-img" :src="banner.cover"></image>
@@ -106,7 +105,7 @@
 		</view>
 		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
 			<!-- 个人界面 -->
-			<view class="header text-center">
+			<view class="header" style="margin-left: calc(40upx);">
 				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
 				<!-- </view> -->
 			</view>
@@ -124,14 +123,15 @@
 						<text class="text-black text-xl text-bold">软件与微电子学院</text>
 						<text class="text-white text-xl text-bold"><br/><br/>......</text>
 						<text class="text-black text-xl">
-							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：							
+							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
+														
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
 							
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台面向的受众为中老年群体，内容为养生方向的谣言鉴别和辟除，其中分为搜索界面，谣言列表界面和辟谣问答游戏三个界面，目前已实现基本的所有功能，后期将不断对数据使用自然语言处理进行获取分类，希望得到各位用户的认可～
 							 
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～
-							 つ♡⊂
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～   つ♡⊂
+							 
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
 							
