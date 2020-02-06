@@ -1,93 +1,179 @@
 <template>
-    <view>
-		<!--banner-->
-		<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.jpeg" height="180px" color="#ffffff"></hxNavbar>
-        <!-- <view class="banner" >
-            <image class="banner-img" :src="banner.cover"></image>
-            <view class="banner-title">{{banner.title}}</view>
-        </view> -->
-		<!--搜索栏-->
-		<view class="search-box">
-			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword" @getFocus="showHistory"></mSearch>
-		</view>
-		<view class="search-keyword" @touchstart="blur">
-			<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
-				<view class="keyword-block" v-if="oldKeywordList.length>0">
-					<view class="keyword-list-header">
-						<view>历史搜索</view>
-						<view>
-							<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
-						</view>
-					</view>
-					<view class="keyword">
-						<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-					</view>
-				</view>
-				<view class="keyword-block">
-					<view class="keyword-list-header">
-						<view>热门搜索</view>
-						<view>
-							<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
-						</view>
-					</view>
-					<view class="keyword" v-if="forbid==''">
-						<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-					</view>
-					<view class="hide-hot-tis" v-else>
-						<view>当前搜热门搜索已隐藏</view>
-					</view>
-				</view>
-			</scroll-view>
-		</view>
-		<!--新闻列表,只有有数据的时候才显示-->
-        <view class="uni-list" v-if="listData.length >0">
-            <view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-                @click="goDetail(value,width)">
-                <view class="uni-media-list">
-                    <image class="uni-media-list-logo" :src="value.avatar"></image>
-                    <view class="uni-media-list-body">
-                        <view class="uni-media-list-text-top">
-                            <!--标题-->
-                            {{value.title}}
-                                <!--标签-->
-                                <text class='cu-tag bg-red text-white text-bold sm'>
-                                    {{value.type}}
-                                </text>
-                            </view>
-                        <view class="uni-media-list-text-bottom">
-                            <text>{{value.date}}</text>
-                        </view>
-                    </view>
-                </view>
-            </view>
-        </view>
-        <!--搜索结果为空 跳出弹窗-->
-		<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
-			<view  class="uni-tip">
-					<view class="uni-tip-title text-xl">
-						404 not found
-					</view>
-					<view class="uni-tip-content">
-						找不到结果
-					</view>		
-					<view class="uni-tip-group-button">
-							<text class="uni-tip-button text-xl" @click="clearInput">取消</text>
-							<text class="uni-tip-button text-xl" @click="clearInput">确定</text>
-					</view>												
+    <view class="uni-fab-box">
+		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
+			<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="fabClick" @showDrawer="showDrawer"/><block slot="content">首页</block></uni-fab> //暂时删除了 @trigger="trigger"
+			<!--banner-->
+			<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000" @click="showDrawer"><block slot="content">首页</block></hxNavbar>
+			<!-- <view class="banner" >
+				<image class="banner-img" :src="banner.cover"></image>
+				<view class="banner-title">{{banner.title}}</view>
+			</view> -->
+			
+			<!--搜索栏-->
+			<view class="search-box">
+				<block slot="content">首页</block>
+				<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword" @getFocus="showHistory"></mSearch>
 			</view>
+			<view class="search-keyword" @touchstart="blur">
+				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
+					<view class="keyword-block" v-if="oldKeywordList.length>0">
+						<view class="keyword-list-header">
+							<view>历史搜索</view>
+							<view>
+								<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
+							</view>
+						</view>
+						<view class="keyword">
+							<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+						</view>
+					</view>
+					<view class="keyword-block">
+						<view class="keyword-list-header">
+							<view>热门搜索</view>
+							<view>
+								<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
+							</view>
+						</view>
+						<view class="keyword" v-if="forbid==''">
+							<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+						</view>
+						<view class="hide-hot-tis" v-else>
+							<view>当前搜热门搜索已隐藏</view>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<!--新闻列表,只有有数据的时候才显示-->
+			<view class="uni-list" v-if="listData.length >0">
+				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+					@click="goDetail(value,width)">
+					<view class="uni-media-list">
+						<image class="uni-media-list-logo" :src="value.avatar"></image>
+						<view class="uni-media-list-body">
+							<view class="uni-media-list-text-top">
+								<!--标题-->
+								{{value.title}}
+									<!--标签-->
+									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+								</view>
+							<view class="uni-media-list-text-bottom">
+								<text>{{value.date}}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<!--搜索结果为空 跳出弹窗-->
+			<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
+				<view  class="uni-tip">
+						<view class="uni-tip-title text-xl">
+							暂无相关搜索结果<br/>请尝试更换您的关键词<br/>つ♡⊂<br/>———————————
+						</view>
+						<!-- <view class="uni-tip-content">
+							找不到结果
+						</view>		 -->
+						<view class="uni-tip-group-button">
+								<!-- <text class="uni-tip-button text-xl" @click="clearInput">取消</text> -->
+								<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
+						</view>												
+				</view>
 
-		</uni-popup>
-        <!--导航栏-->
-		<!-- <navbar ref="navbar"></navbar> -->
+			</uni-popup>
+			<!--导航栏-->
+			<!-- <navbar ref="navbar"></navbar> -->
+		</scroll-view>
+		
+		<!-- 右侧 -->
+		<!-- 返回主界面 -->
+		<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
+			<text class="cuIcon-pullright"></text>
+		</view>
+		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''" style="background: #310000;">
+			
+			<!-- 个人界面 -->
+			<view class="header margin-top-xl">
+				<!-- <view class="flex"> -->
+					<!-- <image src="../../static/logo.png" mode="widthFix" class="round shadow" style="width: 120upx;flex: 1;"></image> -->
+					<!-- <view class="flex padding-left-lg"> -->
+				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
+						<!-- <text class="text-xs text-gray margin-top-sm">个人签名...</text> -->
+					<!-- </view> -->
+					<!-- <view class="">
+						<text class="cuIcon-qr_code text-xxl margin-right-xl" style="font-size: 50upx;"></text>
+					</view> -->
+				<!-- </view> -->
+			</view>
+			
+			
+			<!-- list -->
+			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
+				
+				<view class="cu-item arrow">
+					<view class="content">
+						<text class="text-black text-xl"><br/></text>
+						<text class="cuIcon-form text-black"></text>
+						<text class="text-black text-xl text-bold">北京大学</text>
+						<text class="text-white text-xl text-bold"><br/>......</text>
+						<text class="text-black text-xl text-bold">软件与微电子学院</text>
+						<text class="text-white text-xl text-bold"><br/><br/>......</text>
+						<text class="text-black text-xl">
+							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
+							
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
+							
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台面向的受众为中老年群体，内容为养生方向的谣言鉴别和辟除，其中分为搜索界面，谣言列表界面和辟谣问答游戏三个界面，目前已实现基本的所有功能，后期将不断对数据使用自然语言处理进行获取分类，希望得到各位用户的认可～
+							 
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～
+							 つ♡⊂
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
+							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
+							
+						</text>
+						<text class="text-white text-xl text-bold"><br/>.</text>
+						<text class="text-white text-xl text-bold"><br/>.</text>
+					</view>
+				</view>			
+						
+			</view>
+		
+			
+		</scroll-view>
+		<!-- end -->
+		
+		
     </view>
 </template>
 
 <script>
     var dateUtils = require('../../common/util.js').dateUtils;
+	import uniFab from '@/components/uni-fab/uni-fab.vue'
+	import cuHeader from '@/components/cu-header.vue';
+	import cuVideo from '@/components/cu-video.vue';
 
     export default {
+		components: {
+			uniFab,
+			cuHeader,
+			cuVideo
+		},
         data() {
             return {
+				modalName: null,
+				videoList: [],
+				title: 'uni-fab',
+				directionStr: '水平',
+				horizontal: 'right',
+				vertical: 'bottom',
+				direction: 'vertical',
+				pattern: {
+					color: '#7A7E83',
+					backgroundColor: '#fff',
+					selectedColor: '#690000',
+					buttonColor: '#690000'
+				},
                 banner: {},
                 listData: [],
                 last_id: "",
@@ -101,6 +187,13 @@
 				forbid: '',
                 isShowKeywordList: false
             }
+		},
+		onBackPress() {
+			if (this.$refs.fab.isShow) {
+				this.$refs.fab.close()
+				return true
+			}
+			return false
 		},
         onLoad() {
 			//自动获取这两个
@@ -119,6 +212,20 @@
             this.getList();
         },
         methods: {
+			// Drawer弹出
+			showDrawer(){
+				if( this.modalName == null ){
+					this.modalName = 'viewModal';
+				}else{
+					this.modalName = null;
+				}
+			},
+			showModal(e) {
+				this.modalName = e.currentTarget.dataset.target
+			},
+			hideModal(e) {
+				this.modalName = null
+			},
 			//banner的内容
             getBanner() {
                 let data = {
@@ -207,7 +314,7 @@
 			//加载热门搜索
 			loadHotKeyword() {
 				//定义热门搜索关键字，可以自己实现ajax请求数据再赋值
-				this.hotKeywordList = ['键盘', '鼠标', '显示器', '电脑主机', '蓝牙音箱', '笔记本电脑', '鼠标垫', 'USB', 'USB3.0'];
+				this.hotKeywordList = ['自来水煮过数次真的不能再次饮用吗？', '在外吃饭用开水烫碗筷真的有用吗？', '只吃素菜不吃荤菜真的可以减少健康问题吗？','睡眠时间越长越好吗？','热鸭梨水能抗癌吗？','缺维生素B2会致癌吗？','雪梨银耳能清肺？'];
 			}, 
 			//监听输入
 			inputChange(event) {
@@ -311,12 +418,62 @@
                 this.getList();
                 this.$refs.popup.close();
 
-            }
+            },
+			trigger(e) {
+				console.log(e)
+				this.content[e.index].active = !e.item.active
+				uni.showModal({
+					title: '提示',
+					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
+					success: function(res) {
+						if (res.confirm) {
+							console.log('用户点击确定')
+						} else if (res.cancel) {
+							console.log('用户点击取消')
+						}
+					}
+				})
+			},
+			fabClick() {
+				uni.showToast({
+					title: '您打开了一个彩蛋',
+					icon: 'none'
+				})
+			},
+			switchBtn(hor, ver) {
+				if (hor === 0) {
+					this.direction = this.direction === 'horizontal' ? 'vertical' : 'horizontal'
+					this.directionStr = this.direction === 'horizontal' ? '垂直' : '水平'
+				} else {
+					this.horizontal = hor
+					this.vertical = ver
+				}
+				this.$forceUpdate()
+			},
         },
     }
 </script>
 
 <style>
+	.DrawerClose {
+		position: absolute;
+		width: 40vw;
+		height: 100vh;
+		right: 0;
+		top: 0;
+		color: transparent;
+		padding-bottom: 30upx;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
+		letter-spacing: 5px;
+		font-size: 50upx;
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+	}
+	
     .banner {
         height: 360upx;
         overflow: hidden;
@@ -539,5 +696,6 @@
 	.keyword-box .keyword-block .keyword {width:94%;padding:3px 3%;display:flex;flex-flow:wrap;justify-content:flex-start;}
 	.keyword-box .keyword-block .hide-hot-tis {display:flex;justify-content:center;font-size:28upx;color:#6b6b6b;}
 	.keyword-box .keyword-block .keyword>view {display:flex;justify-content:center;align-items:center;border-radius:60upx;padding:0 20upx;margin:10upx 20upx 10upx 0;height:60upx;font-size:28upx;background-color:rgb(242,242,242);color:#6b6b6b;}
+
 
 </style>
