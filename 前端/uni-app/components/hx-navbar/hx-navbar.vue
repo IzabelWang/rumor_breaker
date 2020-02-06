@@ -6,10 +6,9 @@
 			:class="{'hx-navbar--fixed': fixed,'hx-navbar--shadow':border,'hx-navbar--border':border}"
 			:style="{'background': backgroundColorRgba,'height':height} "
 			class="hx-navbar__content">
-			<block v-if="backgroundImg">
+			<view v-if="backgroundImg">
 				<image class="navbgimg" :src="backgroundImg" mode="aspectFill" style="background-color: #000000;"></image>
-			</block>
-			
+			</view>		
 			<view :style="{ height: statusBarHeight ,'background': statusBarBackground}" class="hx-status-bar" v-if="statusBar" ></view>
 			<view :style="{color:colorInfo,height: height,'line-height':height}" class="hd hx-navbar__header hx-navbar__content_view">
 				<view class="hx-navbar__header-btns hx-navbar__content_view"  @tap="onClickLeft" v-if="leftSlot" :style="{'color': colorInfo}">
@@ -68,7 +67,7 @@
 					
 				</view>
 			  
-			</view>
+			</view>		
 		</view>
 		
 		<view
