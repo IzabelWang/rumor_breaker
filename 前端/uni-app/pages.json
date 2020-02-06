@@ -10,8 +10,8 @@
 		},{
 			"path": "pages/quiz/quiz",
 			"style": {
-				"navigationBarTitleText": "新冠病毒专项答题",
-				"enablePullDownRefresh": false				
+				// "navigationBarTitleText": "新冠病毒专项答题",
+				// "enablePullDownRefresh": false				
 			}
 		},
 		{
@@ -23,6 +23,13 @@
 						"type": "transparent"
 					}
 				}
+			}
+		},
+		{
+			"path": "pages/browse/browse",
+			"style": {
+				// "navigationBarTitleText": "新冠病毒专项答题",
+				// "enablePullDownRefresh": false				
 			}
 		}		
 	],
@@ -52,11 +59,18 @@
             "iconPath": "static/icon/index.png",
             "selectedIconPath": "static/icon/index_selected.png",
             "text": "主页"
-        }, {
+		}, {
+            "pagePath": "pages/browse/browse",
+            "iconPath": "static/icon/browse.png",
+            "selectedIconPath": "static/icon/browse_selected.png",
+            "text": "浏览"
+		},
+		{
             "pagePath": "pages/quiz/quiz",
             "iconPath": "static/icon/quiz.png",
             "selectedIconPath": "static/icon/quiz_selected.png",
             "text": "答题"
-        }]
+		}
+	]
     }
 }

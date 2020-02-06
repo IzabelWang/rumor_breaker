@@ -82,7 +82,6 @@ df.to_csv("/home/sherry/project/创新杯/data/rumor.csv",index=False,sep='\t')
 ROBOTSTXT_OBEY = False
 USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
 ```
-
 #### 1.2.3 爬取主程序(`liuyan.py`)
 
 ```python
@@ -125,7 +124,58 @@ class LiuyanSpider(scrapy.Spider):
 ```bash
 scrapy crawl liuyan -o liuyan.json
 ```
+#### 1.2.3 （20200205更新）pyquery爬取
 
+```python
+from pyspider.libs.base_handler import *
+import re
+
+class Handler(BaseHandler):
+    crawl_config = {
+    }
+
+    @every(minutes=24 * 60)
+    def on_start(self):
+        startUrl='http://liuyan.guokr.com/category/'
+        self.crawl(startUrl, callback=self.index_page)
+
+    @config(age=10 * 24 * 60 * 60)
+    def index_page(self, response):
+        typeList = [item.text() for item in response.doc('body > div.wrap.cate-page > div.main > ul:nth-child(1) > li > a').items()]
+        urlList = [item.attr('href') for item in response.doc('body > div.wrap.cate-page > div.main > ul:nth-child(1) > li > a').items()]
+        for i in range(len(typeList)):
+            #每一个分类
+            self.crawl(urlList[i], callback=self.detail_page,save={'type':typeList[i]})
+
+    @config(priority=2)
+    def detail_page(self, response):
+        rumors =[item.attr('href') for item in response.doc('.rumor-title> a').items()]
+        typeList = [item.text() for item in response.doc('.rumor_list > li > strong').items()]
+        type = response.save['type']
+        for i in range(len(rumors)):
+            # 剔除种类为新的流言，即没有答案的
+            if(typeList[i] !="新"):
+                self.crawl(rumors[i], callback=self.parse_detail,save={'type':type})
+        # 爬取下一页
+        next_page = response.doc('body > div.wrap.cate-page > div.main > ul.pages > ul > li:last-child > a').attr('href')
+        if next_page is not None: 
+            self.crawl(next_page, callback=self.detail_page,save={'type':type})
+
+    def parse_detail(self,response):
+        # 处理一下时间的格式
+        date = response.doc('body > div.wrap.article-page > div.side > div.side-editor > p:nth-child(2)').text().replace("最后更新：","").split( )[0]
+        return {
+        "title" : response.doc('h2.rumor-title').text(),
+        "descrip" : re.sub(r'^流言','',response.doc('div.rumor-desc').text()),
+        "LiuyanType" : response.doc('body > div.wrap.article-page > div.main > div.rumor-sum > strong').text(),
+        "answer" : re.sub(r'^真相','',response.doc('body > div.wrap.article-page > div.main > div.rumor-sum > p.rumor-truth').text()),
+        "detail" : response.doc('body > div.wrap.article-page > div.main > div.rumor-content').html().strip(),
+        "category" : response.save['type'],
+        "date" : date,
+        "platform" : "流言百科"
+        }
+
+```
 数据汇总：
 
 * 真流言（非谣言）：474条
@@ -148,8 +198,8 @@ h5页面的爬虫比较简单，数据以json格式封装，使用几个get请�
 6. 论证机构
 
 https://vp.fact.qq.com/loadmore?artnum=0&page=10&_=1580272280867
-### 1.3.1 h5页面爬虫
-依旧使用scrapy,代码如下：
+### 1.3.1 腾讯较真h5页面爬虫
+scrapy代码如下：
 ```python
 # -*- coding: utf-8 -*-
 import scrapy
@@ -188,6 +238,56 @@ class LiuyanSpider(scrapy.Spider):
         item['author'] = response.css('body > div.check_content.text > div.check_content_text.check_content_writer::text').extract_first()
         yield item
 ```
+
+（20200205更新）pyspider代码如下：
+```python
+from pyspider.libs.base_handler import *
+from urllib.parse import urlencode
+import json
+import re
+
+class Handler(BaseHandler):
+    crawl_config = {
+    }
+
+    @every(minutes=24 * 60)
+    def on_start(self):
+        base_url = 'https://vp.fact.qq.com/loadmore?'
+        for i in range(1,19):
+            params = {  
+                'page': i  
+            }
+            url = base_url + urlencode(params)
+            self.crawl(url, callback=self.index_page)
+
+    @config(age=10 * 24 * 60 * 60)
+    def index_page(self, response):
+        resp = json.loads(response.text)
+        article_url = 'https://vp.fact.qq.com/article?'
+        for item in resp["content"]:
+            params = {  
+                'id': item["id"] 
+            }
+            self.crawl(article_url+ urlencode(params),callback=self.detail_page,save={"title":item["title"],"author":item["author"],"date":item["date"],"avatar":item["coversqual"],"type":item["explain"],"descrip":item["abstract"]})            
+
+
+    @config(priority=2)
+    def detail_page(self, response):
+        descrip = re.search(r'originRumor = `(.*?)`',response.text,re.S).group(1).strip()
+        return {
+            "title":response.save["title"],
+            "author":response.save["author"],
+            "title":response.save["title"],
+            "avatar":"https:"+response.save["avatar"],
+            "type":response.save["type"],
+            "date":response.save["date"],
+            "descrip":descrip,         
+            "points":response.doc('.check_content_points > ul').html().strip(),
+            "source":response.doc('.check_content_writer').text().replace("查证者：","").replace(response.save["author"],","+response.save["author"]),
+            "ans":response.doc('body > div.question.text').html().strip()
+        }
+```
+
 数据汇总（一共98条）：
 * 真（非谣言）：7条
 * 假（谣言）：83条
