@@ -5,16 +5,16 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input  :placeholder="placeholder" @input="inputChange" confirm-type="search" @confirm="triggerConfirm" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @blur="blur" style="width:150px"/>
+				<input type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:150px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
-				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clear"></text>
+				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text>
 			</view>
-			<view v-show="(active&&show&&button === 'inside')||(isDelShow && button === 'inside')" class="serachBtn" @click="search">
-				搜索
+			<view v-show="(active&&show&&button === 'inside')||(isDelShow && button === 'inside')" class="serachBtn" @click.stop="clearButton">
+				取消
 			</view>
 		</view>
-		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click="search">
-			<view class="button-item">{{!show?searchName:'搜索'}}</view>
+		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click.stop="clear">
+			<view class="button-item">{{!show?searchName:'取消'}}</view>
 		</view>
 	</view>
 </template>
@@ -82,23 +82,29 @@ export default {
 			this.isFocus = false;
 			if (!this.inputVal) {
 				this.active = false;
+				this.$emit('getFocus',false)
 			}
 		},
-		clear() {
+		//清空搜索
+		clearInput() {
 			//HM修改 收起键盘
+			this.inputVal = '';
+			//this.$emit('search', '');//HM修改 清空内容时候不进行搜索
+		},
+		//退出搜索界面
+		clearButton() {
+			//HM修改 收起键盘
+			console.log("hello world")
 			uni.hideKeyboard();
 			this.isFocus = false;
 			this.inputVal = '';
 			this.active = false;
-			//HM修改 清空内容时候触发组件input
-			this.$emit('input', '');
-			//this.$emit('search', '');//HM修改 清空内容时候不进行搜索
-			
+			this.$emit('getFocus',false)
 		},
 		getFocus() {
 			this.isFocus = true;
 		},
-		search() {
+		doSearch() {
 			//HM修改 增加点击取消时候退出输入状态，内容为空时，输入默认关键字
 			if (!this.inputVal) {
 				if(!this.show&&this.searchName == '取消'){
@@ -109,7 +115,13 @@ export default {
 				}
 			}
 			console.log(this.inputVal); 
+			uni.hideKeyboard();
+			this.isFocus = false;
+			this.active = false;
+			//清空输入数据
+			console.log(this.inputVal)
 			this.$emit('search', this.inputVal?this.inputVal:this.placeholder);
+
 		}
 	},
 	watch: {
