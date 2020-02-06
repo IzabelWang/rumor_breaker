@@ -3916,3 +3916,16 @@ scroll-view.cu-steps .cu-item {
 .lines-white {
 	color: #ffffff;
 }
+
+.text-selfset-red,
+.line-selfset-red,
+.lines-selfset-red {
+	color: #9a0000;
+}
+
+.bg-selfset-red {
+	background-color: #750000;
+	color: #ffffff;
+	font: bold;
+	font-size: 34upx;
+}
