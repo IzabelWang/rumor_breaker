@@ -1,9 +1,10 @@
 <template>
     <view class="uni-fab-box">
-		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
-			<uni-fab ref="fab" :pattern="pattern" :content="content" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="fabClick" @showDrawer="showDrawer"/><block slot="content">首页</block></uni-fab> //暂时删除了 @trigger="trigger"
+		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">			
+			<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="30px" Height="40px" Icon="add"/>
 			<!--banner-->
-			<hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000" @click="showDrawer"><block slot="content">首页</block></hxNavbar>
+			<!-- 导航栏 -->
+			<hxNavbar :statusBar="false" :leftSlot="false" transparent="auto" :fixed="true" backgroundImg="../../static/bg.png" height="180px" color="#000000"><block slot="content">首页</block></hxNavbar>
 			<!-- <view class="banner" >
 				<image class="banner-img" :src="banner.cover"></image>
 				<view class="banner-title">{{banner.title}}</view>
@@ -12,7 +13,7 @@
 			<!--搜索栏-->
 			<view class="search-box">
 				<block slot="content">首页</block>
-				<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @input="inputChange" @confirm="doSearch(false)" v-model="keyword" @getFocus="showHistory"></mSearch>
+				<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showHistory"></mSearch>
 			</view>
 			<view class="search-keyword" @touchstart="blur">
 				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
@@ -48,7 +49,9 @@
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
 					@click="goDetail(value,width)">
 					<view class="uni-media-list">
-						<image class="uni-media-list-logo" :src="value.avatar"></image>
+						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+						<!--显示默认图片-->
+						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
 						<view class="uni-media-list-body">
 							<view class="uni-media-list-text-top">
 								<!--标题-->
@@ -66,7 +69,7 @@
 				</view>
 			</view>
 			<!--搜索结果为空 跳出弹窗-->
-			<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
+			<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
 				<view  class="uni-tip">
 						<view class="uni-tip-title text-xl">
 							暂无相关搜索结果<br/>请尝试更换您的关键词<br/>つ♡⊂<br/>———————————
@@ -81,31 +84,33 @@
 				</view>
 
 			</uni-popup>
+			<!--触底了-->
+			<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
+				<view  class="uni-tip">
+						<view class="uni-tip-title text-xl">
+							已经到底啦<br/>つ♡⊂<br/>———————————
+						</view>
+						<view class="uni-tip-group-button">
+									<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
+						</view>												
+				</view>
+
+			</uni-popup>
 			<!--导航栏-->
 			<!-- <navbar ref="navbar"></navbar> -->
 		</scroll-view>
 		
 		<!-- 右侧 -->
-		<!-- 返回主界面 -->
 		<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
 			<text class="cuIcon-pullright"></text>
 		</view>
-		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''" style="background: #310000;">
-			
+		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
 			<!-- 个人界面 -->
-			<view class="header margin-top-xl">
-				<!-- <view class="flex"> -->
-					<!-- <image src="../../static/logo.png" mode="widthFix" class="round shadow" style="width: 120upx;flex: 1;"></image> -->
-					<!-- <view class="flex padding-left-lg"> -->
+			<view class="header text-center">
 				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
-						<!-- <text class="text-xs text-gray margin-top-sm">个人签名...</text> -->
-					<!-- </view> -->
-					<!-- <view class="">
-						<text class="cuIcon-qr_code text-xxl margin-right-xl" style="font-size: 50upx;"></text>
-					</view> -->
 				<!-- </view> -->
 			</view>
-			
+		
 			
 			<!-- list -->
 			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
@@ -119,8 +124,7 @@
 						<text class="text-black text-xl text-bold">软件与微电子学院</text>
 						<text class="text-white text-xl text-bold"><br/><br/>......</text>
 						<text class="text-black text-xl">
-							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
-							
+							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：							
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
 							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
 							
@@ -137,8 +141,8 @@
 					</view>
 				</view>			
 						
-			</view>
-		
+			</view>			
+
 			
 		</scroll-view>
 		<!-- end -->
@@ -149,21 +153,10 @@
 
 <script>
     var dateUtils = require('../../common/util.js').dateUtils;
-	import uniFab from '@/components/uni-fab/uni-fab.vue'
-	import cuHeader from '@/components/cu-header.vue';
-	import cuVideo from '@/components/cu-video.vue';
-
     export default {
-		components: {
-			uniFab,
-			cuHeader,
-			cuVideo
-		},
         data() {
             return {
 				modalName: null,
-				videoList: [],
-				title: 'uni-fab',
 				directionStr: '水平',
 				horizontal: 'right',
 				vertical: 'bottom',
@@ -196,9 +189,6 @@
 			return false
 		},
         onLoad() {
-			//自动获取这两个
-            this.getBanner();
-            this.getList();
             this.init();
 		},
 		//下拉更新
@@ -214,11 +204,16 @@
         methods: {
 			// Drawer弹出
 			showDrawer(){
+				uni.showToast({
+					title: '您打开了一个彩蛋',
+					icon: 'none'
+				})
 				if( this.modalName == null ){
 					this.modalName = 'viewModal';
 				}else{
 					this.modalName = null;
 				}
+				console.log(this.modalName)
 			},
 			showModal(e) {
 				this.modalName = e.currentTarget.dataset.target
@@ -226,27 +221,11 @@
 			hideModal(e) {
 				this.modalName = null
 			},
-			//banner的内容
-            getBanner() {
-                let data = {
-                    column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-                };
-                uni.request({
-                    url: 'https://unidemo.dcloud.net.cn/api/banner/36kr',
-                    data: data,
-                    success: (data) => {
-                        uni.stopPullDownRefresh();
-                        if (data.statusCode == 200) {
-                            this.banner = data.data;
-                        }
-                    },
-                    fail: (data, code) => {
-                        console.log('fail' + JSON.stringify(data));
-                    }
-                })
-			},
 			//流言列表的内容
             getList() {
+				uni.showLoading({
+					title: '加载中'
+				});
                 var data = {
 					_sort:'date:DESC',//按照时间顺序排序
 					_limit:10, //需要的字段名
@@ -261,14 +240,19 @@
                     data: data,
                     success: (data) => {
                         if (data.statusCode == 200) {
+							uni.hideLoading();
 							let list = data.data;
 							if(list.length >0){
                                 this.listData = this.reload ? list : this.listData.concat(list);
                                 this.last_id = list[list.length - 1].id;
                                 this.reload = false;
                             } else {
-                                this.listData =list;
-                                this.$refs.popup.open();
+								if(this.listData.length==0){
+									this.listData =list;
+									this.$refs.popupEmpty.open();
+								} else {
+									this.$refs.popupBottom.open();
+								}
                             }
                         }
                     },
@@ -286,8 +270,13 @@
             //显示搜索历史
             showHistory(msg){
 				this.isShowKeywordList = msg;
-				console.log(this.isShowKeywordList);
-            },
+				// console.log("hello World");
+			},
+			//隐藏搜索历史
+            hideHistory(msg){
+				this.isShowKeywordList = msg;
+				console.log("hello World");
+			},
 			init() {
 				this.loadDefaultKeyword();
 				this.loadOldKeyword();
@@ -372,13 +361,20 @@
 			doSearch(key) {
 				key = key ? key : this.keyword ? this.keyword : this.defaultKeyword;
 				// this.keyword = key;
+				//清空上一次搜索结果
+				this.listData = [];
 				this.saveKeyword(key); //保存为历史 
 				this.reload = true;
-                this.last_id = "";
-                console.log(this.keyword)
+				this.last_id = "";
+				this.keyword = key;
+                // console.log(key+" a 为什么啊")
                 this.getList();
                 //隐藏下拉列表
                 this.isShowKeywordList = false;
+			},
+			//清楚搜索
+			clearSearch(msg){
+				this.isShowKeywordList = msg;
 			},
 			//保存关键字到历史记录
 			saveKeyword(keyword) {
@@ -411,34 +407,16 @@
 						this.oldKeywordList = OldKeys; //更新历史搜索
 					}
 				});
-            },		
+			},		
             //清除输入
             clearInput:function(e){
                 this.keyword = "";
                 this.getList();
-                this.$refs.popup.close();
+                this.$refs.popupEmpty.close();
 
-            },
-			trigger(e) {
-				console.log(e)
-				this.content[e.index].active = !e.item.active
-				uni.showModal({
-					title: '提示',
-					content: `您${this.content[e.index].active ? '选中了' : '取消了'}${e.item.text}`,
-					success: function(res) {
-						if (res.confirm) {
-							console.log('用户点击确定')
-						} else if (res.cancel) {
-							console.log('用户点击取消')
-						}
-					}
-				})
 			},
-			fabClick() {
-				uni.showToast({
-					title: '您打开了一个彩蛋',
-					icon: 'none'
-				})
+			exit:function(e){
+				this.$refs.popupBottom.close();
 			},
 			switchBtn(hor, ver) {
 				if (hor === 0) {
@@ -449,12 +427,39 @@
 					this.vertical = ver
 				}
 				this.$forceUpdate()
-			},
+			}
         },
     }
 </script>
 
 <style>
+	.DrawerPage.show {
+		transform: scale(0.9, 0.9);
+		left: 85vw;
+		/* box-shadow: 0 0 60upx rgba(0, 0, 0, 0.2); */
+		transform-origin: 0;
+	}
+
+	.DrawerWindow {
+		position: absolute;
+		width: 85vw;
+		height: 100vh;
+		left: 0;
+		top: 0;
+		transform: scale(0.9, 0.9) translateX(-100%);
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+		padding: 100upx 0;
+		background-color: #500200;
+	}
+
+	.DrawerWindow.show {
+		transform: scale(1, 1) translateX(0%);
+		opacity: 1;
+		pointer-events: all;
+	}
+
 	.DrawerClose {
 		position: absolute;
 		width: 40vw;
@@ -472,6 +477,51 @@
 		opacity: 0;
 		pointer-events: none;
 		transition: all 0.4s;
+	}
+
+	.DrawerClose.show {
+		opacity: 1;
+		pointer-events: all;
+		width: 15vw;
+		color: #fff;
+	}
+
+	.DrawerPage .cu-bar.tabbar .action button.cuIcon {
+		width: 64upx;
+		height: 64upx;
+		line-height: 64upx;
+		margin: 0;
+		display: inline-block;
+	}
+
+	.DrawerPage .cu-bar.tabbar .action .cu-avatar {
+		margin: 0;
+	}
+
+	.DrawerPage .nav {
+		flex: 1;
+	}
+
+	.DrawerPage .nav .cu-item.cur {
+		border-bottom: 0;
+		position: relative;
+	}
+
+	.DrawerPage .nav .cu-item.cur::after {
+		content: "";
+		width: 10upx;
+		height: 10upx;
+		background-color: currentColor;
+		position: absolute;
+		bottom: 10upx;
+		border-radius: 10upx;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+
+	.DrawerPage .cu-bar.tabbar .action {
+		flex: initial;
 	}
 	
     .banner {

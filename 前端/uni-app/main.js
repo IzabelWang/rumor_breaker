@@ -11,11 +11,7 @@ import App from './App'
 // Vue.component('plugin',plugin)
 
 import uniFab from '@/components/uni-fab/uni-fab.vue';//悬浮按钮插件
-export default {
-    components: {
-        uniFab
-    }
-}
+Vue.component('uniFab',uniFab)
 
 import cuCustom from './colorui/components/cu-custom.vue'
 Vue.component('cu-custom',cuCustom)
@@ -29,6 +25,9 @@ Vue.component('mSearch',mSearch)
 //顶部导航栏
 import hxNavbar from "@/components/hx-navbar/hx-navbar.vue"
 Vue.component('hxNavbar',hxNavbar)
+
+import index from "@/pages/index/index.vue"
+Vue.component('index',index)
 
 Vue.config.productionTip = false
 
