@@ -7,7 +7,7 @@
 				</text>
 			</block>
 		</cu-custom> -->
-		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台">
+		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台" isBack="false">
 		</hxNavbar>
 			<!--欢迎页面-->
 		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
@@ -16,7 +16,7 @@
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
 				
-				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(1000rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:7%; position:absolute; left:calc(110rpx); top: calc(1000rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->
@@ -24,6 +24,7 @@
 				<!-- <button class="cu-btn block lg line-red" style="";" @click="showContent"></button> -->
 			<!-- </view>	 -->
 		</view>
+		
 		<view class="content" v-if="showWelcome==false">
 			<!--答题卡部分-->	
 			<view id="top-box" class="cu-bar bg-white solid-bottom">
