@@ -14,7 +14,7 @@
 			<view class="flex align-center" :style="{'height':height}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
-					<!-- 背景设置 -->
+				<!-- 背景设置 -->
 				
 				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:8%; position:absolute; left:calc(110rpx); top:calc(1000rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	

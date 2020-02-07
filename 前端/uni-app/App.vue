@@ -33,6 +33,29 @@
 				}
 			})
 
+        // 监听微信ready事件
+        document.addEventListener("WeixinJSBridgeReady",  () => {
+            console.log(`== WeixinJSBridgeReady ===`);
+            // 播放属性
+            const props = new createjs.PlayPropsConfig().set({
+                interrupt: createjs.Sound.INTERRUPT_ANY, 
+                loop: -1,  //循环播放
+                volume: 0.8
+            });
+
+            createjs.Sound.on("fileload", () => {
+                console.log(`fileload`);
+                this.musicPlayer = createjs.Sound.play("sound", props);
+                this.isLoad = true;
+            });
+            createjs.Sound.alternateExtensions = ["mp3"];
+            createjs.Sound.registerSound({ 
+                // src: require('./assets/image/bg.mp3'),
+                id: "sound" 
+            });
+        }, false);
+
+
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',
