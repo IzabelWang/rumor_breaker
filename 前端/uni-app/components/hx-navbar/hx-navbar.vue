@@ -109,7 +109,7 @@
 		props:{
 			height:{
 				type: String,
-				default: "44px"
+				default: "55px"
 			},
 			//导航栏占位符 显示（show），隐藏（hidden），自动（auto：如果头部为固定fiexd ，则显示占位符）
 			barPlaceholder:{
