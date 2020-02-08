@@ -7,16 +7,16 @@
 				</text>
 			</block>
 		</cu-custom> -->
-		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台" isBack="false">
+		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台" :back="false">
 		</hxNavbar>
+		
 			<!--欢迎页面-->
 		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
 			<view class="flex align-center" :style="{'height':height}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
-				
-				<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 70%;height:7%; position:absolute; left:calc(110rpx); top: calc(1000rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				<image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:8%; left:calc(160rpx); top: calc(450rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->
@@ -27,9 +27,9 @@
 		
 		<view class="content" v-if="showWelcome==false">
 			<!--答题卡部分-->	
-			<view id="top-box" class="cu-bar bg-white solid-bottom">
+			<view id="top-box" class="cu-bar bg-white solid-bottom text-bold">
 				<view class="action">
-					<button class="cu-btn bg-green shadow" @tap="showCardModal" data-target="modalCard">答题卡</button>
+					<button class="cu-btn bg-selfset-red shadow" style="font-size: calc(28rpx);" @tap="showCardModal" data-target="modalCard">答题卡</button>
 				</view>
 			</view>
 			<view class="cu-modal" :class="modalCard=='modalCard'?'show':''" @tap="hideCardModal">
@@ -38,21 +38,22 @@
 					<scroll-view class="page padding" :scroll-y=true :style="{'height':height}" >				
 					<view class="cu-bar solid-bottom">
 							<view class="action" @tap="hideCardModal">
-								<text class="cuIcon-close text-red"></text>
+								<text class="cuIcon-close text-selfset-red text-bold"></text>
 							</view>					
 						<view class="action">
-							<text class="cuIcon-title text-red"></text>答题卡
+							<text class="cuIcon-title text-selfset-red"></text>答题卡
 						</view>					
 					</view>
 					<view class="grid col-5 ">
 						<view class="margin-tb-sm text-center" v-for="(quiz,index) in quizList" :key="index">
-							<button class="cu-btn round" :class="[quiz.flag.length===0?'line-grey':'bg-red']" @click="AppointedSubject(index)" >{{index+1}}</button>
+							<button class="cu-btn round" :class="[quiz.flag.length===0?'line-grey':'bg-selfset-red']" @click="AppointedSubject(index)" >{{index+1}}</button>
 						</view>
 					</view>
 					
 					</scroll-view>
 				</view>
 			</view>
+			
 			<!--题目-->	
 			<form>
 				<swiper :current="subjectIndex" class="swiper-box" @change="SwiperChange" :style="{'height':swiperHeight}">
@@ -68,11 +69,11 @@
 							</view>									
 						</view>
 						<!--选项按钮-->
-						<view>
+						<view >
 							<radio-group class="block"  @change="RadioboxChange" >
-								<view class="cu-form-group" v-for="(option,index) in [quiz.item__001,quiz.item__002,quiz.item__003,quiz.item__004]" :key="index">
-									<radio :value="option" :checked="quiz.flag == option ?true:false" v-if="option.length>0" ></radio>
-									<view class="title text-black"  v-if="option.length>0" style="font-size:40upx">{{option}}</view>									
+								<view @click="selectRadio" :data-value="option" class="cu-form-group" v-for="(option,index) in [quiz.item__001,quiz.item__002,quiz.item__003,quiz.item__004]" :key="index">
+									<radio :value="option" :checked="quiz.flag == option ?true:false" v-if="option.length>0" color="#860000" ></radio>
+									<view class="title text-black" v-if="option.length>0" style="font-size:40upx">{{option}}</view>									
 								</view>
 							</radio-group>
 
@@ -104,21 +105,24 @@
 				</swiper>		
 			</form>
 		</view>
+		
 		<!--答案 居中弹窗-->
 		<uni-popup ref="popup" type="center" :mask-click="false" :animation="true">
 			<view  class="uni-tip">
 					<view class="uni-tip-title text-xl" v-if="quizList.length>0 && optionList[quizList[subjectIndex].ans] == quizList[subjectIndex].flag">
-						<text class=" cuIcon-roundcheckfill text-green"></text>恭喜您，您答对了！
+						<text class=" cuIcon-roundcheckfill text-green"></text>
+						<text class=" cuIcon-roundcheckfill text-white" style="font-size: 20upx;"></text>恭喜您，您答对了！
 					</view>
 					<view class="uni-tip-title text-xl" v-if="quizList.length>0 && optionList[quizList[subjectIndex].ans] != quizList[subjectIndex].flag">
-						<text class="text-red cuIcon-roundclosefill"></text>不好意思，您答错了！
+						<text class="text-selfset-red cuIcon-roundclosefill"></text>
+						<text class=" cuIcon-roundcheckfill text-white" style="font-size: 20upx;"></text>不好意思，您答错了！
 					</view>
 					<view class="uni-tip-content">
 						<rich-text class="richText text-xl"  :nodes="quizList.length>0 && quizList[subjectIndex].tip"></rich-text>
 					</view>		
 					<view class="uni-tip-group-button">
-							<text class="uni-tip-button text-xl" @click="closeAns">取消</text>
-							<text class="uni-tip-button text-xl" @click="closeAns">确定</text>
+							<!-- <text class="uni-tip-button text-xl" @click="closeAns">取消</text> -->
+							<text class="uni-tip-button text-xl" @click="closeAns">好的👌</text>
 					</view>												
 			</view>
 
@@ -229,8 +233,18 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 				if (index != undefined) {
 					this.subjectIndex = index;	
 				}								
-			},			
+			},
+			selectRadio : function(e) { //单选选中
+				var qui = this.quizList[this.subjectIndex];
+				// console.log(e)
+				var values = e.currentTarget.dataset.value; 
+				this.optionList = [qui.item__001,qui.item__002,qui.item__003,qui.item__004];
+				this.quizList[this.subjectIndex].flag = values;
+				//显示答案
+				this.$refs.popup.open()
+			},
 			RadioboxChange : function(e) { //单选选中
+				// e.target.value = true;
 				var qui = this.quizList[this.subjectIndex];
 				var values = e.detail.value;				
 				this.optionList = [qui.item__001,qui.item__002,qui.item__003,qui.item__004];

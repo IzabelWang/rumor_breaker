@@ -5,12 +5,12 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:150px"/>
+				<input type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:220px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
-				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text>
+				<!-- <text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text> -->
 			</view>
-			<view v-show="(active&&show&&button === 'inside')||(isDelShow && button === 'inside')" class="serachBtn" @click.stop="clearButton">
-				取消
+			<view  v-show="(active&&show&&button === 'inside')||(isDelShow && button === 'inside')" class="serachBtn" @click.stop="clearButton">
+				<text class="text-bold">取消</text>
 			</view>
 		</view>
 		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click.stop="clear">
@@ -29,11 +29,11 @@ export default {
 		//HM修改 定义默认搜索关键词(水印文字)
 		placeholder:{
 			value: String,
-			default: '请输入搜索内容'
+			default: '请输入您要搜索的信息'
 		},
 		value: {
 			type: String,
-			default:false
+			default: 'false'
 		},
 		button: {
 			value: String,
@@ -54,7 +54,7 @@ export default {
 			inputVal: '',
 			searchName: '取消',
 			isDelShow: false,
-			isFocus: false
+			isFocus: true
 		};
 	},
 	methods: {
@@ -79,10 +79,10 @@ export default {
 			}
 		},
 		blur() {
-			this.isFocus = false;
+			this.isFocus = true;
 			if (!this.inputVal) {
-				this.active = false;
-				this.$emit('getFocus',false)
+				// this.active = false;
+				// this.$emit('getFocus',false)
 			}
 		},
 		//清空搜索
@@ -96,10 +96,10 @@ export default {
 			//HM修改 收起键盘
 			console.log("hello world")
 			uni.hideKeyboard();
-			this.isFocus = false;
+			// this.isFocus = false;
 			this.inputVal = '';
-			this.active = false;
-			this.$emit('getFocus',false)
+			// this.active = false;
+			// this.$emit('getFocus',false)
 		},
 		getFocus() {
 			this.isFocus = true;
@@ -152,9 +152,11 @@ export default {
 	.content {
 		display: flex;
 		align-items: center;
+		margin-left: 35upx;
+		padding-left: 5upx;
 		width: 100%;
-		height: 60upx;
-		//border: 1px #ccc solid; //HM修改 去掉边框
+		height: 80upx;
+		border: 2px #680000 solid; //HM修改 去掉边框
 		background: #fff;
 		overflow: hidden;
 		transition: all 0.2s linear;
@@ -168,7 +170,7 @@ export default {
 				justify-content: center;
 			}
 			.icon {
-				padding: 0 15upx;
+				padding: 0 -50upx;
 				&.icon-del {
 					font-size: 38upx;
 					&:before {content:"\e644";}
@@ -178,7 +180,7 @@ export default {
 			.input {
 				width: 100%;
 				max-width: 100%;
-				line-height: 60upx;
+				line-height: 600upx;
 				height: 60upx;
 				transition: all 0.2s linear;
 				&.center {
@@ -196,12 +198,12 @@ export default {
 			flex-shrink: 0;
 			padding: 0 30upx;
 			//HM修改 按钮背景色
-			background:#720000;
+			background:#680000;
 			//background: $uni-color-success;
-			line-height: 60upx;
+			line-height: 72upx;
 			color: #fff;
 			//border-left: 1px #ccc solid; //HM修改 去掉边框
-			transition: all 0.3s;
+			transition: all 0s;
 		}
 	}
 
@@ -227,9 +229,10 @@ export default {
 
 .icon {
 	font-family: iconfont;
-	font-size: 32upx;
+	font-size: 34upx;
 	font-style: normal;
-	color: #999;
+	color: #7e7e7e;
+	width: 60rpx;
 	
 }
 </style>

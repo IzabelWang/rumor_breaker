@@ -3,7 +3,7 @@
         <hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" :title="banner.title">
 		</hxNavbar>
         <view class="banner">
-            <image class="banner-img" :src="banner.avatar" mode="aspectFit" v-if="banner.avatar"></image>
+            <image class="banner-img" :src="banner.avatar" v-if="banner.avatar"></image>
             <image class="banner-img" src="/static/avatar.png" v-if="!banner.avatar"></image>
             <view class="banner-title">{{banner.title}}</view>
         </view>
@@ -70,10 +70,10 @@
     }
 
     .banner {
-        height: 360upx;
+        height: 435upx;
         overflow: hidden;
         position: relative;
-        background-color: #ccc;
+        background-color: #f2f2f2;
     }
 
     .banner-img {

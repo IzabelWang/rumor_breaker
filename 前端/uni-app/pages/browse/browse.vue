@@ -124,7 +124,7 @@
 					selectedColor: '#690000',
 					buttonColor: '#690000'
 				},
-				tabList:["“新冠专项”","食品安全","医学健康","生活窍门","自然环境","宠物花草","科学技术","神秘现象","传说轶事","其他分类"],
+				tabList:["新冠专项","食品安全","医学健康","生活窍门","自然环境","宠物花草","科学技术","神秘现象","传说轶事","其他分类"],
                 banner: {},
                 listData: [],
                 last_id: "",
@@ -137,7 +137,7 @@
 				keywordList: [],
 				forbid: '',
 				isShowKeywordList: false,
-				category:"“新冠专项”",
+				category:"新冠专项",
 				scrollLeft:5
             }
 		},

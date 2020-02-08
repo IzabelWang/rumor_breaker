@@ -1,105 +1,82 @@
 <template>
 	<view>
-		<view class="welcome padding-bottom-xl margin-bottom-xl" :style="{'height':height}" >
+		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >
 			<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 				<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:102%; position:absolute; left:calc(44rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>
-			
-			
-				<!--搜索栏-->
-			<view class="search-box" v-if="showWelcome==false">
-				<block slot="content">首页</block>
-				<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showHistory"></mSearch>
-			</view>
-				
-			<view class="search-keyword" @touchstart="blur">
-				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
-					<view class="keyword-block" v-if="oldKeywordList.length>0">
-						<view class="keyword-list-header">
-							<view>历史搜索</view>
-							<view>
-								<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
-							</view>
-						</view>
-						<view class="keyword">
-							<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-						</view>
-					</view>
-					<view class="keyword-block">
-						<view class="keyword-list-header">
-							<view>热门搜索</view>
-							<view>
-								<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
-							</view>
-						</view>
-						<view class="keyword" v-if="forbid==''">
-							<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-						</view>
-						<view class="hide-hot-tis" v-else>
-							<view>当前搜热门搜索已隐藏</view>
-						</view>
-					</view>
-				</scroll-view>
-			</view>
-			
-			<!--新闻列表,只有有数据的时候才显示-->
-			<view class="uni-list" v-if="listData.length >0">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-					@click="goDetail(value,width)">
-					<view class="uni-media-list">
-						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
-						<!--显示默认图片-->
-						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">
-								<!--标题-->
-								{{value.title}}
-									<!--标签-->
-									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-								</view>
-							<view class="uni-media-list-text-bottom">
-								<text>{{value.date}}</text>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			
-			<!--搜索结果为空 跳出弹窗-->
-			<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
-				<view  class="uni-tip">
-						<view class="uni-tip-title text-xl">
-							暂无相关搜索结果<br/>请尝试更换您的关键词<br/>つ♡⊂<br/>———————————
-						</view>
-						<!-- <view class="uni-tip-content">
-							找不到结果
-						</view>		 -->
-						<view class="uni-tip-group-button">
-								<!-- <text class="uni-tip-button text-xl" @click="clearInput">取消</text> -->
-								<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
-						</view>												
-				</view>
-			</uni-popup>
-			
-			<!--触底了-->
-			<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
-				<view  class="uni-tip">
-						<view class="uni-tip-title text-xl">
-							已经到底啦<br/>つ♡⊂<br/>———————————
-						</view>
-						<view class="uni-tip-group-button">
-									<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
-						</view>												
-				</view>
-			</uni-popup>
-			<!--导航栏-->
-			<!-- <navbar ref="navbar"></navbar> -->
-			
-			</view>	
 		</view>
+			
+			
+		<!--搜索栏-->
+		<view class="search-box" v-if="showWelcome==false" style="width: 398.75px;">
+			<block slot="content">首页</block>
+			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showHistory"></mSearch>
+		</view>
+				
+		<view class="search-keyword" @touchstart="blur">
+			<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
+				
+				<view class="keyword-block" v-if="oldKeywordList.length>0">
+					<view class="keyword-list-header">
+						<view>历史搜索</view>
+						<view>
+							<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
+						</view>
+					</view>
+					<view class="keyword">
+						<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+					</view>
+				</view>
+				
+				<view class="keyword-block">
+					<view class="keyword-list-header">
+						<view>热门搜索</view>
+						<view>
+							<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
+						</view>
+					</view>
+					<view class="keyword" v-if="forbid==''">
+						<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+					</view>
+					<view class="hide-hot-tis" v-else>
+						<view>当前搜热门搜索已隐藏</view>
+					</view>
+				</view>
+			</scroll-view>
+		</view>
+		
+		<!--搜索结果为空 跳出弹窗-->
+		<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
+			<view  class="uni-tip">
+					<view class="uni-tip-title text-xl">
+						暂无相关搜索结果<br/>请尝试更换您的关键词<br/>つ♡⊂<br/>———————————
+					</view>
+					<!-- <view class="uni-tip-content">
+						找不到结果
+					</view>		 -->
+					<view class="uni-tip-group-button">
+							<!-- <text class="uni-tip-button text-xl" @click="clearInput">取消</text> -->
+							<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
+					</view>												
+			</view>
+		</uni-popup>
+		
+		<!--触底了-->
+		<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
+			<view  class="uni-tip">
+					<view class="uni-tip-title text-xl">
+						已经到底啦<br/>つ♡⊂<br/>———————————
+					</view>
+					<view class="uni-tip-group-button">
+								<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
+					</view>												
+			</view>
+		</uni-popup>
+		<!--导航栏-->
+		<!-- <navbar ref="navbar"></navbar> -->
+		
+		</view>	
 
 	</view>
 	
@@ -142,6 +119,12 @@
                 isShowKeywordList: false
             }
 		},
+		onLoad() {
+			//自动获取这两个
+		    this.getBanner();
+		    this.getList();
+		    this.init();
+		},
 		onReady() {
 			var tempHeight = 800;
 			var _me = this;
@@ -166,16 +149,6 @@
 			}
 			return false
 		},
-        onLoad() {
-            this.init();
-		},
-		//下拉更新
-        onPullDownRefresh() {
-            this.reload = true;
-            this.last_id = "";
-            this.getBanner();
-            this.getList();
-        },
         onReachBottom() {
             this.getList();
         },
@@ -184,24 +157,9 @@
 				this.showWelcome = false
 				// console.log(this.showWelcome)
 			},
-			// Drawer弹出
-			showDrawer(){
-				uni.showToast({
-					title: '您打开了一个彩蛋',
-					icon: 'none'
-				})
-				if( this.modalName == null ){
-					this.modalName = 'viewModal';
-				}else{
-					this.modalName = null;
-				}
-				console.log(this.modalName)
-			},
-			showModal(e) {
-				this.modalName = e.currentTarget.dataset.target
-			},
-			hideModal(e) {
-				this.modalName = null
+			backIndex: function(e) {
+				this.showWelcome = true
+				// console.log(this.showWelcome)
 			},
 			//流言列表的内容
             getList() {
@@ -415,96 +373,6 @@
 </script>
 
 <style>
-	.DrawerPage.show {
-		transform: scale(0.9, 0.9);
-		left: 85vw;
-		/* box-shadow: 0 0 60upx rgba(0, 0, 0, 0.2); */
-		transform-origin: 0;
-	}
-
-	.DrawerWindow {
-		position: absolute;
-		width: 85vw;
-		height: 100vh;
-		left: 0;
-		top: 0;
-		transform: scale(0.9, 0.9) translateX(-100%);
-		opacity: 0;
-		pointer-events: none;
-		transition: all 0.4s;
-		padding: 100upx 0;
-		background-color: #500200;
-	}
-
-	.DrawerWindow.show {
-		transform: scale(1, 1) translateX(0%);
-		opacity: 1;
-		pointer-events: all;
-	}
-
-	.DrawerClose {
-		position: absolute;
-		width: 40vw;
-		height: 100vh;
-		right: 0;
-		top: 0;
-		color: transparent;
-		padding-bottom: 30upx;
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
-		letter-spacing: 5px;
-		font-size: 50upx;
-		opacity: 0;
-		pointer-events: none;
-		transition: all 0.4s;
-	}
-
-	.DrawerClose.show {
-		opacity: 1;
-		pointer-events: all;
-		width: 15vw;
-		color: #fff;
-	}
-
-	.DrawerPage .cu-bar.tabbar .action button.cuIcon {
-		width: 64upx;
-		height: 64upx;
-		line-height: 64upx;
-		margin: 0;
-		display: inline-block;
-	}
-
-	.DrawerPage .cu-bar.tabbar .action .cu-avatar {
-		margin: 0;
-	}
-
-	.DrawerPage .nav {
-		flex: 1;
-	}
-
-	.DrawerPage .nav .cu-item.cur {
-		border-bottom: 0;
-		position: relative;
-	}
-
-	.DrawerPage .nav .cu-item.cur::after {
-		content: "";
-		width: 10upx;
-		height: 10upx;
-		background-color: currentColor;
-		position: absolute;
-		bottom: 10upx;
-		border-radius: 10upx;
-		left: 0;
-		right: 0;
-		margin: auto;
-	}
-
-	.DrawerPage .cu-bar.tabbar .action {
-		flex: initial;
-	}
 	
     .banner {
         height: 360upx;
