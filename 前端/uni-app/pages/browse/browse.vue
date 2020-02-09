@@ -1,55 +1,44 @@
 <template>
     <view class="uni-fab-box">
 		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
-		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
-			<!-- <hxNavbar :statusBar="false" :leftSlot="false" :transparent="auto" backgroundImg="../../static/bg.png" height="180px" color="#000000" @click="showDrawer" fixed="true">
-			</hxNavbar> -->
-				<!--新闻列表,只有有数据的时候才显示-->
-			<view class="fixed nav" style="font-size: 0px;">
-				<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
-				<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;">
-					<view class="cu-item text-bold" :class="item==category?'bg-selfset-red':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item" style="font-size: 17px;">
-						{{item}}
-					</view>
-				</scroll-view>
+		<view class="fixed nav" style="font-size: 0px;">
+			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
+			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;" id="head">
+				<view class="cu-item text-bold" :class="item==category?'bg-selfset-red':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item" style="font-size: 17px;">
+					{{item}}
 			</view>
-			<!-- 占位符 -->
-			<view style="height:230px"></view>
-			<view class="uni-list" v-if="listData.length >0">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-					@click="goDetail(value,width)">
-					<view class="uni-media-list">
-						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
-						<!--显示默认图片-->
-						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">
-								<!--标题-->
-								{{value.title}}
-									<!--标签-->
-									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-								</view>
-							<view class="uni-media-list-text-bottom">
-								<text>{{value.date}}</text>
+			</scroll-view>
+		</view>	
+		<view :style="{'height':headHeight}"></view>	
+					<!--新闻列表,只有有数据的时候才显示-->
+		<view class="uni-list" v-if="listData.length >0">
+			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+				@click="goDetail(value)">
+				<view class="uni-media-list">
+					<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+					<!--显示默认图片-->
+					<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
+					<view class="uni-media-list-body">
+						<view class="uni-media-list-text-top">
+							<!--标题-->
+							{{value.title}}
+								<!--标签-->
+								<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+									{{value.type}}
+								</text>
 							</view>
+						<view class="uni-media-list-text-bottom">
+							<text>{{value.date}}</text>
+							<text>{{value.platform}}</text>
 						</view>
 					</view>
 				</view>
-			</view>		
-				<!--触底了-->
-			<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
-				<view  class="uni-tip">
-						<view class="uni-tip-title text-xl">
-							已经到底啦<br/>つ♡⊂<br/>———————————
-						</view>
-						<view class="uni-tip-group-button">
-									<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
-						</view>												
-				</view>
-
-			</uni-popup>
+			</view>
+			<uni-load-more :status="status"></uni-load-more>
+		</view>	
+		
+		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''" :style="{'height':height}">
+			<!-- 占位符 -->
 		</scroll-view>
 		
 		<!-- 右侧 -->
@@ -62,8 +51,6 @@
 				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
 				<!-- </view> -->
 			</view>
-		
-			
 			<!-- list -->
 			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
 				
@@ -99,24 +86,16 @@
 			
 		</scroll-view>
 		<!-- end -->
-		
     </view>
 </template>
 
 <script>
 	//在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
-	const innerAudioContext = uni.createInnerAudioContext()
-	innerAudioContext.autoplay = true
-	innerAudioContext.loop = true
-	innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
-	
-	import cuHeader from '@/components/cu-header.vue';
-	import cuVideo from '@/components/cu-video.vue';
+	// const innerAudioContext = uni.createInnerAudioContext()
+	// innerAudioContext.autoplay = true
+	// innerAudioContext.loop = true
+	// // innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'	
     export default {
-		components: {
-			cuHeader,
-			cuVideo
-		},
         data() {
             return {
 				modalName: null,
@@ -131,9 +110,8 @@
 					buttonColor: '#690000'
 				},
 				tabList:["新冠专项","食品安全","医学健康","生活窍门","自然环境","宠物花草","科学技术","神秘现象","传说轶事","其他分类"],
-                banner: {},
                 listData: [],
-                last_id: "",
+                last_id: 1,
 				reload: false,
 				//搜索框相关
 				defaultKeyword: "",
@@ -144,7 +122,10 @@
 				forbid: '',
 				isShowKeywordList: false,
 				category:"新冠专项",
-				scrollLeft:5
+				scrollLeft:5,
+				height:'',
+				headHeight:'',//顶部高度
+				status:'more' //默认显示更多
             }
 		},
 		onBackPress() {
@@ -154,22 +135,39 @@
 			}
 			return false
 		},
-        onLoad() {
+        onReady() {
 			//自动获取这两个
             this.getList();
-            this.init();
+			uni.getSystemInfo({
+				//获取手机屏幕高度信息，让swiper的高度和手机屏幕一样高                
+				success: (res)=> {               
+					const query = uni.createSelectorQuery().in(this);
+					query.select('#head').boundingClientRect(data => {
+					// console.log("节点离页面顶部的距离为" + data.height);
+					let finalHeight = data.top - 35
+					this.headHeight = finalHeight +'px';
+					console.log("节点离页面顶部的距离为" + this.headHeight);
+					let listHeight = res.windowHeight - finalHeight;
+					this.height = listHeight+ 'px';	
+					}).exec();								
+				}
+			});
 		},
 		//下拉更新
         onPullDownRefresh() {
             this.reload = true;
-            this.last_id = "";
-            this.getBanner();
             this.getList();
         },
         onReachBottom() {
+			this.reload = true;
             this.getList();
         },
         methods: {
+			//清空当前页面的数据
+			init(){
+				this.listData = [];
+				this.last_id = 1;
+			},
 			// Drawer弹出
 			showDrawer(){
 				uni.showToast({
@@ -189,15 +187,19 @@
 			hideModal(e) {
 				this.modalName = null
 			},
+			//选择标签
 			tabSelect(e) {
-				this.TabCur = e.currentTarget.dataset.id;
-				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+				this.init();
+				this.category = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
+				this.getList();
 			},
 			//流言列表的内容
             getList() {
 				uni.showLoading({
 					title: '加载中'
 				});
+				this.status = "loading"
                 var data = {
 					_sort:'date:DESC',//按照时间顺序排序
 					_limit:10, //需要的字段名
@@ -212,13 +214,16 @@
                     data: data,
                     success: (data) => {
 						uni.hideLoading();
+						this.status = "more"
                         if (data.statusCode == 200) {
 							let list = data.data;
 							if(list.length >0){
-                                this.listData = this.reload ? list : this.listData.concat(list);
-                                this.last_id = list[list.length - 1].id;
-                                this.reload = false;
+                                this.listData = this.reload ? this.listData.concat(list):list;
+                                this.last_id = this.listData.length+1;
+								this.reload = false;
+								console.log(this.reload)
                             } else {
+								this.status= "noMore"
 									// this.$refs.popupBottom.open();
                             }
                         }
@@ -237,7 +242,6 @@
             //清除输入
             exit:function(e){
                 this.$refs.popupBottom.close();
-
             }
         },
     }

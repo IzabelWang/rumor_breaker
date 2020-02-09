@@ -72,17 +72,17 @@ export default {
 		},
 		focus() {
 			this.active = true;
-			this.$emit('getFocus',true)
 			//HM修改 增加获取焦点判断
 			if (this.inputVal) {
 				this.isDelShow = true;
-			}
+			};
+			this.$emit('getFocus',true)
 		},
 		blur() {
 			this.isFocus = true;
 			if (!this.inputVal) {
-				// this.active = false;
-				// this.$emit('getFocus',false)
+				this.active = false;
+				this.$emit('getFocus',false)
 			}
 		},
 		//清空搜索
@@ -94,12 +94,12 @@ export default {
 		//退出搜索界面
 		clearButton() {
 			//HM修改 收起键盘
-			console.log("hello world")
+			// console.log("hello world")
 			uni.hideKeyboard();
 			// this.isFocus = false;
 			this.inputVal = '';
 			// this.active = false;
-			// this.$emit('getFocus',false)
+			this.$emit('return',false)
 		},
 		getFocus() {
 			this.isFocus = true;
@@ -114,13 +114,15 @@ export default {
 					return;
 				}
 			}
-			console.log(this.inputVal); 
-			uni.hideKeyboard();
+			// console.log(this.inputVal); 
+			//清空输入数据
+			// console.log(this.inputVal)
 			this.isFocus = false;
 			this.active = false;
-			//清空输入数据
-			console.log(this.inputVal)
 			this.$emit('search', this.inputVal?this.inputVal:this.placeholder);
+			this.inputVal = '';
+			uni.hideKeyboard();
+
 
 		}
 	},

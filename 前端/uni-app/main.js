@@ -26,8 +26,14 @@ Vue.component('mSearch',mSearch)
 import hxNavbar from "@/components/hx-navbar/hx-navbar.vue"
 Vue.component('hxNavbar',hxNavbar)
 
-import index from "@/pages/index/index.vue"
-Vue.component('index',index)
+//加载更多
+import uniRefresh from '@/components/uni-refresh.vue';
+
+import uniLoadMore from '@/components/uni-load-more.vue';
+Vue.component('uniLoadMore',uniLoadMore)
+
+import noData from '@/components/nodata.nvue';
+Vue.component('noData',noData)
 
 Vue.config.productionTip = false
 
