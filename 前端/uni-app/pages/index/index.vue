@@ -1,51 +1,74 @@
 <template>
 	<view>
-		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >
+		<!-- 欢迎界面 -->
+		<view class="welcome" v-if="!isShowContent" :style="{'height':height}">
 			<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 				<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:102%; position:absolute; left:calc(44rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>
 		</view>
-			
-			
 		<!--搜索栏-->
-		<view class="search-box" v-if="showWelcome==false" style="width: 398.75px;">
-			<block slot="content">首页</block>
-			<mSearch class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showHistory"></mSearch>
-		</view>
-				
-		<view class="search-keyword" @touchstart="blur">
-			<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
-				
-				<view class="keyword-block" v-if="oldKeywordList.length>0">
-					<view class="keyword-list-header">
-						<view>历史搜索</view>
-						<view>
-							<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
+		<view v-if="isShowContent">
+			<view class="search-box nav fixed" :style="{'width':width}">
+				<mSearch id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="hideKeywordList" @return="hideContent"></mSearch>
+			</view>
+			<view style="height:100upx"></view>
+			<view class="search-keyword" @touchstart="blur" v-if="isShowKeywordList">
+				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
+					<view class="keyword-block" v-if="oldKeywordList.length>0">
+						<view class="keyword-list-header">
+							<view>历史搜索</view>
+							<view>
+								<image @tap="oldDelete" src="/static/HM-search/delete.png"></image>
+							</view>
+						</view>
+						<view class="keyword">
+							<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
 						</view>
 					</view>
-					<view class="keyword">
-						<view v-for="(keyword,index) in oldKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-					</view>
-				</view>
-				
-				<view class="keyword-block">
-					<view class="keyword-list-header">
-						<view>热门搜索</view>
-						<view>
-							<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
+					
+					<view class="keyword-block">
+						<view class="keyword-list-header">
+							<view>热门搜索</view>
+							<view>
+								<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
+							</view>
+						</view>
+						<view class="keyword" v-if="forbid==''">
+							<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+						</view>
+						<view class="hide-hot-tis" v-else>
+							<view>当前搜热门搜索已隐藏</view>
 						</view>
 					</view>
-					<view class="keyword" v-if="forbid==''">
-						<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
-					</view>
-					<view class="hide-hot-tis" v-else>
-						<view>当前搜热门搜索已隐藏</view>
+				</scroll-view>
+			</view>
+			<!--新闻列表,只有有数据的时候才显示-->
+			<view class="uni-list" v-if="listData.length >0 && !isShowKeywordList ">
+				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+					@click="goDetail(value,width)">
+					<view class="uni-media-list">
+						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+						<!--显示默认图片-->
+						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
+						<view class="uni-media-list-body">
+							<view class="uni-media-list-text-top">
+								<!--标题-->
+								{{value.title}}
+									<!--标签-->
+									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+								</view>
+							<view class="uni-media-list-text-bottom">
+								<text>{{value.date}}</text>
+							</view>
+						</view>
 					</view>
 				</view>
-			</scroll-view>
+				<uni-load-more :status="status"></uni-load-more>
+			</view>
 		</view>
-		
 		<!--搜索结果为空 跳出弹窗-->
 		<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
 			<view  class="uni-tip">
@@ -60,26 +83,8 @@
 							<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
 					</view>												
 			</view>
-		</uni-popup>
-		
-		<!--触底了-->
-		<uni-popup ref="popupBottom" type="center" :mask-click="false" :animation="true">
-			<view  class="uni-tip">
-					<view class="uni-tip-title text-xl">
-						已经到底啦<br/>つ♡⊂<br/>———————————
-					</view>
-					<view class="uni-tip-group-button">
-								<text class="uni-tip-button text-xl" @click="exit">好的👌</text>
-					</view>												
-			</view>
-		</uni-popup>
-		<!--导航栏-->
-		<!-- <navbar ref="navbar"></navbar> -->
-		
-		</view>	
-
+		</uni-popup>		
 	</view>
-	
 </template>
 
 <script>
@@ -87,7 +92,7 @@
 	const innerAudioContext = uni.createInnerAudioContext()
 	innerAudioContext.autoplay = true
 	innerAudioContext.loop = true
-	innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
+	// innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
 	
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     var dateUtils = require('../../common/util.js').dateUtils;
@@ -97,7 +102,7 @@
 		},
         data() {
             return {
-				showWelcome:true,//显示欢迎界面
+				isShowContent:false,//显示欢迎界面
 				swiperHeight: '1600upx',//
 				height:'',
 				modalName: null,
@@ -111,40 +116,39 @@
 					selectedColor: '#690000',
 					buttonColor: '#690000'
 				},
-                banner: {},
                 listData: [],
-                last_id: "",
+                last_id: 1,
 				reload: false,
 				//搜索框相关
 				defaultKeyword: "",
 				keyword: "",
 				oldKeywordList: [],
-				hotKeywordList: [],
+				hotKeywordList: ['123','456'],
 				keywordList: [],
 				forbid: '',
-                isShowKeywordList: false
+				isShowKeywordList: true,
+				width:'',
+				status:"more", //最下面显示加载状态
             }
 		},
 		onLoad() {
-			//自动获取这两个
-		    this.getBanner();
-		    this.getList();
+		    // this.getList();
 		    this.init();
 		},
 		onReady() {
 			var tempHeight = 800;
+			var tempWidth = 800;
 			var _me = this;
 			uni.getSystemInfo({
 				//获取手机屏幕高度信息，让swiper的高度和手机屏幕一样高                
 				success: (res)=> {                   
+					tempWidth = res.windowWidth;
 					tempHeight = res.windowHeight;
-					console.log("屏幕可用高度 " + tempHeight);
-					_me.swiperHeight = tempHeight + 'px';
-					console.log("滑屏最后高度 " + _me.swiperHeight);
-					this.height = _me.swiperHeight;
-					console.log("hello world")
-					console.log(this.height);
-					this.welcomeHeight = tempHeight-100;					
+					// console.log("屏幕可用高度 " + tempHeight);
+					// _me.swiperHeight = tempHeight + 'px';
+					// console.log("滑屏最后高度 " + _me.swiperHeight);
+					this.width = tempWidth + 'px';
+					this.height = tempHeight + 'px';			
 				}
 			});
 		},
@@ -156,34 +160,71 @@
 			return false
 		},
         onReachBottom() {
-            this.getList();
+			if(this.isShowContent){
+				this.reload = true;
+				this.getList();
+			}
         },
         methods: {
+			//进入搜索页面
 			showContent: function(e) {
-				this.showWelcome = false
-				// console.log(this.showWelcome)
+				this.isShowContent = true;
 			},
-			backIndex: function(e) {
-				this.showWelcome = true
-				// console.log(this.showWelcome)
+			//回到欢迎页面
+            hideContent:function(msg){
+				this.isShowContent = msg;
+				// console.log("hello World");
+			},			
+			//显示搜索记录
+			hideKeywordList:function(msg){
+				this.isShowKeywordList = msg;
 			},
-			
+			//流言列表的内容
+            getList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				this.status = "loading"
+                var data = {
+					_sort:'date:DESC',//按照时间顺序排序
+					_limit:10, //需要的字段名
+					title_contains:this.keyword,
+					_start : this.last_id
+                };
+                uni.request({
+					url: 'http://120.79.197.140:1337/rumors',
+					method: 'GET',
+                    data: data,
+                    success: (data) => {
+						uni.hideLoading();
+						this.status = "more"
+                        if (data.statusCode == 200) {
+							let list = data.data;
+							if(list.length >0){
+                                this.listData = this.reload ? this.listData.concat(list):list;
+                                this.last_id = this.listData.length+1;
+								this.reload = false;
+								console.log(this.reload)
+                            } else {
+								this.status= "noMore";
+								if(this.reload == false){
+									this.$refs.popupEmpty.open();
+								}
+								
+                            }
+                        }
+                    },
+                    fail: (data, code) => {
+                        console.log('fail' + JSON.stringify(data));
+                    }
+                })
+			},
 			//进入详情页面
             goDetail: function(e) {
                 uni.navigateTo({
                     url: "../detail/detail?id=" + e.id
                 })
             },
-            //显示搜索历史
-            showHistory(msg){
-				this.isShowKeywordList = msg;
-				// console.log("hello World");
-			},
-			//隐藏搜索历史
-            hideHistory(msg){
-				this.isShowKeywordList = msg;
-				console.log("hello World");
-			},
 			init() {
 				this.loadDefaultKeyword();
 				this.loadOldKeyword();
@@ -266,18 +307,15 @@
 			},
 			//执行搜索
 			doSearch(key) {
+				this.isShowKeywordList = false;
 				key = key ? key : this.keyword ? this.keyword : this.defaultKeyword;
 				// this.keyword = key;
 				//清空上一次搜索结果
 				this.listData = [];
 				this.saveKeyword(key); //保存为历史 
-				this.reload = true;
-				this.last_id = "";
 				this.keyword = key;
                 // console.log(key+" a 为什么啊")
                 this.getList();
-                //隐藏下拉列表
-                this.isShowKeywordList = false;
 			},
 			//清楚搜索
 			clearSearch(msg){
@@ -334,7 +372,8 @@
 					this.vertical = ver
 				}
 				this.$forceUpdate()
-			}
+			},
+
         },
     }
 </script>
@@ -563,6 +602,13 @@
 	.keyword-box .keyword-block .keyword {width:94%;padding:3px 3%;display:flex;flex-flow:wrap;justify-content:flex-start;}
 	.keyword-box .keyword-block .hide-hot-tis {display:flex;justify-content:center;font-size:28upx;color:#6b6b6b;}
 	.keyword-box .keyword-block .keyword>view {display:flex;justify-content:center;align-items:center;border-radius:60upx;padding:0 20upx;margin:10upx 20upx 10upx 0;height:60upx;font-size:28upx;background-color:rgb(242,242,242);color:#6b6b6b;}
-
+	.input {
+		width: 100%;
+		max-width: 100%;
+		line-height: 800upx;
+		height: 100upx;
+		transition: all 0.2s linear;
+		padding:20px;
+	}
 
 </style>
