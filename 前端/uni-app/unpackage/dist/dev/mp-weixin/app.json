@@ -1,47 +1,52 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/basics/layout",
-    "pages/basics/background",
-    "pages/basics/text",
-    "pages/basics/icon",
-    "pages/basics/button",
-    "pages/basics/design",
-    "pages/basics/tag",
-    "pages/basics/avatar",
-    "pages/basics/progress",
-    "pages/basics/shadow",
-    "pages/basics/loading",
-    "pages/component/bar",
-    "pages/component/nav",
-    "pages/component/list",
-    "pages/component/card",
-    "pages/component/form",
-    "pages/component/timeline",
-    "pages/component/chat",
-    "pages/component/swiper",
-    "pages/component/modal",
-    "pages/component/steps",
-    "pages/plugin/indexes",
-    "pages/plugin/animation",
-    "pages/plugin/drawer",
-    "pages/plugin/verticalnav",
-    "pages/quiz/quiz"
+    "pages/quiz/quiz",
+    "pages/detail/detail",
+    "pages/browse/browse"
   ],
   "subPackages": [],
   "window": {
-    "navigationBarBackgroundColor": "#0081ff",
-    "navigationBarTitleText": "ColorUi for UniApp",
+    "navigationBarBackgroundColor": "#500200",
     "navigationStyle": "custom",
     "navigationBarTextStyle": "white"
   },
-  "usingComponents": {
-    "basics": "/pages/basics/home",
-    "components": "/pages/component/home",
-    "plugin": "/pages/plugin/home",
-    "cu-custom": "/colorui/components/cu-custom",
-    "quiz": "/pages/quiz/quiz",
-    "navbar": "/pages/component/navbar"
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#ffffff",
+    "borderStyle": "white",
+    "backgroundColor": "#540000",
+    "height": "60px",
+    "fontSize": "20px",
+    "iconWidth": "40px",
+    "spacing": "3px",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon/index.png",
+        "selectedIconPath": "static/icon/index_selected.png",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/browse/browse",
+        "iconPath": "static/icon/browse.png",
+        "selectedIconPath": "static/icon/browse_selected.png",
+        "text": "浏览"
+      },
+      {
+        "pagePath": "pages/quiz/quiz",
+        "iconPath": "static/icon/quiz.png",
+        "selectedIconPath": "static/icon/quiz_selected.png",
+        "text": "答题"
+      }
+    ]
   },
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {
+    "uni-fab": "/components/uni-fab/uni-fab",
+    "cu-custom": "/colorui/components/cu-custom",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "m-search": "/components/mehaotian-search-revision/mehaotian-search-revision",
+    "hx-navbar": "/components/hx-navbar/hx-navbar",
+    "index": "/pages/index/index"
+  }
 }

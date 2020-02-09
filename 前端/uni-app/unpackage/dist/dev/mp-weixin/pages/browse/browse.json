@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "cu-header": "/components/cu-header",
+    "cu-video": "/components/cu-video"
+  }
+}
