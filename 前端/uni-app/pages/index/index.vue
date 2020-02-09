@@ -83,6 +83,12 @@
 </template>
 
 <script>
+	//在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
+	const innerAudioContext = uni.createInnerAudioContext()
+	innerAudioContext.autoplay = true
+	innerAudioContext.loop = true
+	innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
+	
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     var dateUtils = require('../../common/util.js').dateUtils;
     export default {
@@ -161,46 +167,7 @@
 				this.showWelcome = true
 				// console.log(this.showWelcome)
 			},
-			//流言列表的内容
-            getList() {
-				uni.showLoading({
-					title: '加载中'
-				});
-                var data = {
-					_sort:'date:DESC',//按照时间顺序排序
-					_limit:10, //需要的字段名
-					title_contains:this.keyword
-                };
-                if (this.last_id) { //说明已有数据，目前处于上拉加载
-                    data._start = this.last_id;
-                }
-                uni.request({
-					url: 'http://120.79.197.140:1337/rumors',
-					method: 'GET',
-                    data: data,
-                    success: (data) => {
-                        if (data.statusCode == 200) {
-							uni.hideLoading();
-							let list = data.data;
-							if(list.length >0){
-                                this.listData = this.reload ? list : this.listData.concat(list);
-                                this.last_id = list[list.length - 1].id;
-                                this.reload = false;
-                            } else {
-								if(this.listData.length==0){
-									this.listData =list;
-									this.$refs.popupEmpty.open();
-								} else {
-									this.$refs.popupBottom.open();
-								}
-                            }
-                        }
-                    },
-                    fail: (data, code) => {
-                        console.log('fail' + JSON.stringify(data));
-                    }
-                })
-			},			
+			
 			//进入详情页面
             goDetail: function(e) {
                 uni.navigateTo({

@@ -136,13 +136,20 @@
 <script>
 //引入插件
 import uniPopup from "@/components/uni-popup/uni-popup.vue"
+
+//在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
+const innerAudioContext = uni.createInnerAudioContext()
+innerAudioContext.autoplay = true
+innerAudioContext.loop = true
+innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
+
 	export default {
 		components: {
 			uniPopup	
 		},
 		data() {
 			return {
-				showWelcome:true,//显示欢迎界面
+				showWelcome: true,//显示欢迎界面
 				subjectIndex: 0,//跳转索引
 				swiperHeight: '1600upx',//
 				title: '新冠病毒专项答题',
@@ -182,6 +189,13 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
 		},
 		onLoad() {
+			// 加载背景音乐
+			// const innerAudioContext = uni.createInnerAudioContext()
+			// innerAudioContext.autoplay = true
+			// innerAudioContext.loop = true
+			// innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
+			
+			//显示加载中
 			uni.showLoading({
 				title:"加载中...."
 			});			

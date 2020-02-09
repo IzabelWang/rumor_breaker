@@ -22,6 +22,12 @@
 </template>
 
 <script>
+	//在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
+	const innerAudioContext = uni.createInnerAudioContext()
+	innerAudioContext.autoplay = true
+	innerAudioContext.loop = true
+	innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
+	
     export default {
         data() {
             return {

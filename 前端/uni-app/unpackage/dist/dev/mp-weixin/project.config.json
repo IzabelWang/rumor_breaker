@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
 	"appid": "touristappid",
-	"projectname": "ColorUi%20for%20UniApp",
+	"projectname": "ColorUi for UniApp",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -27,15 +27,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"name": "表单",
-					"query": "",
-					"id": 0,
-					"pathName": "pages/component/form"
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

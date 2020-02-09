@@ -1,0 +1,21 @@
+
+.cuIcon-sort{
+	font-size: 50rpx;
+}
+.action>.tab{
+	margin-left: 20rpx;
+}
+.action>.tab>text{
+	font-weight: bold;
+	margin: 0 24rpx;
+	padding-bottom: 10rpx;
+	/* color: #1CBBB4; */
+}
+.tab>.active{
+	border-bottom: 6rpx solid #FFFFFF;
+	/* color: #FFFFFF; */
+}
+.cu-bar>.right{
+	font-size: 40rpx;
+}
+
