@@ -11,8 +11,8 @@
 		</hxNavbar>
 		
 			<!--欢迎页面-->
-		<view class="welcome padding-bottom-xl margin-bottom-xl" v-if="showWelcome==true" :style="{'height':height}" >           
-			<view class="flex align-center" :style="{'height':height}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
+		<view class="welcome" v-if="showWelcome==true" :style="{'height': welcomeHeight}" >           
+			<view class="flex align-center" :style="{'height': welcomeHeight}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
@@ -159,6 +159,7 @@ innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.
 				optionList:[],
 				modalCard: null ,//显示答题卡
 				height:'',
+				welcomeHeight:''
 			}
 		},
 		onReady() {
@@ -183,7 +184,8 @@ innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.
 					this.height = _me.swiperHeight;
 					console.log("hello world")
 					console.log(this.height);
-					this.welcomeHeight = tempHeight-100;					
+					var welcomeHeight = tempHeight-55;			
+					this.welcomeHeight = welcomeHeight +'px'	
 				}
 			});
 
