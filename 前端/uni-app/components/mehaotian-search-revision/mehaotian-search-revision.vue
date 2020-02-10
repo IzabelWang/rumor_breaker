@@ -13,7 +13,7 @@
 				<text class="text-bold">取消</text>
 			</view>
 		</view>
-		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click.stop="clear">
+		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click.stop="clearButton">
 			<view class="button-item">{{!show?searchName:'取消'}}</view>
 		</view>
 	</view>
@@ -53,7 +53,7 @@ export default {
 			active: false,
 			inputVal: '',
 			searchName: '取消',
-			isDelShow: false,
+			isDelShow: true,
 			isFocus: true
 		};
 	},
@@ -82,7 +82,7 @@ export default {
 			this.isFocus = true;
 			if (!this.inputVal) {
 				this.active = false;
-				this.$emit('getFocus',false)
+				// this.$emit('getFocus',false)
 			}
 		},
 		//清空搜索
@@ -94,12 +94,12 @@ export default {
 		//退出搜索界面
 		clearButton() {
 			//HM修改 收起键盘
-			// console.log("hello world")
-			uni.hideKeyboard();
-			// this.isFocus = false;
-			this.inputVal = '';
-			// this.active = false;
 			this.$emit('return',false)
+			uni.hideKeyboard();
+			this.isFocus = false;
+			this.inputVal = '';
+			this.active = false;
+			
 		},
 		getFocus() {
 			this.isFocus = true;
@@ -114,9 +114,6 @@ export default {
 					return;
 				}
 			}
-			// console.log(this.inputVal); 
-			//清空输入数据
-			// console.log(this.inputVal)
 			this.isFocus = false;
 			this.active = false;
 			this.$emit('search', this.inputVal?this.inputVal:this.placeholder);
