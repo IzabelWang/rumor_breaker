@@ -144,12 +144,7 @@
 </template>
 
 <script>
-	// 在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
-	const innerAudioContext = uni.createInnerAudioContext()
-	innerAudioContext.autoplay = true
-	innerAudioContext.loop = true
-	innerAudioContext.src = 'https://music.163.com/song/media/outer/url?id=28287132.mp3'
-	
+
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     var dateUtils = require('../../common/util.js').dateUtils;
     export default {
@@ -206,7 +201,13 @@
 					this.width = tempWidth + 'px';
 					this.height = tempHeight + 'px';			
 				}
-			});			
+			});
+			// 在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
+			const innerAudioContext = uni.createInnerAudioContext()
+			innerAudioContext.autoplay = false
+			innerAudioContext.loop = true
+			innerAudioContext.src = '/static/bgm.mp3'				
+			innerAudioContext.play();		
 		},
 		onBackPress() {
 			if (this.$refs.fab.isShow) {
@@ -243,6 +244,7 @@
 			},
 			//进入搜索页面
 			showContent: function(e) {
+				// innerAudioContext.play();
 				this.isShowContent = true;
 			},
 			//回到欢迎页面
