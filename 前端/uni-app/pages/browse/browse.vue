@@ -1,6 +1,6 @@
 <template>
     <view class="uni-fab-box">
-		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
+		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="30px" Height="45px" Icon="top"/>
 		<view class="nav" style="font-size: 0px;" :class="modalName==null? 'fixed':''">
 			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
 			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;" id="head">
@@ -42,56 +42,6 @@
 			</view>
 			<uni-load-more :status="status"></uni-load-more>
 		</view>	
-		
-		<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''" :style="{'height':height}">
-			<!-- 占位符 -->
-		</scroll-view>
-		
-		<!-- 右侧 -->
-		<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
-			<text class="cuIcon-pullright"></text>
-		</view>
-		<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
-			<!-- 个人界面 -->
-			<view class="header" style="margin-left: calc(40upx);">
-				<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
-				<!-- </view> -->
-			</view>
-			<!-- list -->
-			<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
-				
-				<view class="cu-item arrow">
-					<view class="content">
-						<text class="text-black text-xl"><br/></text>
-						<text class="cuIcon-form text-black"></text>
-						<text class="text-black text-xl text-bold">北京大学</text>
-						<text class="text-white text-xl text-bold"><br/>......</text>
-						<text class="text-black text-xl text-bold">软件与微电子学院</text>
-						<text class="text-white text-xl text-bold"><br/><br/>......</text>
-						<text class="text-black text-xl">
-							本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
-														
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
-							
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台面向的受众为中老年群体，内容为养生方向的谣言鉴别和辟除，其中分为搜索界面，谣言列表界面和辟谣问答游戏三个界面，目前已实现基本的所有功能，后期将不断对数据使用自然语言处理进行获取分类，希望得到各位用户的认可～
-							 
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～&nbsp;&nbsp;&nbsp;&nbsp;つ♡⊂
-							 
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
-							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
-							
-						</text>
-						<text class="text-white text-xl text-bold"><br/>.</text>
-						<text class="text-white text-xl text-bold"><br/>.</text>
-					</view>
-				</view>			
-						
-			</view>			
-		
-			
-		</scroll-view>
-		<!-- end -->
     </view>
 </template>
 
@@ -169,6 +119,13 @@
             this.getList();
         },
         methods: {
+			//返回顶部
+			goTop:function(e){
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 300
+				});
+			},
 			//清空当前页面的数据
 			init(){
 				this.listData = [];
@@ -258,106 +215,6 @@
 	page {
 		width: 100vw;
 		overflow: hidden;
-	}
-	
-	.DrawerPage {
-		position: fixed;
-		width: 100vw;
-		height: 100vh;
-		left: 0vw;
-		background-color: #f1f1f1;
-		transition: all 0.4s;
-	}
-	
-	.DrawerPage.show {
-		transform: scale(0.9, 0.9);
-		left: 85vw;
-		box-shadow: 0 0 60upx rgba(0, 0, 0, 0.2);
-		transform-origin: 0;
-	}
-	
-	.DrawerWindow {
-		position: absolute;
-		width: 85vw;
-		height: 100vh;
-		left: 0;
-		top: 0;
-		transform: scale(0.9, 0.9) translateX(-100%);
-		opacity: 0;
-		pointer-events: none;
-		transition: all 0.4s;
-		padding: 100upx 0;
-		background-color: #500200;
-	}
-	
-	.DrawerWindow.show {
-		transform: scale(1, 1) translateX(0%);
-		opacity: 1;
-		pointer-events: all;
-	}
-	
-	.DrawerClose {
-		position: absolute;
-		width: 40vw;
-		height: 100vh;
-		right: 0;
-		top: 0;
-		color: transparent;
-		padding-bottom: 30upx;
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
-		letter-spacing: 5px;
-		font-size: 50upx;
-		opacity: 0;
-		pointer-events: none;
-		transition: all 0.4s;
-	}
-	
-	.DrawerClose.show {
-		opacity: 1;
-		pointer-events: all;
-		width: 15vw;
-		color: #fff;
-	}
-	
-	.DrawerPage .cu-bar.tabbar .action button.cuIcon {
-		width: 64upx;
-		height: 64upx;
-		line-height: 64upx;
-		margin: 0;
-		display: inline-block;
-	}
-	
-	.DrawerPage .cu-bar.tabbar .action .cu-avatar {
-		margin: 0;
-	}
-	
-	.DrawerPage .nav {
-		flex: 1;
-	}
-	
-	.DrawerPage .nav .cu-item.cur {
-		border-bottom: 0;
-		position: relative;
-	}
-	
-	.DrawerPage .nav .cu-item.cur::after {
-		content: "";
-		width: 10upx;
-		height: 10upx;
-		background-color: currentColor;
-		position: absolute;
-		bottom: 10upx;
-		border-radius: 10upx;
-		left: 0;
-		right: 0;
-		margin: auto;
-	}
-	
-	.DrawerPage .cu-bar.tabbar .action {
-		flex: initial;
 	}
 
     .banner {

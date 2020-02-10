@@ -2,10 +2,58 @@
 	<view>
 		<!-- 欢迎界面 -->
 		<view class="welcome" v-if="!isShowContent" :style="{'height':height}">
+			<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
 			<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 				<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:102%; position:absolute; left:calc(44rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>
+			<!-- 右侧 -->
+			<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
+				<text class="cuIcon-pullright"></text>
+			</view>
+			<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
+				<!-- 个人界面 -->
+				<view class="header" style="margin-left: calc(40upx);">
+					<text class="text-white text-bold" style="font-size: 56upx;" >团队介绍</text>
+					<!-- </view> -->
+				</view>
+			
+				
+				<!-- list -->
+				<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
+					
+					<view class="cu-item arrow">
+						<view class="content">
+							<text class="text-black text-xl"><br/></text>
+							<text class="cuIcon-form text-black"></text>
+							<text class="text-black text-xl text-bold">北京大学</text>
+							<text class="text-white text-xl text-bold"><br/>......</text>
+							<text class="text-black text-xl text-bold">软件与微电子学院</text>
+							<text class="text-white text-xl text-bold"><br/><br/>......</text>
+							<text class="text-black text-xl">
+								本平台由北京大学软件与微电子学院王可欣团队搭建而成，团队成员如下：
+															
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;王可欣  周慧敏  程玄
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈鸿凯  江姗姗  徐康
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台面向的受众为中老年群体，内容为养生方向的谣言鉴别和辟除，其中分为搜索界面，谣言列表界面和辟谣问答游戏三个界面，目前已实现基本的所有功能，后期将不断对数据使用自然语言处理进行获取分类，希望得到各位用户的认可～
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～   つ♡⊂
+								
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
+								
+							</text>
+							<text class="text-white text-xl text-bold"><br/>.</text>
+							<text class="text-white text-xl text-bold"><br/>.</text>
+						</view>
+					</view>			
+							
+				</view>			
+
+				
+			</scroll-view>
+		<!-- end -->
 		</view>
 		<!--搜索栏-->
 		<view v-if="isShowContent">
@@ -44,9 +92,9 @@
 				</scroll-view>
 			</view>
 			<!--新闻列表,只有有数据的时候才显示-->
-			<view class="uni-list" v-if="listData.length >0 && !isShowKeywordList ">
+			<view class="uni-list" v-if="listData.length >0">
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-					@click="goDetail(value,width)">
+					@click="goDetail(value)">
 					<view class="uni-media-list">
 						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
 						<!--显示默认图片-->
@@ -56,18 +104,25 @@
 								<!--标题-->
 								{{value.title}}
 									<!--标签-->
-									<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+									<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+									<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+									<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
 										{{value.type}}
 									</text>
 								</view>
 							<view class="uni-media-list-text-bottom">
 								<text>{{value.date}}</text>
+								<text>{{value.platform}}</text>
 							</view>
 						</view>
 					</view>
 				</view>
 				<uni-load-more :status="status"></uni-load-more>
-			</view>
+			</view>	
 		</view>
 		<!--搜索结果为空 跳出弹窗-->
 		<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
@@ -151,7 +206,7 @@
 					this.width = tempWidth + 'px';
 					this.height = tempHeight + 'px';			
 				}
-			});
+			});			
 		},
 		onBackPress() {
 			if (this.$refs.fab.isShow) {
@@ -167,6 +222,25 @@
 			}
         },
         methods: {
+			// Drawer弹出
+			showDrawer(){
+				uni.showToast({
+					title: '您打开了一个彩蛋',
+					icon: 'none'
+				})
+				if( this.modalName == null ){
+					this.modalName = 'viewModal';
+				}else{
+					this.modalName = null;
+				}
+				// console.log(this.modalName)
+			},
+			showModal(e) {
+				this.modalName = e.currentTarget.dataset.target
+			},
+			hideModal(e) {
+				this.modalName = null
+			},
 			//进入搜索页面
 			showContent: function(e) {
 				this.isShowContent = true;
@@ -610,6 +684,105 @@
 		height: 100upx;
 		transition: all 0.2s linear;
 		padding:20px;
+	}
+	.DrawerPage {
+		position: fixed;
+		width: 100vw;
+		height: 100vh;
+		left: 0vw;
+		background-color: #f1f1f1;
+		transition: all 0.4s;
+	}
+	
+	.DrawerPage.show {
+		transform: scale(0.9, 0.9);
+		left: 85vw;
+		box-shadow: 0 0 60upx rgba(0, 0, 0, 0.2);
+		transform-origin: 0;
+	}
+	
+	.DrawerWindow {
+		position: absolute;
+		width: 85vw;
+		height: 100vh;
+		left: 0;
+		top: 0;
+		transform: scale(0.9, 0.9) translateX(-100%);
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+		padding: 100upx 0;
+		background-color: #500200;
+	}
+	
+	.DrawerWindow.show {
+		transform: scale(1, 1) translateX(0%);
+		opacity: 1;
+		pointer-events: all;
+	}
+	
+	.DrawerClose {
+		position: absolute;
+		width: 40vw;
+		height: 100vh;
+		right: 0;
+		top: 0;
+		color: transparent;
+		padding-bottom: 30upx;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.6));
+		letter-spacing: 5px;
+		font-size: 50upx;
+		opacity: 0;
+		pointer-events: none;
+		transition: all 0.4s;
+	}
+	
+	.DrawerClose.show {
+		opacity: 1;
+		pointer-events: all;
+		width: 15vw;
+		color: #fff;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action button.cuIcon {
+		width: 64upx;
+		height: 64upx;
+		line-height: 64upx;
+		margin: 0;
+		display: inline-block;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action .cu-avatar {
+		margin: 0;
+	}
+	
+	.DrawerPage .nav {
+		flex: 1;
+	}
+	
+	.DrawerPage .nav .cu-item.cur {
+		border-bottom: 0;
+		position: relative;
+	}
+	
+	.DrawerPage .nav .cu-item.cur::after {
+		content: "";
+		width: 10upx;
+		height: 10upx;
+		background-color: currentColor;
+		position: absolute;
+		bottom: 10upx;
+		border-radius: 10upx;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	
+	.DrawerPage .cu-bar.tabbar .action {
+		flex: initial;
 	}
 
 </style>
