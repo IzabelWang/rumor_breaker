@@ -172,7 +172,7 @@
 			},
 			//回到欢迎页面
             hideContent:function(msg){
-				this.isShowContent = msg;
+				this.isShowContent = false;
 				// console.log("hello World");
 			},			
 			//显示搜索记录
