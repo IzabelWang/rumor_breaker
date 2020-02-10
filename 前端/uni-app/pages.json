@@ -4,20 +4,20 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				// "navigationBarTitleText": "谣言粉碎机",
+				"navigationBarTitleText": "谣言粉碎机"
 				// "enablePullDownRefresh": true
 			}
 		},{
 			"path": "pages/quiz/quiz",
 			"style": {
-				// "navigationBarTitleText": "新冠病毒专项答题",
+				"navigationBarTitleText": "新冠病毒专项答题"
 				// "enablePullDownRefresh": false				
 			}
 		},
 		{
 			"path" : "pages/detail/detail",
 			"style": {
-				// "navigationBarTitleText": "详情",
+				"navigationBarTitleText": "详情",
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent"
@@ -28,7 +28,7 @@
 		{
 			"path": "pages/browse/browse",
 			"style": {
-				// "navigationBarTitleText": "新冠病毒专项答题",
+				"navigationBarTitleText": "谣言浏览"
 				// "enablePullDownRefresh": false				
 			}
 		}	

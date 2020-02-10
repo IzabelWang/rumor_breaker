@@ -5,16 +5,13 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:220px"/>
+				<input confirm-type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:220px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
-				<!-- <text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text> -->
+				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text>
 			</view>
 			<view  v-show="(active&&show&&button === 'inside')||(isDelShow && button === 'inside')" class="serachBtn" @click.stop="clearButton">
 				<text class="text-bold">取消</text>
 			</view>
-		</view>
-		<view  v-if="button === 'outside'" class="button" :class="{'active':show||active}" @click.stop="clearButton">
-			<view class="button-item">{{!show?searchName:'取消'}}</view>
 		</view>
 	</view>
 </template>
@@ -130,7 +127,7 @@ export default {
 				//this.isDelShow = true; //HM修改 直接点击页面预设关键字样式异常，注销
 			} else {
 				this.searchName = '取消';
-				this.isDelShow = false;
+				// this.isDelShow = false;
 			}
 		},
 		//HM修改 双向绑定
