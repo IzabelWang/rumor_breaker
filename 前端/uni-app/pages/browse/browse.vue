@@ -1,7 +1,7 @@
 <template>
     <view class="uni-fab-box">
 		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
-		<view class="fixed nav" style="font-size: 0px;">
+		<view class="nav" style="font-size: 0px;" :class="modalName==null? 'fixed':''">
 			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
 			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;" id="head">
 				<view class="cu-item text-bold" :class="item==category?'bg-selfset-red':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item" style="font-size: 17px;">
@@ -9,7 +9,7 @@
 			</view>
 			</scroll-view>
 		</view>	
-		<view :style="{'height':headHeight}"></view>	
+		<view v-if = "modalName==null" :style="{'height':headHeight}"></view>	
 					<!--新闻列表,只有有数据的时候才显示-->
 		<view class="uni-list" v-if="listData.length >0">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
@@ -23,7 +23,13 @@
 							<!--标题-->
 							{{value.title}}
 								<!--标签-->
-								<text class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+								<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+									{{value.type}}
+								</text>
+								<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+									{{value.type}}
+								</text>
+								<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
 									{{value.type}}
 								</text>
 							</view>
