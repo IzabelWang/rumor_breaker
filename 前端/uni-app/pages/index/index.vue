@@ -6,7 +6,7 @@
 				<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="18px" Height="35px" Icon="send"/>
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
-					<image src="/static/Search_Button.png" @click="showContent(); showRandomHotSearch()" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+					<image src="/static/Search_Button.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 			</scroll-view>
 			
@@ -60,8 +60,8 @@
 		
 		<!--搜索栏-->
 		<view v-if="isShowContent">
-			<view class="search-box nav fixed" style="background-color: #ffffff;" :style="{'width':width}">
-				<mSearch id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="hideKeywordList" @return="hideContent"></mSearch>
+			<view class="search-box nav fixed" style="background-color: #ffffff;box-shadow:none" :style="{'width':width}">
+				<mSearch ref="input" id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showKeywordList" @return="hideContent"></mSearch>
 			</view>
 			
 			<view style="height: 110upx; background: #ffffff; bottom: 10upx;"></view>
@@ -87,7 +87,7 @@
 							</view>
 						</view>
 						<view class="keyword" v-if="forbid==''">
-							<view v-for="(keyword,index) in showKeyWordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+							<view v-for="(keyword,index) in recKeyWordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
 						</view>
 						<view class="hide-hot-tis" v-else>
 							<view>当前热门搜索已隐藏</view>
@@ -97,49 +97,36 @@
 			</view>
 			
 			<!--新闻列表,只有有数据的时候才显示-->
-			<view class="keyword-block">
-				<view class="keyword-list-header">
-					<view>谣言列表</view>
-					<view>
-						<image @tap="hotToggle_news" :src="'/static/HM-search/attention'+forbid_news+'.png'"></image>
-					</view>
-				</view>
-				<view v-if="forbid_news==''">
-					<view class="uni-list" v-if="listData.length >0">
-						<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-							@click="goDetail(value)">
-							<view class="uni-media-list">
-								<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
-								<!--显示默认图片-->
-								<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
-								<view class="uni-media-list-body">
-									<view class="uni-media-list-text-top">
-										<!--标题-->
-										{{value.title}}
-											<!--标签-->
-											<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-												{{value.type}}
-											</text>
-											<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-												{{value.type}}
-											</text>
-											<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-												{{value.type}}
-											</text>
-										</view>
-									<view class="uni-media-list-text-bottom">
-										<text>{{value.date}}</text>
-										<text>{{value.platform}}</text>
-									</view>
+			<view class="uni-list" v-if="listData.length >0">
+				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+					@click="goDetail(value)">
+					<view class="uni-media-list">
+						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+						<!--显示默认图片-->
+						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
+						<view class="uni-media-list-body">
+							<view class="uni-media-list-text-top">
+								<!--标题-->
+								{{value.title}}
+									<!--标签-->
+									<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+									<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
+									<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+										{{value.type}}
+									</text>
 								</view>
+							<view class="uni-media-list-text-bottom">
+								<text>{{value.date}}</text>
+								<text>{{value.platform}}</text>
 							</view>
 						</view>
-						<uni-load-more :status="status"></uni-load-more>
 					</view>
 				</view>
-				<view class="hide-hot-tis" v-else>
-					<view>当前谣言列表已隐藏</view>
-				</view>
+				<uni-load-more :status="status"></uni-load-more>
 			</view>
 				
 		</view>
@@ -153,7 +140,6 @@
 						找不到结果
 					</view>		 -->
 					<view class="uni-tip-group-button">
-							<!-- <text class="uni-tip-button text-xl" @click="clearInput">取消</text> -->
 							<text class="uni-tip-button text-xl" @click="clearInput">好的👌</text>
 					</view>												
 			</view>
@@ -163,7 +149,11 @@
 </template>
 
 <script>
-
+	// 在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
+	const innerAudioContext = uni.createInnerAudioContext()
+	innerAudioContext.autoplay = false
+	innerAudioContext.loop = true
+	innerAudioContext.src = '/static/bgm.mp3'
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     var dateUtils = require('../../common/util.js').dateUtils;
     export default {
@@ -200,7 +190,7 @@
 				isShowKeywordList: true,
 				width:'',
 				status:"more", //最下面显示加载状态
-				showKeyWordList: [],
+				recKeyWordList: [],
 				hotKeyWordQuesList: ['自来水煮过数次不能饮用', '饭前用开水烫碗筷有用吗', '只吃素菜不吃荤菜可以减少健康问题','睡眠时间越长越好','热鸭梨水能抗癌',
 				'缺维生素B2会致癌','雪梨银耳清肺','饮60℃的开水可杀死病毒','降雪会抑制病毒传播','新型冠状病毒是人工病毒','中央空调会传播病毒','定期用生理盐水清洗鼻子可以预防新型冠状病毒',
 				'多喝热水可以杀死新型冠状病毒','吃大蒜抗病毒','盐水漱口可以防病毒','燃放烟花可以预防瘟疫','特殊时期到底要不要开窗通风','自制口罩靠谱吗','洗热水澡能预防新型冠状病毒',
@@ -231,13 +221,7 @@
 					this.height = tempHeight + 'px';			
 				}
 			});
-			
-			// 在微信开发者工具自动播放，本地网络没有反应，怀疑是 iOS 端播不了 or h5 播不了
-			const innerAudioContext = uni.createInnerAudioContext()
-			innerAudioContext.autoplay = false
-			innerAudioContext.loop = true
-			innerAudioContext.src = '/static/bgm.mp3'				
-			innerAudioContext.play();		
+									
 		},
 		onBackPress() {
 			if (this.$refs.fab.isShow) {
@@ -247,28 +231,21 @@
 			return false
 		},
         onReachBottom() {
-			if(this.isShowContent){
+			if(this.isShowContent&&(!this.isShowKeywordList)){
 				this.reload = true;
 				this.getList();
 			}
         },
         methods: {
 			//显示随机热门搜索内容
-			showRandomHotSearch(){
-				var a = Math.round(Math.random()*3+7);
-				for (var i = 0; i < a; i++){
-					var b = Math.round((Math.random()*(this.hotKeyWordQuesList.length-1)))
-					this.showKeyWordList.push(this.hotKeyWordQuesList[b])
-				}
-				//去除重复元素
-				
-				for(var i = 0; i < this.showKeyWordList.length; i++){
-				    if(temp.indexOf(this.showKeyWordList) == -1){
-				      temp.push(this.showKeyWordList[i]);
-				    }
-				}
-				this.showKeyWordList = temp;
-				return this.showKeyWordList;
+			showRandomHotSearch:function(e){
+				//打乱题目
+				function randomsort(a, b) {
+					return Math.random()>.5 ? -1 : 1;
+					//用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
+				}				
+				this.hotKeyWordQuesList.sort(randomsort); //打乱数组
+				this.recKeyWordList = this.hotKeyWordQuesList.slice(1,11);
 			},
 			// Drawer弹出
 			showDrawer(){
@@ -291,7 +268,8 @@
 			},
 			//进入搜索页面
 			showContent: function(e) {
-				// innerAudioContext.play();
+				this.showRandomHotSearch();
+				innerAudioContext.play();
 				this.isShowContent = true;
 			},
 			//回到欢迎页面
@@ -299,9 +277,12 @@
 				this.isShowContent = false;
 				// console.log("hello World");
 			},			
-			//显示搜索记录
-			hideKeywordList:function(msg){
+			//点击搜索框的函数
+			showKeywordList:function(msg){
+				this.showRandomHotSearch();
 				this.isShowKeywordList = msg;
+				//不显示新闻列表
+				this.listData =[];
 			},
 			//流言列表的内容
             getList() {
@@ -333,6 +314,7 @@
 								this.status= "noMore";
 								if(this.reload == false){
 									this.$refs.popupEmpty.open();
+									this.$refs.input.isDisableInput = true;
 								}
 								
                             }
@@ -341,7 +323,7 @@
                     fail: (data, code) => {
                         console.log('fail' + JSON.stringify(data));
                     }
-                })
+				})
 			},
 			//进入详情页面
             goDetail: function(e) {
@@ -484,12 +466,10 @@
             //清除输入
             clearInput:function(e){
                 this.keyword = "";
-                this.getList();
-                this.$refs.popupEmpty.close();
-
-			},
-			exit:function(e){
-				this.$refs.popupBottom.close();
+                // this.getList();
+				this.$refs.popupEmpty.close();
+				this.$refs.input.isDisableInput = false;
+				this.isShowKeywordList = true;
 			},
 			switchBtn(hor, ver) {
 				if (hor === 0) {
