@@ -1,16 +1,20 @@
 <template>
 	<view>
-		<!-- 欢迎界面 -->
+		<!-- 中国加油界面 -->
 		<view class="welcome" v-if="!isShowContent" :style="{'height':height}">
-			<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="21px" Height="45px" Icon="send"/>
-			<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
-				<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
-				<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:102%; position:absolute; left:calc(44rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
-			</view>
-			<!-- 右侧 -->
+			<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
+				<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="18px" Height="35px" Icon="send"/>
+				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
+					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
+					<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				</view>
+			</scroll-view>
+			
+			<!-- 右侧抽屉 -->
 			<view class="DrawerClose" :class="modalName=='viewModal'?'show':''" @tap="hideModal">
 				<text class="cuIcon-pullright"></text>
 			</view>
+			
 			<scroll-view scroll-y class="DrawerWindow" :class="modalName=='viewModal'?'show':''">
 				<!-- 个人界面 -->
 				<view class="header" style="margin-left: calc(40upx);">
@@ -18,7 +22,6 @@
 					<!-- </view> -->
 				</view>
 			
-				
 				<!-- list -->
 				<view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
 					
@@ -51,16 +54,17 @@
 							
 				</view>			
 
-				
 			</scroll-view>
 		<!-- end -->
 		</view>
+		
 		<!--搜索栏-->
 		<view v-if="isShowContent">
-			<view class="search-box nav fixed" :style="{'width':width}">
+			<view class="search-box nav fixed" style="background-color: #ffffff;" :style="{'width':width}">
 				<mSearch id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="hideKeywordList" @return="hideContent"></mSearch>
 			</view>
-			<view style="height:100upx"></view>
+			
+			<view style="height:105upx"></view>
 			<view class="search-keyword" @touchstart="blur" v-if="isShowKeywordList">
 				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
 					<view class="keyword-block" v-if="oldKeywordList.length>0">
@@ -86,43 +90,58 @@
 							<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
 						</view>
 						<view class="hide-hot-tis" v-else>
-							<view>当前搜热门搜索已隐藏</view>
+							<view>当前热门搜索已隐藏</view>
 						</view>
 					</view>
 				</scroll-view>
 			</view>
+			
 			<!--新闻列表,只有有数据的时候才显示-->
-			<view class="uni-list" v-if="listData.length >0">
-				<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
-					@click="goDetail(value)">
-					<view class="uni-media-list">
-						<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
-						<!--显示默认图片-->
-						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
-						<view class="uni-media-list-body">
-							<view class="uni-media-list-text-top">
-								<!--标题-->
-								{{value.title}}
-									<!--标签-->
-									<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-									<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-									<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-								</view>
-							<view class="uni-media-list-text-bottom">
-								<text>{{value.date}}</text>
-								<text>{{value.platform}}</text>
-							</view>
-						</view>
+			<view class="keyword-block">
+				<view class="keyword-list-header">
+					<view>谣言列表</view>
+					<view>
+						<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
 					</view>
 				</view>
-				<uni-load-more :status="status"></uni-load-more>
-			</view>	
+				<view class="keyword" v-if="forbid==''">
+					<view class="uni-list" v-if="listData.length >0">
+						<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
+							@click="goDetail(value)">
+							<view class="uni-media-list">
+								<image class="uni-media-list-logo" :src="value.avatar" v-if="value.avatar!=null"></image>
+								<!--显示默认图片-->
+								<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
+								<view class="uni-media-list-body">
+									<view class="uni-media-list-text-top">
+										<!--标题-->
+										{{value.title}}
+											<!--标签-->
+											<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
+												{{value.type}}
+											</text>
+											<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+												{{value.type}}
+											</text>
+											<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
+												{{value.type}}
+											</text>
+										</view>
+									<view class="uni-media-list-text-bottom">
+										<text>{{value.date}}</text>
+										<text>{{value.platform}}</text>
+									</view>
+								</view>
+							</view>
+						</view>
+						<uni-load-more :status="status"></uni-load-more>
+					</view>
+				</view>
+				<view class="hide-hot-tis" v-else>
+					<view>当前谣言列表已隐藏</view>
+				</view>
+			</view>
+				
 		</view>
 		<!--搜索结果为空 跳出弹窗-->
 		<uni-popup ref="popupEmpty" type="center" :mask-click="false" :animation="true">
@@ -165,7 +184,7 @@
 					color: '#7A7E83',
 					backgroundColor: '#fff',
 					selectedColor: '#690000',
-					buttonColor: '#690000'
+					buttonColor: '#5e0000'
 				},
                 listData: [],
                 last_id: 1,
@@ -658,13 +677,13 @@
 		color: #3b4144;
 	}
 	view{display:block;}
-	.search-box {width:95%;background-color:rgb(242,242,242);padding:15upx 2.5%;display:flex;justify-content:space-between;}
+	.search-box {width:95%;background-color:rgb(255, 255, 255);padding:15upx 3%;display:flex;justify-content:space-between;}
 	.search-box .mSearch-input-box{width: 100%;}
 	.search-box .input-box {width:85%;flex-shrink:1;display:flex;justify-content:center;align-items:center;}
 	.search-box .search-btn {width:15%;margin:0 0 0 2%;display:flex;justify-content:center;align-items:center;flex-shrink:0;font-size:28upx;color:#fff;background:linear-gradient(to right,#ff9801,#ff570a);border-radius:60upx;}
 	.search-box .input-box>input {width:100%;height:60upx;font-size:32upx;border:0;border-radius:60upx;-webkit-appearance:none;-moz-appearance:none;appearance:none;padding:0 3%;margin:0;background-color:#ffffff;}
-	.placeholder-class {color:#9e9e9e;}
-	.search-keyword {width:100%;background-color:rgb(242,242,242);}
+	.placeholder-class {color:#ffffff;}
+	.search-keyword {width:100%;background-color:rgb(255, 255, 255);}
 	.keyword-list-box {height:calc(100vh - 110upx);padding-top:10upx;border-radius:20upx 20upx 0 0;background-color:#fff;}
 	.keyword-entry-tap {background-color:#eee;}
 	.keyword-entry {width:94%;height:80upx;margin:0 3%;font-size:30upx;color:#333;display:flex;justify-content:space-between;align-items:center;border-bottom:solid 1upx #e7e7e7;}

@@ -1,6 +1,6 @@
 <template>
     <view class="uni-fab-box">
-		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="30px" Height="45px" Icon="top"/>
+		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="18px" Height="35px" Icon="top"/>
 		<view class="nav" style="font-size: 0px;" :class="modalName==null? 'fixed':''">
 			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
 			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;" id="head">
@@ -10,7 +10,7 @@
 			</scroll-view>
 		</view>	
 		<view v-if = "modalName==null" :style="{'height':headHeight}"></view>	
-					<!--新闻列表,只有有数据的时候才显示-->
+		<!--新闻列表,只有有数据的时候才显示-->
 		<view class="uni-list" v-if="listData.length >0">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
 				@click="goDetail(value)">
@@ -60,7 +60,7 @@
 				vertical: 'bottom',
 				direction: 'vertical',
 				pattern: {
-					color: '#7A7E83',
+					color: '#c0c6cd',
 					backgroundColor: '#fff',
 					selectedColor: '#690000',
 					buttonColor: '#690000'
