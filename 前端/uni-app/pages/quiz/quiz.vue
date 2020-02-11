@@ -301,7 +301,6 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 				//返回欢迎界面
 				this.showWelcome = true
 				this.subjectIndex = 0
-
 			},
 			//关闭答案
 			closeAns:function(e){

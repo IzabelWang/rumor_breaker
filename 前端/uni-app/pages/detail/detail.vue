@@ -1,5 +1,6 @@
 <template>
     <view>
+		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="18px" Height="35px" Icon="top"/>
         <hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" :title="banner.title">
 		</hxNavbar>
         <view class="banner">
@@ -14,10 +15,10 @@
         </view>
         <view class="article-content">
             <rich-text :nodes="htmlString"></rich-text>
+            <!-- 增加返回顶部 -->
+
         </view>
-        <!-- #ifdef MP-WEIXIN -->
-        <ad v-if="htmlString" unit-id="adunit-01b7a010bf53d74e"></ad>
-        <!-- #endif -->
+
     </view>
 </template>
 
@@ -33,7 +34,16 @@
             return {
                 title: 'list-triplex-row',
                 banner: {},
-                htmlString: ""
+                htmlString: "",
+				horizontal: 'right',
+				vertical: 'bottom',
+				direction: 'vertical',
+				pattern: {
+					color: '#c0c6cd',
+					backgroundColor: '#fff',
+					selectedColor: '#690000',
+					buttonColor: '#690000'
+				}
             }
         },
         onShareAppMessage() {
@@ -65,7 +75,15 @@
 				fail: () => {},
 				complete: () => {}
 			});
-		}
+        },
+        methods:{
+			goTop:function(e){
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 100
+				});
+			}
+        }
     }
 </script>
 
