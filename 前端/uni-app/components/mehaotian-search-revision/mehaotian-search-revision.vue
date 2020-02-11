@@ -5,7 +5,7 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input confirm-type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:215px"/>
+				<input :disabled="isDisableInput" confirm-type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:215px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
 				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text>
 			</view>
@@ -51,7 +51,8 @@ export default {
 			inputVal: '',
 			searchName: '取消',
 			isDelShow: true,
-			isFocus: true
+			isFocus: true,
+			isDisableInput:false
 		};
 	},
 	methods: {
@@ -113,11 +114,10 @@ export default {
 			}
 			this.isFocus = false;
 			this.active = false;
+			uni.hideKeyboard();
+			//进行搜索
 			this.$emit('search', this.inputVal?this.inputVal:this.placeholder);
 			this.inputVal = '';
-			uni.hideKeyboard();
-
-
 		}
 	},
 	watch: {
@@ -148,7 +148,7 @@ export default {
 	.content {
 		display: flex;
 		align-items: center;
-		margin-left: 35upx;
+		margin-left: 5upx;
 		padding-left: 5upx;
 		width: 100%;
 		height: 80upx;
