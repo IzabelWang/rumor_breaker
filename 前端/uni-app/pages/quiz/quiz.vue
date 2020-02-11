@@ -7,7 +7,7 @@
 				</text>
 			</block>
 		</cu-custom> -->
-		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="中老年养生信息辟谣平台" :back="false">
+		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="养生信息辟谣趣味答题" :back="false">
 		</hxNavbar>
 		
 			<!--欢迎页面-->
@@ -16,7 +16,7 @@
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
-				<image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:8%; left:calc(160rpx); top: calc(450rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				<image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:9%; left:calc(160rpx); top: calc(375rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->

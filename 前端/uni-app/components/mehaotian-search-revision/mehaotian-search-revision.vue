@@ -5,7 +5,7 @@
 			<view class="content-box" :class="{'center':mode === 2}" @click="getFocus">
 				<text class="icon icon-serach"></text>
 				<!-- HM修改 增加placeholder input confirm-type confirm-->
-				<input confirm-type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:220px"/>
+				<input confirm-type="search" :placeholder="placeholder" class="input" :class="{'center':!active && mode === 2}" :focus="isFocus" v-model="inputVal" @focus="focus" @confirm="doSearch" @blur="blur" style="width:215px"/>
 				<!-- HM修改 @click换成@click.stop阻止冒泡 -->
 				<text v-if="isDelShow" class="icon icon-del"  @click.stop="clearInput"></text>
 			</view>
@@ -225,7 +225,7 @@ export default {
 
 .icon {
 	font-family: iconfont;
-	font-size: 34upx;
+	font-size: 30upx;
 	font-style: normal;
 	color: #7e7e7e;
 	width: 60rpx;
