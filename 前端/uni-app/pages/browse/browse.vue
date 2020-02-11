@@ -9,7 +9,7 @@
 			</view>
 			</scroll-view>
 		</view>	
-		<view v-if = "modalName==null" :style="{'height':headHeight}"></view>	
+		<view v-if = "modalName==null" style="height:410upx"></view>	
 		<!--新闻列表,只有有数据的时候才显示-->
 		<view class="uni-list" v-if="listData.length >0">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
@@ -80,7 +80,7 @@
 				category:"新冠专项",
 				scrollLeft:5,
 				height:'',
-				headHeight:'',//顶部高度
+				// headHeight:'',//顶部高度
 				status:'more' //默认显示更多
             }
 		},
@@ -99,9 +99,9 @@
 				success: (res)=> {               
 					const query = uni.createSelectorQuery().in(this);
 					query.select('#head').boundingClientRect(data => {
-					// console.log("节点离页面顶部的距离为" + data.height);
-					let finalHeight = data.top - 35
-					this.headHeight = finalHeight +'px';
+					// // console.log("节点离页面顶部的距离为" + data.height);
+					// let finalHeight = data.top - 35
+					// this.headHeight = finalHeight +'px';
 					console.log("节点离页面顶部的距离为" + this.headHeight);
 					let listHeight = res.windowHeight - finalHeight;
 					this.height = listHeight+ 'px';	
