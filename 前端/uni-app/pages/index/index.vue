@@ -6,7 +6,7 @@
 				<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="18px" Height="35px" Icon="send"/>
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
-					<image src="/static/Search_Button.png" @click="showContent" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+					<image src="/static/Search_Button.png" @click="showContent(); showRandomHotSearch()" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 			</scroll-view>
 			
@@ -64,7 +64,7 @@
 				<mSearch id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="hideKeywordList" @return="hideContent"></mSearch>
 			</view>
 			
-			<view style="height:105upx"></view>
+			<view style="height: 110upx; background: #ffffff; bottom: 10upx;"></view>
 			<view class="search-keyword" @touchstart="blur" v-if="isShowKeywordList">
 				<scroll-view class="keyword-box" v-show="isShowKeywordList" scroll-y>
 					<view class="keyword-block" v-if="oldKeywordList.length>0">
@@ -87,7 +87,7 @@
 							</view>
 						</view>
 						<view class="keyword" v-if="forbid==''">
-							<view v-for="(keyword,index) in hotKeywordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
+							<view v-for="(keyword,index) in showKeyWordList" @tap="doSearch(keyword)" :key="index">{{keyword}}</view>
 						</view>
 						<view class="hide-hot-tis" v-else>
 							<view>当前热门搜索已隐藏</view>
@@ -101,10 +101,10 @@
 				<view class="keyword-list-header">
 					<view>谣言列表</view>
 					<view>
-						<image @tap="hotToggle" :src="'/static/HM-search/attention'+forbid+'.png'"></image>
+						<image @tap="hotToggle_news" :src="'/static/HM-search/attention'+forbid_news+'.png'"></image>
 					</view>
 				</view>
-				<view class="keyword" v-if="forbid==''">
+				<view v-if="forbid_news==''">
 					<view class="uni-list" v-if="listData.length >0">
 						<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
 							@click="goDetail(value)">
@@ -196,9 +196,12 @@
 				hotKeywordList: ['123','456'],
 				keywordList: [],
 				forbid: '',
+				forbid_news: '',
 				isShowKeywordList: true,
 				width:'',
 				status:"more", //最下面显示加载状态
+				showKeyWordList: [],
+				hotKeyWordQuesList: ['自来水煮过数次真的不能再次饮用吗？', '在外吃饭用开水烫碗筷真的有用吗？', '只吃素菜不吃荤菜真的可以减少健康问题吗？','睡眠时间越长越好吗？','热鸭梨水能抗癌吗？','缺维生素B2会致癌吗？','雪梨银耳能清肺？'],
             }
 		},
 		onLoad() {
@@ -242,6 +245,23 @@
 			}
         },
         methods: {
+			//显示随机热门搜索内容
+			showRandomHotSearch(){
+				var a = Math.round(Math.random()*3+7);
+				for (var i = 0; i < a; i++){
+					var b = Math.round((Math.random()*(this.hotKeyWordQuesList.length-1)))
+					this.showKeyWordList.push(this.hotKeyWordQuesList[b])
+				}
+				//去除重复元素
+				
+				for(var i = 0; i < this.showKeyWordList.length; i++){
+				    if(temp.indexOf(this.showKeyWordList) == -1){
+				      temp.push(this.showKeyWordList[i]);
+				    }
+				}
+				this.showKeyWordList = temp;
+				return this.showKeyWordList;
+			},
 			// Drawer弹出
 			showDrawer(){
 				uni.showToast({
@@ -324,7 +344,7 @@
 			init() {
 				this.loadDefaultKeyword();
 				this.loadOldKeyword();
-				this.loadHotKeyword();
+				// this.loadHotKeyword();
 			},
 			blur(){
 				uni.hideKeyboard()
@@ -400,6 +420,10 @@
 			//热门搜索开关
 			hotToggle() {
 				this.forbid = this.forbid ? '' : '_forbid';
+			},
+			//谣言列表开关
+			hotToggle_news() {
+				this.forbid_news = this.forbid_news ? '' : '_forbid';
 			},
 			//执行搜索
 			doSearch(key) {
