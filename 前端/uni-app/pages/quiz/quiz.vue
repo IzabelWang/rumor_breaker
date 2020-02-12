@@ -12,11 +12,26 @@
 		
 			<!--欢迎页面-->
 		<view class="welcome" v-if="showWelcome==true" :style="{'height': welcomeHeight}" >           
-			<view class="flex align-center" :style="{'height': welcomeHeight}" style="background:url('/h5/static/text-quiz.png') no-repeat center; background-size:cover; " >
+			<view class="flex align-center" :style="{'height': welcomeHeight}" style="background:url('/h5/static/Quiz_BG.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
-				<image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:9%; left:calc(160rpx); top: calc(375rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				<view>
+					<image src="/static/slogan.png" mode="aspectFit" style="width: 90%;height:6%; position:absolute; left:calc(44rpx); top: calc(150rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				</view>
+				<view>
+					<image src="/static/quiz_name.png" mode="aspectFit" style="width: 90%;height:10%; position:absolute; left:calc(44rpx); top: calc(420rpx); border:#000 solid 0px;" :style="[{animation: 'show 10s 100 alternate'}]"></image>
+				</view>
+				<view>
+					<image src="/static/quiz_logo.png" mode="aspectFit" style="width: 90%;height:16%; position:absolute; left:calc(40rpx); top: calc(760rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				</view>
+				<view>
+					<!-- <image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:9%; left:calc(160rpx); top: calc(375rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image> -->
+					<image src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 50%;height:8%; position:absolute; left:calc(198rpx); top: calc(1180rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				</view>
+				<view>
+					<image src="/static/copyright.png" mode="aspectFit" style="width: 60%;height:2%; position:absolute; left:calc(288rpx); top: calc(1490rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+				</view>
 			</view>	
 			
 			<!-- <view :style="[{animation: 'show 1s 1'}]"> -->

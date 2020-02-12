@@ -6,7 +6,12 @@
 				<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="18px" Height="35px" Icon="send"/>
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
-					<image src="/static/Search_Button.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+					<view>
+						<image src="/static/Search_CNJY.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;" :style="[{animation: 'show 10s 100 alternate'}]"></image>
+					</view>
+					<view>
+						<image src="/static/Search_Button.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+					</view>
 				</view>
 			</scroll-view>
 			
@@ -60,7 +65,7 @@
 		
 		<!--搜索栏-->
 		<view v-if="isShowContent">
-			<view class="search-box nav fixed" style="background-color: #ffffff;box-shadow:none" :style="{'width':width}">
+			<view class="search-box nav fixed" style="background-color: #ffffff; box-shadow:none" :style="{'width':width}">
 				<mSearch ref="input" id="search-box" class="mSearch-input-box" :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch" @input="inputChange" @confirm="doSearch(false)"  v-model="keyword" @getFocus="showKeywordList" @return="hideContent"></mSearch>
 			</view>
 			

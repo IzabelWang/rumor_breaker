@@ -69,7 +69,7 @@
             "pagePath": "pages/quiz/quiz",
             "iconPath": "static/icon/quiz.png",
             "selectedIconPath": "static/icon/quiz_selected.png",
-            "text": "答题"
+            "text": "游戏"
 		}
 	]
     }
