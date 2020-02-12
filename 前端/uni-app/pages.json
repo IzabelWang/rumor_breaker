@@ -4,20 +4,20 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "谣言粉碎机"
+				"navigationBarTitleText": "辟谣管家"
 				// "enablePullDownRefresh": true
 			}
 		},{
 			"path": "pages/quiz/quiz",
 			"style": {
-				"navigationBarTitleText": "养生信息辟谣趣味答题"
+				"navigationBarTitleText": "辟谣管家"
 				// "enablePullDownRefresh": false				
 			}
 		},
 		{
 			"path" : "pages/detail/detail",
 			"style": {
-				"navigationBarTitleText": "详情",
+				"navigationBarTitleText": "辟谣管家",
 				"app-plus": {
 					"titleNView": {
 						"type": "transparent"
@@ -28,7 +28,7 @@
 		{
 			"path": "pages/browse/browse",
 			"style": {
-				"navigationBarTitleText": "谣言浏览"
+				"navigationBarTitleText": "辟谣管家"
 				// "enablePullDownRefresh": false				
 			}
 		}	

@@ -7,11 +7,11 @@
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 					<view>
-						<!-- <image src="/static/Search_CNJY.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;" :style="[{animation: 'show 10s 100 alternate'}]"></image> -->
-						<image src="/static/Search_CNJY.png" class="animation-slide-top" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;animationDelay: 0.4s" ></image>
+						<image src="/static/Search_CNJY.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(210rpx); border:#000 solid 0px;" :style="[{animation: 'show 8s 100 alternate linear'}]"></image>
+						<!-- <image src="/static/Search_CNJY.png" class="animation-slide-top" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;animationDelay: 0.4s" ></image> -->
 					</view>
 					<view>
-						<image src="/static/Search_Button.png" class="animation-slide-top"  @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px"></image>
+						<image src="/static/Search_Button.png" class="animation-slide-top"  @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 					</view>
 				</view>
 			</scroll-view>
@@ -49,7 +49,7 @@
 								
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您对我们的网站还满意的话，就在我们的 GitHub 点个 ⭐ 叭～   つ♡⊂
 								
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍 👍 👍
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👍 👍 👍 👍 👍 👍 👍
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;———————————
 								
 							</text>
@@ -200,7 +200,7 @@
 				hotKeyWordQuesList: ['排毒保健品吃多了肠子会变黑', '喝小分子水，能治心血管病', '喝磁化水可治疗结石病', '干细胞美容法', '补硒可以防癌', '灵芝可以治疗很多疾病', '口服胶原蛋白可以美容', 
 									'佩戴法力藤钛圈可治疗疾病', '“玛卡”保健品可以提高性能力', '猴菇饼干有养胃功效', '羊胎素具有美肤的功效并且能有效抵抗衰老', '“抗氧化之王”虾青素的种种神奇功效', 
 									'富氧水是最健康的饮用水', '某些保健药含激素过量食用导致股骨头坏死', '纯银戒指慢慢变黑是因为吸取了身体的毒素', '4种饮用水喝了可能会致癌', '长时间用手机贴脸打电话可能被“电辐烫伤”', 
-									'喝茶能降低死亡率', '成年人需要时刻补充维生素D', '观看猫咪的视频能获得正能量', '去海边只需要抹防晒霜，不需要太阳镜', '肉类生产用了世界上1/3的淡水，节水最好的方式是素食', 
+									'喝茶能降低死亡率', '成年人需要时刻补充维生素D', '观看猫咪的视频能获得正能量', '去海边只需要抹防晒霜，不需要太阳镜', '节水最好的方式是素食', 
 									'经常喝咖啡会让牙齿变黄，刷牙也刷不掉', '喝橙汁健脑，能提高记忆力', '锻炼时摄入的水分会影响运动员速度', '多吃蛋白质就能多长肌肉', '有挑战的工作能让大脑减慢衰老', 
 									'经常上网会损伤记忆力', '儿童沙子玩具里含有害添加剂，威胁健康', '白头发会越拔越多', '家用消毒剂让儿童更易感染', '看1小时电视糖尿病风险增加3.4%', '辣椒可能导致胃癌', 
 									'被父母高估的孩子更易自恋', '沉迷电视剧也是一种病', '吃苦瓜可降血糖', '喝可乐会导致体内电解质流失', '睡前饮酒有助于睡眠', '低头玩手机颈椎承重45斤', '掌上设备伤眼，黑暗中看易患黄斑变性', 
@@ -500,30 +500,6 @@
 
 <style>
 	@import "../../colorui/animation.css";	
-    .banner {
-        height: 360upx;
-        overflow: hidden;
-        position: relative;
-        background-color: #ccc;
-    }
-
-    .banner-img {
-        width: 100%;
-    }
-
-    .banner-title {
-        max-height: 84upx;
-        overflow: hidden;
-        position: absolute;
-        left: 30upx;
-        bottom: 30upx;
-        width: 90%;
-        font-size: 32upx;
-        font-weight: 400;
-        line-height: 42upx;
-        color: white;
-        z-index: 11;
-    }
 
     .uni-list {
         background-color: #FFFFFF;
