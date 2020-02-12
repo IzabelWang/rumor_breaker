@@ -10,7 +10,7 @@
 		},{
 			"path": "pages/quiz/quiz",
 			"style": {
-				"navigationBarTitleText": "新冠病毒专项答题"
+				"navigationBarTitleText": "养生信息辟谣趣味答题"
 				// "enablePullDownRefresh": false				
 			}
 		},
