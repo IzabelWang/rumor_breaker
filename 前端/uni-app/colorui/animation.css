@@ -14,7 +14,7 @@
 
 /* Animation css */
 [class*=animation-] {
-    animation-duration: .5s;
+    animation-duration: 1s;
     animation-timing-function: ease-out;
     animation-fill-mode: both
 }
