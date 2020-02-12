@@ -2,14 +2,24 @@
     <view class="uni-fab-box">
 		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="18px" Height="35px" Icon="top"/>
 		<view class="nav" style="font-size: 0px;" :class="modalName==null? 'fixed':''">
-			<image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image>
+			<!-- <image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image> -->
+			
+			<!-- 轮播 -->
+			<swiper class="screen-swiper" :class="dotStyle='square-dot'" :indicator-dots="true" :circular="true" :autoplay="true" interval="5000" duration="500">
+				<swiper-item v-for="(item,index) in swiperList" :key="index">
+					<image :src="item.url" mode="aspectFill"></image>
+				</swiper-item>
+			</swiper>
+			
+			<!-- 谣言分类 -->
 			<scroll-view scroll-x class="nav" scroll-with-animation :scroll-left="scrollLeft" style="background-color: #e4e4e4;" id="head">
 				<view class="cu-item text-bold" :class="item==category?'bg-selfset-red':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="item" style="font-size: 17px;">
 					{{item}}
 			</view>
 			</scroll-view>
 		</view>	
-		<view v-if = "modalName==null" style="height:410upx"></view>	
+		
+		<view v-if = "modalName==null" style="height:463upx"></view>	
 		<!--新闻列表,只有有数据的时候才显示-->
 		<view class="uni-list" v-if="listData.length >0">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
@@ -67,7 +77,7 @@
 				},
 				tabList:["新冠专项","食品安全","医学健康","生活窍门","自然环境","宠物花草","科学技术","神秘现象","传说轶事","其他分类"],
                 listData: [],
-                last_id: 1,
+                last_id: 0,
 				reload: false,
 				//搜索框相关
 				defaultKeyword: "",
@@ -81,7 +91,20 @@
 				scrollLeft:5,
 				height:'',
 				// headHeight:'',//顶部高度
-				status:'more' //默认显示更多
+				status:'more' ,//默认显示更多
+				swiperList: [{
+					id: 0,
+					url: 'http://img.mp.itc.cn/upload/20170720/58aa09018c5346ffac7e5612a9c22456_th.jpg'
+				}, {
+					id: 1,
+					url: 'http://img.mp.itc.cn/upload/20170720/061fa377d99f45628d2cbbcd241db429_th.jpg',
+				}, {
+					id: 2,
+					url: 'http://img.mp.itc.cn/upload/20170720/d4c0ab53d8d54c15b153bd7c146d50b7_th.jpg'
+				},{
+					id: 3,
+					url: 'http://img.mp.itc.cn/upload/20170720/d381555413634afb86be905c2891dbc7_th.jpg'
+				}],
             }
 		},
 		onBackPress() {
@@ -129,7 +152,7 @@
 			//清空当前页面的数据
 			init(){
 				this.listData = [];
-				this.last_id = 1;
+				this.last_id = 0;
 			},
 			// Drawer弹出
 			showDrawer(){
@@ -182,7 +205,7 @@
 							let list = data.data;
 							if(list.length >0){
                                 this.listData = this.reload ? this.listData.concat(list):list;
-                                this.last_id = this.listData.length+1;
+                                this.last_id = this.listData.length;
 								this.reload = false;
 								console.log(this.reload)
                             } else {
