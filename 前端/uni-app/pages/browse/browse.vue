@@ -1,7 +1,7 @@
 <template>
     <view class="uni-fab-box">
 		<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="goTop" Size="18px" Height="35px" Icon="top"/>
-		<view class="nav" style="font-size: 0px;" :class="modalName==null? 'fixed':''">
+		<view class="nav fixed" style="font-size: 0px;">
 			<!-- <image src="/static/bg.png" alt="" mode="widthFix" style="width:100%"></image> -->
 			
 			<!-- 轮播 -->
@@ -64,7 +64,6 @@
     export default {
         data() {
             return {
-				modalName: null,
 				directionStr: '水平',
 				horizontal: 'right',
 				vertical: 'bottom',
@@ -117,20 +116,6 @@
         onReady() {
 			//自动获取这两个
             this.getList();
-			uni.getSystemInfo({
-				//获取手机屏幕高度信息，让swiper的高度和手机屏幕一样高                
-				success: (res)=> {               
-					const query = uni.createSelectorQuery().in(this);
-					query.select('#head').boundingClientRect(data => {
-					// // console.log("节点离页面顶部的距离为" + data.height);
-					// let finalHeight = data.top - 35
-					// this.headHeight = finalHeight +'px';
-					console.log("节点离页面顶部的距离为" + this.headHeight);
-					let listHeight = res.windowHeight - finalHeight;
-					this.height = listHeight+ 'px';	
-					}).exec();								
-				}
-			});
 		},
 		//下拉更新
         onPullDownRefresh() {
@@ -166,12 +151,6 @@
 					this.modalName = null;
 				}
 				console.log(this.modalName)
-			},
-			showModal(e) {
-				this.modalName = e.currentTarget.dataset.target
-			},
-			hideModal(e) {
-				this.modalName = null
 			},
 			//选择标签
 			tabSelect(e) {

@@ -7,10 +7,11 @@
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
 					<!-- <image src="/static/Search_BG.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 					<view>
-						<image src="/static/Search_CNJY.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;" :style="[{animation: 'show 10s 100 alternate'}]"></image>
+						<!-- <image src="/static/Search_CNJY.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;" :style="[{animation: 'show 10s 100 alternate'}]"></image> -->
+						<image src="/static/Search_CNJY.png" class="animation-slide-top" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;animationDelay: 0.4s" ></image>
 					</view>
 					<view>
-						<image src="/static/Search_Button.png" @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image>
+						<image src="/static/Search_Button.png" class="animation-slide-top"  @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px"></image>
 					</view>
 				</view>
 			</scroll-view>
@@ -316,7 +317,10 @@
                                 this.listData = this.reload ? this.listData.concat(list):list;
                                 this.last_id = this.listData.length;
 								this.reload = false;
-								console.log(this.reload)
+								//已经没有更多结果
+								if(list.length < 10){
+									this.status= "noMore";
+								}
                             } else {
 								this.status= "noMore";
 								if(this.reload == false){
@@ -429,6 +433,7 @@
 				// this.keyword = key;
 				//清空上一次搜索结果
 				this.listData = [];
+				this.last_id = 0;
 				this.saveKeyword(key); //保存为历史 
 				this.keyword = key;
                 // console.log(key+" a 为什么啊")
@@ -494,7 +499,7 @@
 </script>
 
 <style>
-	
+	@import "../../colorui/animation.css";	
     .banner {
         height: 360upx;
         overflow: hidden;
