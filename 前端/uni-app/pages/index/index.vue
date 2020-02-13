@@ -111,20 +111,27 @@
 						<!--显示默认图片-->
 						<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
 						<view class="uni-media-list-body">
+							<!-- 设置布局 -->
 							<view class="uni-media-list-text-top">
 								<!--标题-->
-								{{value.title}}
-									<!--标签-->
-									<text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-									<text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
-									<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-grey' style="font-size: 22upx; padding: 0 21upx; height: 40upx;">
-										{{value.type}}
-									</text>
+								<view>{{value.title}}</view>
+								<view>
+								<image v-if='value.result=="假" || value.type=="假"' src="/static/fake_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
+								<image v-if='value.result=="真" || value.type=="真"' src="/static/true_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
+								<image v-if='value.result=="疑" || value.type=="论"' src="/static/doubt_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
 								</view>
+									<!--标签-->
+									<!-- <text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 24upx; padding: 0 21upx; height: 40upx;"> -->
+										<!-- {{value.type}} -->
+									<!-- </text> -->
+									<!-- <text v-if='value.result=="真"|| value.type=="真"' class='cu-tag text-white text-bold bg-green ' style="font-size: 24upx; padding: 0 21upx; height: 40upx;">
+										{{'确认属实！！'}}
+									</text>
+									<text  v-if='value.result=="疑"|| value.type=="论"' class='cu-tag text-white text-bold bg-yellow' style="font-size: 24upx; padding: 0 21upx; height: 40upx;">
+										{{'尚未定论️'}}
+									</text> -->
+							</view>
+							<!-- 谣言时间和来源 -->
 							<view class="uni-media-list-text-bottom">
 								<text>{{value.date}}</text>
 								<text>{{value.platform}}</text>
