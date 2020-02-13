@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 中国加油界面 -->
-		<view class="welcome" v-if="!isShowContent" :style="{'height':height}">
+		<view class="welcome" style="overflow-y: hidden;" v-if="!isShowContent" :style="{'height':height}">
 			<scroll-view scroll-y class="DrawerPage" :class="modalName=='viewModal'?'show':''">
 				<uni-fab ref="fab" :pattern="pattern" :horizontal="horizontal" :vertical="vertical" :direction="direction"  @fabClick="showDrawer" Size="18px" Height="35px" Icon="send"/>
 				<view :style="{'height':height}" style="background:url('/h5/static/Search_BG.png') no-repeat center; background-size:cover; " >
@@ -11,7 +11,7 @@
 						<!-- <image src="/static/Search_CNJY.png" class="animation-slide-top" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(180rpx); border:#000 solid 0px;animationDelay: 0.4s" ></image> -->
 					</view>
 					<view>
-						<image src="/static/Search_Button.png" class="animation-slide-top"  @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(650rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
+						<image src="/static/Search_Button.png" class="animation-slide-top"  @click="showContent();" mode="aspectFit" style="width: 90%;height:17%; position:absolute; left:calc(44rpx); top: calc(550rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 					</view>
 				</view>
 			</scroll-view>

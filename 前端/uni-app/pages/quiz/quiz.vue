@@ -11,27 +11,27 @@
 		</hxNavbar>
 		
 			<!--欢迎页面-->
-		<view class="welcome" v-if="showWelcome==true" :style="{'height': welcomeHeight}" >           
+		<view class="welcome" v-if="showWelcome==true" style="overflow-y: hidden;" :style="{'height': welcomeHeight}" >           
 			<view class="flex align-center" :style="{'height': welcomeHeight}" style="background:url('/h5/static/Quiz_BG.png') no-repeat center; background-size:cover; " >
 				<!-- 背景设置 -->
 				<!-- <image src="/static/text-quiz.png" mode="aspectFit" style="width:100%;height:100%; "  :style="[{animation: 'show 1s 1'}]"></image> -->
 				<!-- 背景设置 -->
 				<view>
-					<image class="animation-slide-top" src="/static/slogan.png" mode="aspectFit" style="width: 90%;height:6%; position:absolute; left:calc(44rpx); top: calc(150rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
+					<image class="animation-slide-top" src="/static/slogan.png" mode="aspectFit" style="width: 90%;height:7%; position:absolute; left:calc(44rpx); top: calc(150rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 				<view>
 					<!-- <image class="animation-slide-top" src="/static/quiz_name.png" mode="aspectFit" style="width: 90%;height:10%; position:absolute; left:calc(44rpx); top: calc(420rpx); border:#000 solid 0px;"  :style="[{animation: 'show 10s 100 alternate'}]"></image> -->
-					<image class="animation-slide-top" src="/static/quiz_name.png" mode="aspectFit" style="width: 90%;height:10%; position:absolute; left:calc(44rpx); top: calc(420rpx); border:#000 solid 0px" :style="[{animation: 'show 8s 100 alternate linear'}]"></image>
+					<image class="animation-slide-top" src="/static/quiz_name.png" mode="aspectFit" style="width: 90%;height:10%; position:absolute; left:calc(44rpx); top: calc(400rpx); border:#000 solid 0px" :style="[{animation: 'show 8s 100 alternate linear'}]"></image>
 				</view>
 				<view>
-					<image class="animation-slide-top" src="/static/quiz_logo.png" mode="aspectFit" style="width: 90%;height:16%; position:absolute; left:calc(40rpx); top: calc(760rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
+					<image class="animation-slide-top" src="/static/quiz_logo.png" mode="aspectFit" style="width: 90%;height:16%; position:absolute; left:calc(40rpx); top: calc(600rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 				<view>
 					<!-- <image src="/static/text-button.png" @click="showContent"  mode="aspectFit" style="width: 58%;height:9%; left:calc(160rpx); top: calc(375rpx); border:#000 solid 0px;" :style="[{animation: 'show 1s 1'}]"></image> -->
-					<image class="animation-slide-top"  src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 50%;height:8%; position:absolute; left:calc(198rpx); top: calc(1180rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
+					<image class="animation-slide-top"  src="/static/text-button.png" @click="showContent" mode="aspectFit" style="width: 50%;height:8%; position:absolute; left:calc(200rpx); top: calc(960rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 				<view>
-					<image class="animation-slide-top" src="/static/copyright.png" mode="aspectFit" style="width: 60%;height:2%; position:absolute; left:calc(288rpx); top: calc(1490rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
+					<image class="animation-slide-top" src="/static/copyright.png" mode="aspectFit" style="width: 60%;height:2%; position:absolute; left:calc(288rpx); top: calc(1190rpx); border:#000 solid 0px" :style="[{animation: 'show 1s 1'}]"></image>
 				</view>
 			</view>	
 			
