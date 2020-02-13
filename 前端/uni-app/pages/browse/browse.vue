@@ -21,11 +21,9 @@
 			</scroll-view>
 		</view>
 		
-		<!-- 占位符 -->
-		<view v-if = "modalName==null" style="height:463upx;"></view>
 		
 		<!--新闻列表,只有有数据的时候才显示-->
-		<view class="uni-list" v-if="listData.length >0">
+		<view class="uni-list" v-if="listData.length >0" style="position:absolute;top:463upx">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key"
 				@click="goDetail(value)">
 				<view class="uni-media-list">
@@ -33,9 +31,15 @@
 					<!--显示默认图片-->
 					<image class="uni-media-list-logo" src="/static/avatar.png" v-if="value.avatar==null"></image>
 					<view class="uni-media-list-body">
+						<!-- 设置布局 -->
 						<view class="uni-media-list-text-top">
 							<!--标题-->
-							{{value.title}}
+							<view>{{value.title}}</view>
+							<view>
+							<image v-if='value.result=="假" || value.type=="假"' src="/static/fake_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
+							<image v-if='value.result=="真" || value.type=="真"' src="/static/true_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
+							<image v-if='value.result=="疑" || value.type=="论"' src="/static/doubt_logo.png" style="position:absolute;width: 100rpx; height: 100rpx; right: 20rpx; top: 20rpx;"></image>
+							</view>
 								<!--标签-->
 								<!-- <text v-if='value.result=="假" || value.type=="假"' class='cu-tag text-white text-bold ' style="background-color: #910000; font-size: 24upx; padding: 0 21upx; height: 40upx;"> -->
 									<!-- {{value.type}} -->
@@ -47,9 +51,6 @@
 									{{'尚未定论️'}}
 								</text> -->
 						</view>
-						<image v-if='value.result=="假" || value.type=="假"' src="/static/fake_logo.png" style="width: 24%; height: 290%; left: 370rpx; top: -20rpx;"></image>
-						<image v-if='value.result=="真" || value.type=="真"' src="/static/true_logo.png" style="width: 24%; height: 290%; left: 370rpx; top: -20rpx;"></image>
-						<image v-if='value.result=="疑" || value.type=="论"' src="/static/doubt_logo.png" style="width: 24%; height: 290%; left: 370rpx; top: -20rpx;"></image>
 						<!-- 谣言时间和来源 -->
 						<view class="uni-media-list-text-bottom">
 							<text>{{value.date}}</text>
@@ -60,7 +61,7 @@
 			</view>
 			<uni-load-more :status="status"></uni-load-more>
 		</view>	
-    </view>
+		</view>
 </template>
 
 <script>
@@ -99,19 +100,19 @@
 				height:'',
 				// headHeight:'',//顶部高度
 				status:'more' ,//默认显示更多
-				// swiperList: [{
-				// 	id: 0,
-				// 	url: 'http://img.mp.itc.cn/upload/20170720/58aa09018c5346ffac7e5612a9c22456_th.jpg'
-				// }, {
-				// 	id: 1,
-				// 	url: 'http://img.mp.itc.cn/upload/20170720/061fa377d99f45628d2cbbcd241db429_th.jpg',
-				// }, {
-				// 	id: 2,
-				// 	url: 'http://img.mp.itc.cn/upload/20170720/d4c0ab53d8d54c15b153bd7c146d50b7_th.jpg'
-				// },{
-				// 	id: 3,
-				// 	url: 'http://img.mp.itc.cn/upload/20170720/d381555413634afb86be905c2891dbc7_th.jpg'
-				// }],
+				swiperList: [{
+					id: 0,
+					url: '/static/banner4.jpeg'
+				}, {
+					id: 1,
+					url: '/static/banner1.jpeg',
+				}, {
+					id: 2,
+					url: '/static/banner2.jpeg'
+				},{
+					id: 3,
+					url: '/static/banner3.jpeg'
+				}],
             }
 		},
 		onBackPress() {
@@ -370,9 +371,10 @@
         width: 100%;
         line-height: 36upx;
         font-size: 30upx;
-        height: 74upx;
-        font-size: 28upx;
+        height: 100upx;
         overflow: hidden;
+        /* display: flex; */
+        /* flex-direction: row; */
     }
 
     .uni-media-list-text-bottom {
