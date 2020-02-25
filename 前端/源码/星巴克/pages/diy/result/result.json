@@ -1,7 +1,0 @@
-{
-    "navigationBarTitleText": "",
-    "disableScroll": true,
-    "usingComponents": {
-        "fade-box": "/components/fadeBox/fadeBox"
-    }
-}

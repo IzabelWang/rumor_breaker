@@ -1,6 +1,0 @@
-{
-    "navigationBarTitleText": "收藏的卡面",
-    "usingComponents": {
-        "collect-tips": "/components/collectTips/collectTips"
-    }
-}

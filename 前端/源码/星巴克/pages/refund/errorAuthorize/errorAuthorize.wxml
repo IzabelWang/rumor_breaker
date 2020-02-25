@@ -1,9 +1,0 @@
-<view class="error">
-    <view style="padding-top: 160rpx;padding-bottom:142rpx;">
-        <image bindlongpress="showError" class="error-img" model="width" src="/image/error.png"></image>
-    </view>
-    <view class="error-desc">
-        请先授权，再进行退款
-    </view>
-    <button bindgetuserinfo="bindGetUserInfo" class="error-back" openType="getUserInfo">确认</button>
-</view>

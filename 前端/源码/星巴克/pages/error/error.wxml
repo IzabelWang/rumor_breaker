@@ -1,8 +1,0 @@
-<view class="error">
-    <image class="error-img" mode="widthFix" src="/image/error.png"></image>
-    <view class="error-msg">{{error.msg}}</view>
-    <view bindtap="back" class="error-back">返回</view>
-    <view class="error-detail">
-        <view wx:if="{{key!=='msg'&&value}}" wx:for="{{error}}" wx:for-index="key" wx:for-item="value" wx:key="*">{{key}}: {{value}}</view>
-    </view>
-</view>

@@ -1,6 +1,0 @@
-{
-    "navigationBarTitleText": "订单详情",
-    "usingComponents": {
-        "auth-popup": "/components/authPopup/authPopup"
-    }
-}

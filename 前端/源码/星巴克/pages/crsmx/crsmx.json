@@ -1,6 +1,0 @@
-{
-    "navigationBarTitleText": "",
-    "usingComponents": {
-        "auth-popup": "/components/authPopup/authPopup"
-    }
-}

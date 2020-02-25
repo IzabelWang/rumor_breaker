@@ -1,2 +1,0 @@
-<auth-popup bindauth="handleAuth" bindpopupClose="popupClose" canClose="{{false}}" show="{{showAuthPopup}}" wx:if="{{needAuth}}"></auth-popup>
-<web-view bindmessage="bindGetMsg" class="hidden" src="{{currentSrc}}" wx:if="{{needAuth===false}}"></web-view>

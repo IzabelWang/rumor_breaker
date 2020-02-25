@@ -1,5 +1,0 @@
-<view class="refund_error">
-    <icon class="refund_error__icon" color="#00A862" size="93" type="info"></icon>
-    <view class="refund_error__copy" wx:if="{{message}}">{{message}}</view>
-    <view class="refund_error__copy" wx:else>此券原购买人已申请退款，需得到转赠好友（卡券持有人）的确认方可完成退款。由于您非卡券持有人，请与原购买人沟通以完成持有人确认。</view>
-</view>
