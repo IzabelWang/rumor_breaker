@@ -65,6 +65,7 @@ def main():
         print('第'+str(i+1)+'组高频词：'+str(frequent_words))
         for word in frequent_words:
             f.write(word[0]+','+str(word[1])+'\n')
+        f.write('\n')
 
 if __name__=='__main__':
     	main()
