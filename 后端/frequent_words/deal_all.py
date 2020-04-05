@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 
 # 适配所有的txt数据处理，只要所有要处理的txt文件在一个文件夹下面就行
@@ -39,13 +39,18 @@ def main():
 
     # - - - - - - - 
     # 当前执行文件路径：
-    #file_path = './processed_data/true/*.txt'
-    file_path = './processed_data/false/*.txt'
+    file_path = './processed_data/true/*.txt'
+    #file_path = './processed_data/false/*.txt'
+    #file_path = './processed_data/other/*.txt'
+    
     # 当前输出文件路径：
-    #file_out = './processed_data/true_words.txt'
-    file_out = './processed_data/false_words.txt'
+    file_out = './processed_data/true_words.txt'
+    #file_out = './processed_data/false_words.txt'
+    #file_out = './processed_data/other_words.txt'
+
     # 当前停止词文件路径:
     stop_words_path = './processed_data/stopwords_all.txt'
+    
     # 所需高频词的数量：
     topK = 100
     # - - - - - - -
