@@ -24,15 +24,15 @@ def html_filter(html_str): #html标签过滤
 
 def get_data(fi_name, fo_name):
     fo = open(fo_name,'w')
-    with open(fi_name, 'r', encoding = 'gbk')  as fi:   #Unicode编码->使用gbk读取，注意要忽略错误
+    with open(fi_name, 'r')  as fi:   #Unicode编码
         data_dict = json.load(fi)
         for data in data_dict:
             if(data["title"]):
-                fo.write(html_filter(data["title"].encode("gbk", 'ignore').decode("gbk", "ignore")))
+                fo.write(html_filter(data["title"].encode("unicode-escape", 'ignore').decode("unicode-escape", "ignore")))
             if(data["descrip"]):
-                fo.write(html_filter(data["descrip"].encode("gbk", 'ignore').decode("gbk", "ignore")))
+                fo.write(html_filter(data["descrip"].encode("unicode-escape", 'ignore').decode("unicode-escape", "ignore")))
             if(data["detail"]):
-                fo.write(html_filter(data["detail"].encode("gbk", 'ignore').decode("gbk", "ignore")))
+                fo.write(html_filter(data["detail"].encode("unicode-escape", 'ignore').decode("unicode-escape", "ignore")))
     
 get_data(fi_true, fo_true)
 get_data(fi_false, fo_false)
