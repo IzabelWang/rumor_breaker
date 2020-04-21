@@ -39,14 +39,14 @@ def main():
 
     # - - - - - - - 
     # 当前执行文件路径：
-    file_path = './processed_data/true/*.txt'
+    #file_path = './processed_data/true/*.txt'
     #file_path = './processed_data/false/*.txt'
-    #file_path = './processed_data/other/*.txt'
+    file_path = './processed_data/other/*.txt'
     
     # 当前输出文件路径：
-    file_out = './processed_data/true_words.txt'
+    #file_out = './processed_data/true_words.txt'
     #file_out = './processed_data/false_words.txt'
-    #file_out = './processed_data/other_words.txt'
+    file_out = './processed_data/other_words.txt'
 
     # 当前停止词文件路径:
     stop_words_path = './processed_data/stopwords_all.txt'
