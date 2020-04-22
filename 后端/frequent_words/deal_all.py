@@ -4,8 +4,34 @@
 # 适配所有的txt数据处理，只要所有要处理的txt文件在一个文件夹下面就行
 # 会把得到的高频词汇写在输出文件里面
 # 需要手动修改main函数中的文件路径
+
 # @Silewhi
 
+import glob
+import jieba
+
+def main():
+    # - - - - - - - 
+    # 当前执行文件路径：
+    file_path_true = './processed_data/true/*.txt'
+    file_path_false = './processed_data/false/*.txt'
+    file_path_other = './processed_data/other/*.txt'
+    
+    # 当前输出文件路径：
+    file_out_true = './processed_data/true_words.txt'
+    file_out_false = './processed_data/false_words.txt'
+    file_out_other = './processed_data/other_words.txt'
+
+    # 当前停止词文件路径:
+    stop_words_path = './processed_data/stopwords_all.txt'
+    
+    # 所需高频词的数量：
+    topK = 300
+    # - - - - - - -
+
+    deal_one_type(file_path_true, file_out_true, stop_words_path, topK)
+    deal_one_type(file_path_false, file_out_false, stop_words_path, topK)
+    deal_one_type(file_path_other, file_out_other, stop_words_path, topK)
 
 def get_content(path):
     with open(path, 'r', encoding='utf-8') as f:
@@ -33,28 +59,7 @@ def get_TF(words, topK):
         tf_dic[w] = tf_dic.get(w, 0) + 1
     return sorted(tf_dic.items(), key = lambda x: x[1], reverse=True)[:topK]
 
-def main():
-    import glob
-    import jieba
-
-    # - - - - - - - 
-    # 当前执行文件路径：
-    #file_path = './processed_data/true/*.txt'
-    #file_path = './processed_data/false/*.txt'
-    file_path = './processed_data/other/*.txt'
-    
-    # 当前输出文件路径：
-    #file_out = './processed_data/true_words.txt'
-    #file_out = './processed_data/false_words.txt'
-    file_out = './processed_data/other_words.txt'
-
-    # 当前停止词文件路径:
-    stop_words_path = './processed_data/stopwords_all.txt'
-    
-    # 所需高频词的数量：
-    topK = 100
-    # - - - - - - -
-
+def deal_one_type(file_path, file_out, stop_words_path, topK):
     print('当前执行文件路径：'+file_path)
     print('当前输出文件路径：'+file_out)
     print('高频词的数量：'+str(topK)+'\n')
