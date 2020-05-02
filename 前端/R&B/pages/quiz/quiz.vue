@@ -7,7 +7,7 @@
 				</text>
 			</block>
 		</cu-custom> -->
-		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="养生信息辟谣趣味答题" :back="false">
+		<hxNavbar :fixed="true" color="#ffffff" :backgroundColor="[80,2,0]" title="新冠专项答题" :back="false">
 		</hxNavbar>
 		
 			<!--欢迎页面-->
@@ -168,7 +168,7 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue"
 				showWelcome: true,//显示欢迎界面
 				subjectIndex: 0,//跳转索引
 				swiperHeight: '1600upx',//
-				title: '新冠病毒专项答题',
+				title: '辟谣管家',
 				quizList:[],
 				fullQuizList:[],
 				//当前题目的选项列表
