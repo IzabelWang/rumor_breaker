@@ -1,2 +1,2 @@
-# rumor_breaker
-这是一个 100000000 的大项目。
+# Rumor_Breaker
+This project is completed by Izabel, Cayman, Univerone, Humi, Xu and Cheng.
